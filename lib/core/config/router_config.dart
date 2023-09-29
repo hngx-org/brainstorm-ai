@@ -1,4 +1,5 @@
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
+import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/landing_screen/landing_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,13 @@ final GoRouter routerConfig = GoRouter(
       path: RoutesPath.landingScreen,
       pageBuilder: (context, state) => CupertinoPage<void>(
         child: const LandingScreen(),
+        key: state.pageKey,
+      ),
+    ),
+    GoRoute(
+      path: RoutesPath.chatScreen,
+      pageBuilder: (context, state) => CupertinoPage<void>(
+        child: const ChatScreen(),
         key: state.pageKey,
       ),
     ),
