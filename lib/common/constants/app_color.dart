@@ -5,6 +5,8 @@ class AppColor {
 
   static const Color appBrandColor = Color(0xFF8d62a3);
   static const Color white = Colors.white;
+  static Color whiteOpacity6 = Colors.white.withOpacity(0.6);
+  static Color whiteOpacity8 = Colors.white.withOpacity(0.8);
   static const Color black = Colors.black;
   static const Color imageBackground = Color(0xFFEFFFF5);
   static const Color subText = Color(0xFFA4A4A4);

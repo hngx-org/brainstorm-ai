@@ -1,0 +1,363 @@
+import 'package:ai_brainstorm/common/constants/app_color.dart';
+import 'package:ai_brainstorm/common/constants/assets_constants.dart';
+import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
+import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
+import 'package:ai_brainstorm/common/constants/reusables/text.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class HomeScreen extends StatefulWidget {
+  final String firstName;
+  const HomeScreen({Key? key, required this.firstName}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _greetingText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _updateGreeting();
+  }
+
+  void _updateGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 0 && hour < 12) {
+      setState(() {
+        _greetingText = 'Good Morning';
+      });
+    } else if (hour >= 12 && hour < 17) {
+      setState(() {
+        _greetingText = 'Good Afternoon';
+      });
+    } else {
+      setState(() {
+        _greetingText = 'Good Evening';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
+
+    return Stack(
+      children: [
+        CustomBackground(),
+        SafeArea(
+            child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            width: mediaQuery.width,
+            height: mediaQuery.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                20.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: _greetingText,
+                            fontSize: 24,
+                            color: AppColor.white.withOpacity(0.6),
+                          ),
+                          CustomText(
+                            text: widget.firstName,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.white.withOpacity(0.8),
+                          )
+                        ],
+                      ),
+                      GlowingLogo(),
+                    ],
+                  ),
+                ),
+                30.verticalSpace,
+                //recent
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Recent',
+                        fontSize: 20,
+                        color: AppColor.whiteOpacity8,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColor.whiteOpacity8),
+                        child: Icon(
+                          CupertinoIcons.arrow_up_right,
+                          weight: 4,
+                          size: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                30.verticalSpace,
+                Container(
+                  height: mediaQuery.width * 0.13,
+                  width: mediaQuery.width,
+                  child: Container(
+                    width: double.infinity,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            width: mediaQuery.width * 0.7,
+                            margin: EdgeInsets.only(right: 20),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white.withOpacity(0.2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomText(
+                                        text:
+                                            'testing test me and my might oh lord',
+                                        fontSize: 18)),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ),
+                30.verticalSpace,
+                //automation
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Automations',
+                        fontSize: 20,
+                        color: AppColor.whiteOpacity8,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColor.whiteOpacity8),
+                        child: Icon(
+                          CupertinoIcons.arrow_up_right,
+                          weight: 4,
+                          size: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                20.verticalSpace,
+                // cards
+                Container(
+                  height: mediaQuery.height * 0.24,
+                  width: mediaQuery.width,
+                  child: Container(
+                    width: double.infinity,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            width: mediaQuery.width * 0.7,
+                            margin: EdgeInsets.only(right: 20),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.bookmarks,
+                                      color: Colors.black.withOpacity(0.8),
+                                      size: 30,
+                                    ),
+                                    10.verticalSpace,
+                                    CustomText(
+                                        text:
+                                            'testing test me and my might oh lord',
+                                        fontSize: 22,
+                                        maxLines: 2,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(0.8)),
+                                    10.verticalSpace,
+                                    CustomText(
+                                        text:
+                                            'testing test me and my might oh lord',
+                                        fontSize: 18,
+                                        maxLines: 2,
+                                        color: Colors.black.withOpacity(0.5)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ),
+                20.verticalSpace,
+                //automation
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Automations',
+                        fontSize: 20,
+                        color: AppColor.whiteOpacity8,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColor.whiteOpacity8),
+                        child: Icon(
+                          CupertinoIcons.arrow_up_right,
+                          weight: 4,
+                          size: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                20.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: mediaQuery.width * 0.13,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: BorderSide(
+                                        color: AppColor.white.withOpacity(0.6),
+                                        width: 1)),
+                                color: AppColor.white.withOpacity(0.2),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text:
+                                              '#1 Project topic',
+                                          fontSize: 18)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: mediaQuery.width * 0.13,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: BorderSide(
+                                        color: AppColor.white.withOpacity(0.6),
+                                        width: 1)),
+                                color: AppColor.white.withOpacity(0.2),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text:
+                                              '#2 Novel Ideas',
+                                          fontSize: 18)),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: mediaQuery.width * 0.13,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: BorderSide(
+                                        color: AppColor.white.withOpacity(0.6),
+                                        width: 1)),
+                                color: AppColor.white.withOpacity(0.2),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text:
+                                              '#1 Project topic',
+                                          fontSize: 18)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: mediaQuery.width * 0.13,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: BorderSide(
+                                        color: AppColor.white.withOpacity(0.6),
+                                        width: 1)),
+                                color: AppColor.white.withOpacity(0.2),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text:
+                                              '#2 Novel Ideas',
+                                          fontSize: 18)),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )),
+
+      ],
+    );
+  }
+}

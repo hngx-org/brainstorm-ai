@@ -12,7 +12,7 @@ void main() async {
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
     ),
   );
   runApp(const MyApp());
@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
             title: 'AI-Brainstorm',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primaryColor: AppColor.appBrandColor,
-              primarySwatch: buildMaterialColor(AppColor.appBrandColor),
+              primaryColor: AppColor.white,
+              primarySwatch: buildMaterialColor(AppColor.white),
               scaffoldBackgroundColor: AppColor.white,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),

@@ -1,3 +1,4 @@
+import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,6 @@ class ButtonWidget extends StatefulWidget {
   final bool? iconAllowed;
   final Icon? icon;
   final Color? textColor;
-  final MaterialStateProperty<Color?>? backgroundColor;
   final Widget? child;
   final Color? buttonColor;
   final Color? borderSideColor;
@@ -23,8 +23,7 @@ class ButtonWidget extends StatefulWidget {
     this.textColor,
     this.child,
     this.buttonColor,
-    this.borderSideColor,
-    this.backgroundColor,
+    this.borderSideColor
   });
 
   @override
@@ -48,23 +47,23 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            backgroundColor: widget.backgroundColor,
+            backgroundColor: MaterialStatePropertyAll(Colors.transparent),
             shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
               (states) => RoundedRectangleBorder(
                 side: BorderSide(
-                  color: widget.borderSideColor ?? Colors.transparent,
+                  color: widget.borderSideColor ?? AppColor.whiteOpacity6,
                   width: 1.w,
                 ),
-                borderRadius: BorderRadius.circular(5.r),
+                borderRadius: BorderRadius.circular(20.r),
               ),
             ),
-            elevation: MaterialStateProperty.all(0),
+            elevation: MaterialStatePropertyAll(0),
           ),
           child: widget.child ??
               Text(
                 widget.buttonText ?? '',
                 style: GoogleFonts.lato(
-                  color: widget.textColor,
+                  color: widget.textColor ?? AppColor.whiteOpacity6,
                   fontWeight: FontWeight.w700,
                 ),
               ),
