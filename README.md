@@ -126,3 +126,9 @@ lib
 -       Note: Special reuseable like this should have its own viewmodel.
 └─ main.dart  
 -     This is where a minimal config is done to get the app running.          
+
+
+  ### Contact us on our socials(Slack Name).
+  **ImmaDominion**
+  **KiCodes**
+  **Olasukanma Beckley**
