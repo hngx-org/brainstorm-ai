@@ -31,7 +31,7 @@ class _ChooseSubsPriceState extends State<ChooseSubsPrice> {
         bottom: 10.h,
       ),
       padding: EdgeInsets.all(10.sp),
-      height: 100.h,
+      height: 80.h,
       width: 380.w,
       decoration: BoxDecoration(
         color: Colors.white,

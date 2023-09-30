@@ -42,115 +42,117 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
         const CustomBackground(),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 60.h,
-                  width: double.infinity,
-                ),
-                const TopSection(
-                  middleText: '',
-                ),
-                Center(
-                    child: ListOfText(
-                  'Upgrade To \nPremium Plan',
-                  35.sp,
-                  FontWeight.bold,
-                  false,
-                )),
-                Center(
-                  child: ListOfText(
-                    'Enjoy access to all features of BrainStormAI',
-                    18.sp,
-                    FontWeight.w500,
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 60.h,
+                    width: double.infinity,
+                  ),
+                  const TopSection(
+                    middleText: '',
+                  ),
+                  Center(
+                      child: ListOfText(
+                    'Upgrade To \nPremium Plan',
+                    35.sp,
+                    FontWeight.bold,
                     false,
+                  )),
+                  Center(
+                    child: ListOfText(
+                      'Enjoy access to all features of BrainStormAI',
+                      18.sp,
+                      FontWeight.w500,
+                      false,
+                    ),
                   ),
-                ),
-                Center(
-                  child: ListOfText(
-                    'Ads free  experiences',
-                    18.sp,
-                    FontWeight.w500,
-                    true,
+                  Center(
+                    child: ListOfText(
+                      'Ads free  experiences',
+                      18.sp,
+                      FontWeight.w500,
+                      true,
+                    ),
                   ),
-                ),
-                Center(
-                  child: ListOfText(
-                    'Unlimited questions and answers',
-                    18.sp,
-                    FontWeight.w500,
-                    true,
+                  Center(
+                    child: ListOfText(
+                      'Unlimited questions and answers',
+                      18.sp,
+                      FontWeight.w500,
+                      true,
+                    ),
                   ),
-                ),
-                Center(
-                  child: ListOfText(
-                    'High word limit question and answer',
-                    18.sp,
-                    FontWeight.w500,
-                    true,
+                  Center(
+                    child: ListOfText(
+                      'High word limit question and answer',
+                      18.sp,
+                      FontWeight.w500,
+                      true,
+                    ),
                   ),
-                ),
-                Divider(
-                  color: Colors.white.withOpacity(0.5),
-                  thickness: 1.h,
-                  height: 50.sp,
-                  endIndent: 15.w,
-                  indent: 15.w,
-                ),
-                Center(
-                  child: ChooseSubsPrice(
-                    howLong: 'Weekly \n\$5',
-                    length: '/week',
-                    radioValue: 1,
-                    getFocus: firstRadio,
+                  Divider(
+                    color: Colors.white.withOpacity(0.5),
+                    thickness: 1.h,
+                    height: 30.sp,
+                    endIndent: 15.w,
+                    indent: 15.w,
                   ),
-                ),
-                Center(
+                  Center(
                     child: ChooseSubsPrice(
-                  howLong: 'Monthly \n\$15',
-                  length: '/month',
-                  radioValue: 2,
-                  getFocus: firstRadio,
-                )),
-                Center(
-                  child: ChooseSubsPrice(
-                    howLong: 'Lifetime \n\$100',
-                    length: '',
-                    radioValue: 3,
-                    getFocus: firstRadio,
+                      howLong: 'Weekly \n\$5',
+                      length: '/week',
+                      radioValue: 1,
+                      getFocus: firstRadio,
+                    ),
                   ),
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChatScreen()),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 30.h),
-                      height: 60.h,
-                      width: 370.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(40.r),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
+                  Center(
+                      child: ChooseSubsPrice(
+                    howLong: 'Monthly \n\$15',
+                    length: '/month',
+                    radioValue: 2,
+                    getFocus: firstRadio,
+                  )),
+                  Center(
+                    child: ChooseSubsPrice(
+                      howLong: 'Lifetime \n\$100',
+                      length: '',
+                      radioValue: 3,
+                      getFocus: firstRadio,
+                    ),
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChatScreen()),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 30.h),
+                        height: 70.h,
+                        width: 370.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(40.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         )
