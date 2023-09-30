@@ -20,7 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
   late List<String> responses;
   String generatedText = '';
 
-
   @override
   void initState() {
     super.initState();
@@ -73,7 +72,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const Align(
                   alignment: Alignment.topCenter,
-                  child: TopSection(),
+                  child: TopSection(
+                    middleText: 'Chat',
+                  ),
                 ),
                 const Align(
                   alignment: Alignment.bottomCenter,
@@ -92,11 +93,12 @@ class _ChatScreenState extends State<ChatScreen> {
                               ? responses.add(generatedText)
                               : null; //TODO: get from api first
                         });
-                      }, updateGeneratedText: (text ) {
-                      setState(() {
-                        generatedText = text;
-                      });
-                    },
+                      },
+                      updateGeneratedText: (text) {
+                        setState(() {
+                          generatedText = text;
+                        });
+                      },
                     ))
               ],
             ),
@@ -111,7 +113,11 @@ class InputArea extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? extraOnTap;
   final Function(String) updateGeneratedText;
-  const InputArea({required this.controller, this.extraOnTap, super.key, required this.updateGeneratedText});
+  const InputArea(
+      {required this.controller,
+      this.extraOnTap,
+      super.key,
+      required this.updateGeneratedText});
 
   Future<void> submit(context) async {
     //TODO: send text from controller to openai api
@@ -212,7 +218,8 @@ class DisplayContent extends StatelessWidget {
 }
 
 class TopSection extends StatelessWidget {
-  const TopSection({super.key});
+  final String middleText;
+  const TopSection({super.key, required this.middleText});
 
   @override
   Widget build(BuildContext context) {
@@ -232,16 +239,20 @@ class TopSection extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.arrow_back),
                     color: Colors.black,
-                    iconSize: 24, onPressed: () {
-                      routerConfig.pushReplacement(RoutesPath.nav, ); },
+                    iconSize: 24,
+                    onPressed: () {
+                      routerConfig.pushReplacement(
+                        RoutesPath.nav,
+                      );
+                    },
                   ),
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               child: Center(
                   child: Text(
-                'Chat',
+                middleText,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,

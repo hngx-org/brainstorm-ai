@@ -4,6 +4,7 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Stack(
       children: [
-        CustomBackground(),
+        const CustomBackground(),
         SafeArea(
             child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 20.verticalSpace,
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 30.verticalSpace,
                 //recent
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -101,11 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColor.whiteOpacity8,
                       ),
                       Container(
-                        padding: EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: AppColor.whiteOpacity8),
-                        child: Icon(
+                        child: const Icon(
                           CupertinoIcons.arrow_up_right,
                           weight: 4,
                           size: 16,
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: Container(
                               width: mediaQuery.width * 0.7,
-                              margin: EdgeInsets.only(right: 20),
+                              margin: const EdgeInsets.only(right: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: AppColor.white.withOpacity(0.6),
                                         width: 1)),
                                 color: AppColor.white.withOpacity(0.2),
-                                child: Padding(
+                                child: const Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12),
                                   child: Align(
                                       alignment: Alignment.centerLeft,
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 20.verticalSpace,
                 //automation
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -165,15 +166,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 20,
                         color: AppColor.whiteOpacity8,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColor.whiteOpacity8),
-                        child: Icon(
-                          CupertinoIcons.arrow_up_right,
-                          weight: 4,
-                          size: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MainSuscribeScreen()),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColor.whiteOpacity8),
+                          child: const Icon(
+                            CupertinoIcons.arrow_up_right,
+                            weight: 4,
+                            size: 16,
+                          ),
                         ),
                       )
                     ],
@@ -192,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             width: mediaQuery.width * 0.7,
-                            margin: EdgeInsets.only(right: 20),
+                            margin: const EdgeInsets.only(right: 20),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -201,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: 1)),
                               color: AppColor.white,
                               child: Padding(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 12),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 20.verticalSpace,
                 //automation
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -246,15 +257,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 20,
                         color: AppColor.whiteOpacity8,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColor.whiteOpacity8),
-                        child: Icon(
-                          CupertinoIcons.arrow_up_right,
-                          weight: 4,
-                          size: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MainSuscribeScreen()),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColor.whiteOpacity8),
+                          child: const Icon(
+                            CupertinoIcons.arrow_up_right,
+                            weight: 4,
+                            size: 16,
+                          ),
                         ),
                       )
                     ],
@@ -277,13 +298,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColor.white.withOpacity(0.6),
                                       width: 1)),
                               color: AppColor.white.withOpacity(0.2),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: CustomText(
-                                        text:
-                                            '#1 Project topic',
+                                        text: '#1 Project topic',
                                         fontSize: 18)),
                               ),
                             ),
@@ -297,14 +317,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColor.white.withOpacity(0.6),
                                       width: 1)),
                               color: AppColor.white.withOpacity(0.2),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: CustomText(
-                                        text:
-                                            '#2 Novel Ideas',
-                                        fontSize: 18)),
+                                        text: '#2 Novel Ideas', fontSize: 18)),
                               ),
                             ),
                           )
@@ -322,13 +340,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColor.white.withOpacity(0.6),
                                       width: 1)),
                               color: AppColor.white.withOpacity(0.2),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: CustomText(
-                                        text:
-                                            '#1 Project topic',
+                                        text: '#1 Project topic',
                                         fontSize: 18)),
                               ),
                             ),
@@ -342,14 +359,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColor.white.withOpacity(0.6),
                                       width: 1)),
                               color: AppColor.white.withOpacity(0.2),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: CustomText(
-                                        text:
-                                            '#2 Novel Ideas',
-                                        fontSize: 18)),
+                                        text: '#2 Novel Ideas', fontSize: 18)),
                               ),
                             ),
                           )
