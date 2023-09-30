@@ -4,8 +4,6 @@ import 'package:ai_brainstorm/presentation/screens/suscribe_screen/choose_subscr
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-int? selectedOption = 0;
-
 class MainSuscribeScreen extends StatefulWidget {
   const MainSuscribeScreen({super.key});
 
@@ -105,6 +103,12 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                       howLong: 'Weekly \n\$5',
                       length: '/week',
                       radioValue: 1,
+                      radiogroupValue: selectedRadioValue,
+                      onChanged: (value) {
+                        setState(() {
+                          setSelectedRadioValue(value);
+                        });
+                      },
                       getFocus: firstRadio,
                     ),
                   ),
@@ -113,6 +117,12 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     howLong: 'Monthly \n\$15',
                     length: '/month',
                     radioValue: 2,
+                    radiogroupValue: selectedRadioValue,
+                    onChanged: (value) {
+                      setState(() {
+                        setSelectedRadioValue(value);
+                      });
+                    },
                     getFocus: firstRadio,
                   )),
                   Center(
@@ -120,7 +130,13 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                       howLong: 'Lifetime \n\$100',
                       length: '',
                       radioValue: 3,
-                      getFocus: firstRadio,
+                      radiogroupValue: selectedRadioValue,
+                      onChanged: (value) {
+                        setState(() {
+                          setSelectedRadioValue(value);
+                        });
+                      },
+                      getFocus: thirdRadio,
                     ),
                   ),
                   Center(
