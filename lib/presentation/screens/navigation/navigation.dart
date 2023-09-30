@@ -1,13 +1,15 @@
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
-import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
+import 'package:ai_brainstorm/presentation/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {
   final String firstName;
-  const NavigationScreen({Key? key, required this.firstName}) : super(key: key);
+  final String lastName;
+  const NavigationScreen({Key? key, required this.firstName, required this.lastName}) : super(key: key);
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -26,7 +28,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         firstName: widget.firstName,
       ),
       ChatScreen(),
-      ChatScreen(),
+      SettingsScreen(firstname: widget.firstName, lastname: widget.lastName,),
     ];
     setState(() {
       _isChatScreenVisible = false;

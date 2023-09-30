@@ -1,9 +1,16 @@
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  final String firstname;
+  final String lastname;
+  const SettingsScreen({super.key, required this.firstname, required this.lastname});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +28,8 @@ class SettingsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 40,),
-                const Text( // TODO: chang this to show the actual username
-                  'Magnus Carlsen',
+                Text(
+                  '${widget.firstname} ${widget.lastname}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
