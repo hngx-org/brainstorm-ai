@@ -45,9 +45,5 @@ class _GlowingLogoState extends State<GlowingLogo> {
     );
   }
 
-  @override
-  void dispose() {
-    _blinkNotifier.dispose();
-    super.dispose();
-  }
+
 }

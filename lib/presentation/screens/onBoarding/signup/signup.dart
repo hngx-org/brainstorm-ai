@@ -145,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   buttonText: 'Continue',
                   fontSize: 18,
                   onPressed: () {
-                    routerConfig.pushReplacement(RoutesPath.home, extra: {
+                    routerConfig.pushReplacement(RoutesPath.nav, extra: {
                       'first_name': firstNameController.text.trim(),
                     });
                   },
