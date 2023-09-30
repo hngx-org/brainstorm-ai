@@ -147,6 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () {
                     routerConfig.pushReplacement(RoutesPath.nav, extra: {
                       'first_name': firstNameController.text.trim(),
+                      'last_name': lastNameController.text.trim()
                     });
                   },
                 )

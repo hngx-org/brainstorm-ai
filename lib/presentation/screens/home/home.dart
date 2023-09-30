@@ -261,103 +261,101 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 20.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: mediaQuery.width * 0.13,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.6),
-                                        width: 1)),
-                                color: AppColor.white.withOpacity(0.2),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text:
-                                              '#1 Project topic',
-                                          fontSize: 18)),
-                                ),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: mediaQuery.width * 0.13,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white.withOpacity(0.2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomText(
+                                        text:
+                                            '#1 Project topic',
+                                        fontSize: 18)),
                               ),
                             ),
-                            Container(
-                              height: mediaQuery.width * 0.13,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.6),
-                                        width: 1)),
-                                color: AppColor.white.withOpacity(0.2),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text:
-                                              '#2 Novel Ideas',
-                                          fontSize: 18)),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: mediaQuery.width * 0.13,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.6),
-                                        width: 1)),
-                                color: AppColor.white.withOpacity(0.2),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text:
-                                              '#1 Project topic',
-                                          fontSize: 18)),
-                                ),
+                          ),
+                          Container(
+                            height: mediaQuery.width * 0.13,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white.withOpacity(0.2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomText(
+                                        text:
+                                            '#2 Novel Ideas',
+                                        fontSize: 18)),
                               ),
                             ),
-                            Container(
-                              height: mediaQuery.width * 0.13,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.6),
-                                        width: 1)),
-                                color: AppColor.white.withOpacity(0.2),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text:
-                                              '#2 Novel Ideas',
-                                          fontSize: 18)),
-                                ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: mediaQuery.width * 0.13,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white.withOpacity(0.2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomText(
+                                        text:
+                                            '#1 Project topic',
+                                        fontSize: 18)),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                            ),
+                          ),
+                          Container(
+                            height: mediaQuery.width * 0.13,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: BorderSide(
+                                      color: AppColor.white.withOpacity(0.6),
+                                      width: 1)),
+                              color: AppColor.white.withOpacity(0.2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomText(
+                                        text:
+                                            '#2 Novel Ideas',
+                                        fontSize: 18)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],

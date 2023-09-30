@@ -42,6 +42,7 @@ final GoRouter routerConfig = GoRouter(
             return CupertinoPage<void>(
               child: NavigationScreen(
                 firstName: args['first_name'],
+                lastName: args['first_name'],
               ),
               key: state.pageKey,
             );
@@ -49,6 +50,7 @@ final GoRouter routerConfig = GoRouter(
             return CupertinoPage<void>(
               child: const NavigationScreen(
                 firstName: '',
+                lastName: '',
               ),
               key: state.pageKey,
             );
@@ -83,10 +85,24 @@ final GoRouter routerConfig = GoRouter(
     ),
   GoRoute(
     path: RoutesPath.settingsScreen,
-    pageBuilder: (context, state) => CupertinoPage<void>(
-      child: const SettingsScreen(),
-      key: state.pageKey,
-    ),
+    pageBuilder: (context, state) {
+      if (state.extra != null) {
+        Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        return CupertinoPage<void>(
+          child: SettingsScreen(
+            lastname: args['firstname'], firstname: args['lastname'],
+          ),
+          key: state.pageKey,
+        );
+      } else {
+        return CupertinoPage<void>(
+          child: SettingsScreen(
+            firstname: '', lastname: '',
+          ),
+          key: state.pageKey,
+        );
+      }
+    },
   ),
   ],
 );
