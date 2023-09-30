@@ -3,6 +3,7 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/data/openai_test.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -17,6 +18,9 @@ class _ChatScreenState extends State<ChatScreen> {
   late TextEditingController inputController;
   late List<String> queries;
   late List<String> responses;
+  String generatedText = '';
+
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +33,12 @@ class _ChatScreenState extends State<ChatScreen> {
   void dispose() {
     inputController.dispose();
     super.dispose();
+  }
+
+  void updateGeneratedText(String text) {
+    setState(() {
+      generatedText = text;
+    });
   }
 
   @override
@@ -79,10 +89,14 @@ class _ChatScreenState extends State<ChatScreen> {
                               ? queries.add(inputController.text)
                               : null;
                           inputController.text.isNotEmpty
-                              ? responses.add(inputController.text)
+                              ? responses.add(generatedText)
                               : null; //TODO: get from api first
                         });
-                      },
+                      }, updateGeneratedText: (text ) {
+                      setState(() {
+                        generatedText = text;
+                      });
+                    },
                     ))
               ],
             ),
@@ -96,10 +110,16 @@ class _ChatScreenState extends State<ChatScreen> {
 class InputArea extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? extraOnTap;
-  const InputArea({required this.controller, this.extraOnTap, super.key});
+  final Function(String) updateGeneratedText;
+  const InputArea({required this.controller, this.extraOnTap, super.key, required this.updateGeneratedText});
 
-  void submit(context) {
+  Future<void> submit(context) async {
     //TODO: send text from controller to openai api
+    final generatedText = 'yes';
+    print(generatedText);
+
+    updateGeneratedText(generatedText);
+
     FocusScope.of(context).requestFocus(FocusNode());
     extraOnTap!();
     controller.clear();
