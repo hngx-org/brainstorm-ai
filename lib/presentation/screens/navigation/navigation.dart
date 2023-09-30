@@ -1,9 +1,9 @@
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
-import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
-import 'package:ai_brainstorm/presentation/screens/settings_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {

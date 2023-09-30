@@ -4,8 +4,14 @@ import 'package:http/http.dart' as http;
 
 class OpenAiTest{
   Future<String> generateText(String prompt) async {
-    final apiKey = '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'; // Replace with your OpenAI API key
-    final url = 'https://api.openai.com/v1/engines/davinci/completions';
+    final apiKey = '';
+    final url = 'https://api.openai.com/v1/chat/completions';
+
+    final requestData = {
+      "model": "gpt-3.5-turbo",
+      "messages": [{"role": "user", "content": prompt}],
+      "temperature": 0.7
+    };
 
     final response = await http.post(
       Uri.parse(url),
@@ -13,7 +19,7 @@ class OpenAiTest{
         'Authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json',
       },
-      body: '{"prompt": "$prompt", "max_tokens": 50}',
+      body: jsonEncode(requestData), // Use jsonEncode to serialize the data
     );
 
     if (response.statusCode == 200) {
