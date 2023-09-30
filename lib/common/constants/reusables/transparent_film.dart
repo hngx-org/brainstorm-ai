@@ -16,9 +16,9 @@ class TransparentFilm extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             color: color.withOpacity(0.1),
+            child: child,
           ),
         ),
-        child
       ],
     );
   }

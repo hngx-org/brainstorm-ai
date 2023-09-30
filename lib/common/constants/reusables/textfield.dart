@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../app_color.dart';
 
-class CustomTextField extends StatelessWidget {
-  final String headerText;
+class CustomAuthInput extends StatelessWidget {
   final String? labelText;
   final String? hintText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final UnderlineInputBorder? enabledBorder;
   final Widget? prefix;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
@@ -20,9 +20,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffix;
   final Color? fillColor;
 
-  const CustomTextField({
+  const CustomAuthInput({
     super.key,
-    required this.headerText,
     this.labelText,
     this.hintText,
     this.controller,
@@ -34,7 +33,7 @@ class CustomTextField extends StatelessWidget {
     this.prefix,
     this.textInputAction,
     this.suffix,
-    this.fillColor,
+    this.fillColor, this.enabledBorder,
   });
 
   @override
@@ -42,14 +41,6 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          headerText,
-          style: GoogleFonts.lato(
-              fontWeight: FontWeight.w700,
-              fontSize: 14.sp,
-              color: const Color(0xFF475466)),
-        ),
-        SizedBox(height: 5.h),
         TextFormField(
           onTapOutside: (event) {
             SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -68,33 +59,35 @@ class CustomTextField extends StatelessWidget {
               prefixIcon: prefix,
               suffixIcon: suffixIcon,
               labelText: labelText,
-              labelStyle: GoogleFonts.lato(
-                color: const Color(0xFF475466),
+              labelStyle: GoogleFonts.cabin(
+                color: AppColor.white.withOpacity(0.5),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
               ),
-              hintStyle: GoogleFonts.lato(
+              hintStyle: GoogleFonts.cabin(
                 fontSize: 16.sp,
-                color: AppColor.hinttextfieldColor,
+                color: AppColor.white,
               ),
               hintText: hintText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0.r),
+              border: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  width: 1.w,
                   color: const Color(
                     0xFFCFD4DC,
                   ),
                 ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
+              focusedBorder: UnderlineInputBorder(
                 borderSide: const BorderSide(color: AppColor.appBrandColor),
               ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
+              enabledBorder: enabledBorder,
+              errorBorder: UnderlineInputBorder(
                 borderSide: const BorderSide(color: Colors.red),
               )),
+          style: TextStyle(
+            color: AppColor.white.withOpacity(0.8),
+            fontSize: 16.sp, // Adjust the font size
+            fontWeight: FontWeight.normal, // Adjust the font weight
+          ),
         ),
       ],
     );

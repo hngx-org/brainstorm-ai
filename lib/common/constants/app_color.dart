@@ -5,6 +5,8 @@ class AppColor {
 
   static const Color appBrandColor = Color(0xFF8d62a3);
   static const Color white = Colors.white;
+  static Color whiteOpacity6 = Colors.white.withOpacity(0.6);
+  static Color whiteOpacity8 = Colors.white.withOpacity(0.8);
   static const Color black = Colors.black;
   static const Color imageBackground = Color(0xFFEFFFF5);
   static const Color subText = Color(0xFFA4A4A4);
@@ -16,7 +18,7 @@ class AppColor {
   static const Color brand1 = Color(0xFF969696);
   static const Color hinttextfieldColor = Color(0XFFD0D5DD);
   static const Color backArrowColor = Color(0xFFEFFFF5);
-  static const Color greyColor = Color(0XFF475467);
+  static const Color greyColor = Color(0XFF232323);
   static const Color borderColor = Color(0xFFEFFFF5);
   static const Color transparent = Colors.transparent;
 }

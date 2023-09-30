@@ -1,7 +1,9 @@
 class RoutesPath {
-  static const String splashScreen = '/splash-screen';
-  static const String signUpScreen = '/signUp-screen';
-  static const String loginScreen = '/login-screen';
-  static const String landingScreen = '/landing-screen';
+  static const String splash = '/splash';
+  static const String signup = '/signup';
+  static const String landing = '/landing';
+  static const String home = '/home';
   static const String chatScreen = '/chat-screen';
+  static const String nav = '/navigation';
+  static const String settingsScreen = '/settings-screen';
 }
