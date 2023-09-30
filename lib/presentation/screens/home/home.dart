@@ -3,10 +3,13 @@ import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
+import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../common/constants/route_constant.dart';
 
 class HomeScreen extends StatefulWidget {
   final String firstName;
@@ -121,31 +124,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 2,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: mediaQuery.width * 0.7,
-                            margin: EdgeInsets.only(right: 20),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.white.withOpacity(0.2),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CustomText(
-                                        text:
-                                            'testing test me and my might oh lord',
-                                        fontSize: 18)),
+                          return GestureDetector(
+                            onTap: () {
+                              routerConfig.push(RoutesPath.chatScreen);
+                            },
+                            child: Container(
+                              width: mediaQuery.width * 0.7,
+                              margin: EdgeInsets.only(right: 20),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: BorderSide(
+                                        color: AppColor.white.withOpacity(0.6),
+                                        width: 1)),
+                                color: AppColor.white.withOpacity(0.2),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text:
+                                              'testing test me and my might oh lord',
+                                          fontSize: 18)),
+                                ),
                               ),
                             ),
                           );
                         }),
                   ),
                 ),
-                30.verticalSpace,
+                20.verticalSpace,
                 //automation
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
@@ -356,7 +364,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         )),
-
       ],
     );
   }

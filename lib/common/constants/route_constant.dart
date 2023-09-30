@@ -4,5 +4,6 @@ class RoutesPath {
   static const String landing = '/landing';
   static const String home = '/home';
   static const String chatScreen = '/chat-screen';
+  static const String nav = '/navigation';
   static const String settingsScreen = '/settings-screen';
 }
