@@ -18,7 +18,7 @@ class AppColor {
   static const Color brand1 = Color(0xFF969696);
   static const Color hinttextfieldColor = Color(0XFFD0D5DD);
   static const Color backArrowColor = Color(0xFFEFFFF5);
-  static const Color greyColor = Color(0XFF475467);
+  static const Color greyColor = Color(0XFF232323);
   static const Color borderColor = Color(0xFFEFFFF5);
   static const Color transparent = Colors.transparent;
 }

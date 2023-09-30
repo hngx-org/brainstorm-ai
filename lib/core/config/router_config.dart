@@ -1,5 +1,6 @@
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
+import 'package:ai_brainstorm/presentation/screens/navigation.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/landing/landing_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/signup/signup.dart';
 import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
@@ -7,7 +8,6 @@ import 'package:ai_brainstorm/presentation/screens/settings_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-
 
 final GoRouter routerConfig = GoRouter(
   initialLocation: RoutesPath.splash,
@@ -35,12 +35,33 @@ final GoRouter routerConfig = GoRouter(
       ),
     ),
     GoRoute(
-      path: RoutesPath.home,
+        path: RoutesPath.nav,
         pageBuilder: (context, state) {
           if (state.extra != null) {
             Map<String, dynamic> args = state.extra as Map<String, dynamic>;
             return CupertinoPage<void>(
-              child: HomeScreen( firstName: args['first_name'],
+              child: NavigationScreen(
+                firstName: args['first_name'],
+              ),
+              key: state.pageKey,
+            );
+          } else {
+            return CupertinoPage<void>(
+              child: const NavigationScreen(
+                firstName: '',
+              ),
+              key: state.pageKey,
+            );
+          }
+        }),
+    GoRoute(
+        path: RoutesPath.home,
+        pageBuilder: (context, state) {
+          if (state.extra != null) {
+            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+            return CupertinoPage<void>(
+              child: HomeScreen(
+                firstName: args['first_name'],
               ),
               key: state.pageKey,
             );
@@ -53,7 +74,7 @@ final GoRouter routerConfig = GoRouter(
             );
           }
         }),
- GoRoute(
+    GoRoute(
       path: RoutesPath.chatScreen,
       pageBuilder: (context, state) => CupertinoPage<void>(
         child: const ChatScreen(),
