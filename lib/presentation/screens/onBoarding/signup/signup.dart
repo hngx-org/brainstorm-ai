@@ -5,6 +5,7 @@ import 'package:ai_brainstorm/common/constants/reusables/button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/textfield.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -142,12 +143,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 40.verticalSpace,
                 ButtonWidget(
-                  buttonText: 'Continue',
+                  buttonText: 'Sign Up',
                   fontSize: 18,
                   onPressed: () {
+                    SharedPreferencesManager.prefs.setString('first_name', firstNameController.text.trim());
+                    SharedPreferencesManager.prefs.setString('last_name', lastNameController.text.trim());
+
                     routerConfig.pushReplacement(RoutesPath.nav, extra: {
                       'first_name': firstNameController.text.trim(),
-                      'last_name': lastNameController.text.trim()
+                      'last_name': lastNameController.text.trim(),
                     });
                   },
                 )

@@ -1,11 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ResponseContainer extends StatelessWidget {
+class ResponseContainer extends StatefulWidget {
   final String content;
+  final bool isNewQueryResponse;
   const ResponseContainer({
     required this.content,
-    super.key});
+    super.key, required this.isNewQueryResponse,
+  });
+
+  @override
+  _ResponseContainerState createState() => _ResponseContainerState();
+}
+
+class _ResponseContainerState extends State<ResponseContainer> {
+  String displayedText = '';
+  bool isMounted = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start displaying text letter by letter when the widget is created
+    if (widget.isNewQueryResponse) {
+      // Start displaying text letter by letter for new query responses
+      displayTextLetterByLetter();
+    } else {
+      // Display the response immediately for old queries
+      displayedText = widget.content;
+    }
+  }
+
+  void displayTextLetterByLetter() async {
+    for (int i = 0; i < widget.content.length; i++) {
+      setState(() {
+        if (isMounted) {
+          setState(() {
+            displayedText = widget.content.substring(0, i + 1);
+          });
+        }
+      });
+      await Future.delayed(const Duration(milliseconds: 50)); // Adjust delay as needed
+    }
+  }
+
+  @override
+  void dispose() {
+    isMounted = false;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +56,12 @@ class ResponseContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white
+          color: Colors.white,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15,
-            vertical: 15
+            vertical: 15,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -30,19 +72,18 @@ class ResponseContainer extends StatelessWidget {
                   const SizedBox.square(
                     dimension: 40,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/png/logo try.png')
+                      backgroundImage: AssetImage('assets/png/logo try.png'),
                     ),
                   ),
                   const SizedBox(width: 15),
                   Expanded(
                     child: SizedBox(
                       child: Text(
-                        content,
+                        displayedText, // Displayed text updates as letters are added
                         textAlign: TextAlign.left,
                         style: const TextStyle(
-                          fontSize: 14
+                          fontSize: 14,
                         ),
-                      
                       ),
                     ),
                   ),
@@ -55,17 +96,17 @@ class ResponseContainer extends StatelessWidget {
                   GestureDetector(
                     onTap: () async {
                       await Clipboard.setData(
-                        ClipboardData(text: content)
-                      ).then((_){
+                        ClipboardData(text: widget.content),
+                      ).then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('copied to clipboard'))
+                          const SnackBar(content: Text('copied to clipboard')),
                         );
                       });
                     },
-                    child: const Icon(Icons.copy)
-                  )
+                    child: const Icon(Icons.copy),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -73,6 +114,7 @@ class ResponseContainer extends StatelessWidget {
     );
   }
 }
+
 
 class QueryContainer extends StatelessWidget {
   final String content;
