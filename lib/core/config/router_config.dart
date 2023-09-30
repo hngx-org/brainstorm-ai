@@ -4,6 +4,7 @@ import 'package:ai_brainstorm/presentation/screens/navigation.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/landing/landing_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/signup/signup.dart';
 import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/settings_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -80,5 +81,12 @@ final GoRouter routerConfig = GoRouter(
         key: state.pageKey,
       ),
     ),
+  GoRoute(
+    path: RoutesPath.settingsScreen,
+    pageBuilder: (context, state) => CupertinoPage<void>(
+      child: const SettingsScreen(),
+      key: state.pageKey,
+    ),
+  ),
   ],
 );
