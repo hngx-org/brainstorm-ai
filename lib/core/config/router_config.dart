@@ -1,10 +1,11 @@
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
-import 'package:ai_brainstorm/presentation/screens/navigation.dart';
+import 'package:ai_brainstorm/presentation/screens/navigation/navigation.dart';
+import 'package:ai_brainstorm/presentation/screens/onBoarding/intro_screen/intro_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/landing/landing_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/signup/signup.dart';
-import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
-import 'package:ai_brainstorm/presentation/screens/settings_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/settings/settings_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +43,7 @@ final GoRouter routerConfig = GoRouter(
             return CupertinoPage<void>(
               child: NavigationScreen(
                 firstName: args['first_name'],
-                lastName: args['first_name'],
+                lastName: args['last_name'],
               ),
               key: state.pageKey,
             );
@@ -83,6 +84,13 @@ final GoRouter routerConfig = GoRouter(
         key: state.pageKey,
       ),
     ),
+    GoRoute(
+      path: RoutesPath.intro,
+      pageBuilder: (context, state) => CupertinoPage<void>(
+        child: const IntroScreen(),
+        key: state.pageKey,
+      ),
+    ),
   GoRoute(
     path: RoutesPath.settingsScreen,
     pageBuilder: (context, state) {
@@ -90,7 +98,7 @@ final GoRouter routerConfig = GoRouter(
         Map<String, dynamic> args = state.extra as Map<String, dynamic>;
         return CupertinoPage<void>(
           child: SettingsScreen(
-            lastname: args['firstname'], firstname: args['lastname'],
+            firstname: args['firstname'], lastname: args['lastname'],
           ),
           key: state.pageKey,
         );

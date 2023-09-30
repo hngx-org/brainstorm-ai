@@ -2,6 +2,9 @@ import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:flutter/material.dart';
 
 class GlowingLogo extends StatefulWidget {
+  final double? size;
+  const GlowingLogo({Key? key, this.size}) : super(key: key);
+
   @override
   _GlowingLogoState createState() => _GlowingLogoState();
 }
@@ -40,7 +43,7 @@ class _GlowingLogoState extends State<GlowingLogo> {
       },
       child: Image.asset(
         Assets.logo,
-        height: 60,
+        height: widget.size ?? 60,
       ),
     );
   }

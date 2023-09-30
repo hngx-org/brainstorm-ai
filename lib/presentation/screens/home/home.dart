@@ -1,5 +1,6 @@
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/assets_constants.dart';
+import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
@@ -22,6 +23,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _greetingText = '';
+
+  List<String> academicQuestions = [
+    "What is the significance of the Theory of Relativity in physics?",
+    "Discuss the impact of climate change on agriculture.",
+    "Explain the concept of artificial intelligence.",
+  ];
 
   @override
   void initState() {
@@ -56,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SafeArea(
             child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Container(
+          body: SizedBox(
             width: mediaQuery.width,
             height: mediaQuery.height,
             child: Column(
@@ -74,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           CustomText(
                             text: _greetingText,
-                            fontSize: 24,
+                            fontSize: 22,
                             color: AppColor.white.withOpacity(0.6),
                           ),
                           CustomText(
                             text: widget.firstName,
-                            fontSize: 30,
+                            fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: AppColor.white.withOpacity(0.8),
                           )
@@ -98,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       CustomText(
                         text: 'Recent',
-                        fontSize: 20,
+                        fontSize: 22,
                         color: AppColor.whiteOpacity8,
                       ),
                       Container(
@@ -115,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                30.verticalSpace,
+                20.verticalSpace,
                 Container(
                   height: mediaQuery.width * 0.13,
                   width: mediaQuery.width,
@@ -136,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40),
                                     side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.6),
+                                        color: AppColor.white.withOpacity(0.2),
                                         width: 1)),
                                 color: AppColor.white.withOpacity(0.2),
                                 child: const Padding(
@@ -146,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: CustomText(
                                           text:
                                               'testing test me and my might oh lord',
-                                          fontSize: 18)),
+                                          fontSize: 15)),
                                 ),
                               ),
                             ),
@@ -163,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       CustomText(
                         text: 'Automations',
-                        fontSize: 20,
+                        fontSize: 22,
                         color: AppColor.whiteOpacity8,
                       ),
                       GestureDetector(
@@ -193,13 +200,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 20.verticalSpace,
                 // cards
                 Container(
-                  height: mediaQuery.height * 0.24,
+                  height: mediaQuery.height * 0.2,
                   width: mediaQuery.width,
                   child: Container(
                     width: double.infinity,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 2,
+                        itemCount: academicQuestions.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             width: mediaQuery.width * 0.7,
@@ -210,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   side: BorderSide(
                                       color: AppColor.white.withOpacity(0.6),
                                       width: 1)),
-                              color: AppColor.white,
+                              color: AppColor.whiteOpacity8,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 12),
@@ -220,23 +227,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Icon(
                                       Icons.bookmarks,
                                       color: Colors.black.withOpacity(0.8),
-                                      size: 30,
+                                      size: 22,
                                     ),
                                     10.verticalSpace,
                                     CustomText(
-                                        text:
-                                            'testing test me and my might oh lord',
+                                        text: academicQuestions[index],
                                         fontSize: 22,
-                                        maxLines: 2,
+                                        maxLines: 3,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black.withOpacity(0.8)),
-                                    10.verticalSpace,
-                                    CustomText(
-                                        text:
-                                            'testing test me and my might oh lord',
-                                        fontSize: 18,
-                                        maxLines: 2,
-                                        color: Colors.black.withOpacity(0.5)),
                                   ],
                                 ),
                               ),
@@ -254,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       CustomText(
                         text: 'Automations',
-                        fontSize: 20,
+                        fontSize: 22,
                         color: AppColor.whiteOpacity8,
                       ),
                       GestureDetector(
@@ -282,97 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 20.verticalSpace,
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: mediaQuery.width * 0.13,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.white.withOpacity(0.2),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CustomText(
-                                        text: '#1 Project topic',
-                                        fontSize: 18)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: mediaQuery.width * 0.13,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.white.withOpacity(0.2),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CustomText(
-                                        text: '#2 Novel Ideas', fontSize: 18)),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: mediaQuery.width * 0.13,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.white.withOpacity(0.2),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CustomText(
-                                        text: '#1 Project topic',
-                                        fontSize: 18)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: mediaQuery.width * 0.13,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.white.withOpacity(0.2),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CustomText(
-                                        text: '#2 Novel Ideas', fontSize: 18)),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                AutomatedQuestions(mediaQuery: mediaQuery),
               ],
             ),
           ),

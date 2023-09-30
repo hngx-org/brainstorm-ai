@@ -1,5 +1,5 @@
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
-import 'package:ai_brainstorm/presentation/screens/chat_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/choose_subscribeprice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

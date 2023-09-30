@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 40,),
-                Text( // TODO: chang this to show the actual username
+                Text(
                   '${widget.firstname} ${widget.lastname}',
                   textAlign: TextAlign.center,
                   style: TextStyle(

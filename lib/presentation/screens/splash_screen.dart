@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     while (routerConfig.canPop() == true) {
       routerConfig.pop();
     }
-    routerConfig.pushReplacement(RoutesPath.landing);
+    routerConfig.pushReplacement(RoutesPath.intro);
   }
 
   Widget _fadeInWidget(Widget widget, bool isVisible) {

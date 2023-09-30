@@ -1,8 +1,11 @@
+import 'package:ai_brainstorm/common/constants/app_color.dart';
+import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
 import 'package:ai_brainstorm/common/constants/reusables/chat_container.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/openai_test.dart';
 import 'package:flutter/material.dart';
 
@@ -13,19 +16,20 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final String content =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac justo eget nisi dignissim euismod in quis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio diam, tempus sit amet consequat vitae, pretium vel est. Proin id pulvinar nunc. Cras porttitor maximus sem, quis accumsan enim consequat at. Duis ut vehicula felis. Morbi pulvinar enim et lacinia viverra. Nullam augue nunc, interdum fermentum nulla quis, efficitur maximus purus. Aenean porta ex enim, quis vehicula massa tincidunt eget. Integer sit amet facilisis nibh. Aenean eros diam, cursus ac facilisis vitae, vestibulum dapibus lorem. Sed nisi massa, mattis id luctus ac, imperdiet nec lectus.';
   late TextEditingController inputController;
   late List<String> queries;
   late List<String> responses;
   String generatedText = '';
 
+  bool isNewQuery = true;
+  List<bool> isNewQueryResponseList = [false];
+
   @override
   void initState() {
     super.initState();
     inputController = TextEditingController();
-    queries = [content];
-    responses = [content];
+    queries = [''];
+    responses = [''];
   }
 
   @override
@@ -34,14 +38,9 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  void updateGeneratedText(String text) {
-    setState(() {
-      generatedText = text;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
     return Stack(
       children: [
         CustomBackground(),
@@ -49,17 +48,22 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Stack(
+              alignment: Alignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: ListView(
                     children: [
                       const SizedBox(height: 20),
-                      DisplayContent(queries: queries, responses: responses),
+                      DisplayContent(
+                        queries: queries,
+                        responses: responses,
+                        isNewQueryResponseList: isNewQueryResponseList,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
-                      const RegenerateButton(),
+                      if (queries.length != 1) RegenerateButton(),
                       const SizedBox(
                         height: 80,
                       ),
@@ -76,6 +80,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     middleText: 'Chat',
                   ),
                 ),
+                if (queries.length == 1)
+                  Positioned(
+                      bottom: 120,
+                      child: Container(
+                          height: 150,
+                          width: mediaQuery.width,
+                          child: AutomatedQuestions(mediaQuery: mediaQuery))),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: BottomGradient(),
@@ -86,17 +97,28 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: inputController,
                       extraOnTap: () {
                         setState(() {
-                          inputController.text.isNotEmpty
-                              ? queries.add(inputController.text)
-                              : null;
-                          inputController.text.isNotEmpty
-                              ? responses.add(generatedText)
-                              : null; //TODO: get from api first
+                          if (inputController.text.isNotEmpty) {
+                            queries.add(inputController.text);
+                          }
                         });
                       },
                       updateGeneratedText: (text) {
                         setState(() {
+                          // Always set generatedText to the provided text
                           generatedText = text;
+                          isNewQuery = true;
+                          print(' new text: $generatedText');
+
+                          // Reset all values to false
+                          for (int i = 0;
+                              i < isNewQueryResponseList.length;
+                              i++) {
+                            isNewQueryResponseList[i] = false;
+                          }
+
+                          responses.add(generatedText);
+                          print(responses.length);
+                          isNewQueryResponseList.add(true);
                         });
                       },
                     ))
@@ -121,9 +143,10 @@ class InputArea extends StatelessWidget {
 
   Future<void> submit(context) async {
     //TODO: send text from controller to openai api
-    final generatedText = 'yes';
-    print(generatedText);
-
+    // final generatedText = await OpenAiTest().generateText('Translate the following English text to French: "Hello, how are you?"');
+    //
+    final generatedText =
+        'hey how are you today, welcome to brainstorm-ai how may i be of assistance';
     updateGeneratedText(generatedText);
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -151,7 +174,7 @@ class InputArea extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 35),
                   child: TextField(
                     controller: controller,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColor.whiteOpacity8),
                     decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Write something ...',
@@ -173,7 +196,7 @@ class InputArea extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Colors.white),
+                    color: AppColor.whiteOpacity8),
                 child: const Center(
                   child: Icon(
                     Icons.send_rounded,
@@ -193,25 +216,39 @@ class InputArea extends StatelessWidget {
 class DisplayContent extends StatelessWidget {
   final List<String> queries;
   final List<String> responses;
+  final List<bool> isNewQueryResponseList;
   const DisplayContent(
-      {required this.queries, required this.responses, super.key});
+      {required this.queries,
+      required this.responses,
+      super.key,
+      required this.isNewQueryResponseList});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(queries.length, (index) {
-        return Column(
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            QueryContainer(content: queries[index]),
-            const SizedBox(
-              height: 40,
-            ),
-            ResponseContainer(content: responses[index])
-          ],
-        );
+        final bool isNewQueryResponse = isNewQueryResponseList[index];
+        final String response = responses[index];
+        print(isNewQueryResponse);
+
+        if (isNewQueryResponse || response.isNotEmpty) {
+          return Column(
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              QueryContainer(content: queries[index]),
+              const SizedBox(
+                height: 40,
+              ),
+              ResponseContainer(
+                  content: response, isNewQueryResponse: isNewQueryResponse)
+            ],
+          );
+        } else {
+          // Don't display if it's not a new query response and the response is empty
+          return Container(); // Empty container
+        }
       }),
     );
   }
@@ -224,7 +261,7 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: SizedBox(
         height: 40,
         child: Row(
@@ -234,16 +271,24 @@ class TopSection extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    color: Colors.white),
+                    color: AppColor.whiteOpacity8),
                 child: Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_back),
                     color: Colors.black,
                     iconSize: 24,
                     onPressed: () {
-                      routerConfig.pushReplacement(
-                        RoutesPath.nav,
-                      );
+                      final fN = SharedPreferencesManager.prefs
+                              .getString('first_name') ??
+                          '';
+                      final lN = SharedPreferencesManager.prefs
+                              .getString('last_name') ??
+                          '';
+
+                      routerConfig.pushReplacement(RoutesPath.nav, extra: {
+                        'first_name': fN,
+                        'last_name': lN,
+                      });
                     },
                   ),
                 ),
@@ -254,7 +299,7 @@ class TopSection extends StatelessWidget {
                   child: Text(
                 middleText,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppColor.whiteOpacity8,
                     fontSize: 22,
                     fontWeight: FontWeight.w400),
               )),
@@ -281,13 +326,13 @@ class RegenerateButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: Colors.white)),
-          child: const Row(
+              border: Border.all(color: AppColor.whiteOpacity8)),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.stop_outlined,
-                color: Colors.white,
+                color: AppColor.whiteOpacity8,
               ),
               SizedBox(
                 width: 10,
@@ -297,7 +342,7 @@ class RegenerateButton extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white),
+                    color: AppColor.whiteOpacity8),
               )
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/textfield.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,6 +82,10 @@ class _LandingScreenState extends State<LandingScreen> {
                 ),
                 40.verticalSpace,
                 ButtonWidget(buttonText: 'Continue', fontSize: 18, onPressed: () {
+                  SharedPreferencesManager.prefs.setString('first_name', 'Nameless');
+                  SharedPreferencesManager.prefs.setString('last_name', 'User');
+
+                  routerConfig.pushReplacement(RoutesPath.nav, extra: {'first_name': 'Nameless', 'last_name': 'User'});
 
                 },)
               ],
