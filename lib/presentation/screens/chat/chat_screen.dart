@@ -400,17 +400,15 @@ class TopSection extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                  child: Text(
-                middleText,
-                style: TextStyle(
-                    color: AppColor.whiteOpacity8,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
-              )),
-            )
+            Align(
+              alignment: Alignment.center,
+                child: Text(
+              middleText,
+              style: TextStyle(
+                  color: AppColor.whiteOpacity8,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400),
+            ))
           ],
         ),
       ),

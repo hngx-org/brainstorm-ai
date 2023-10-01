@@ -16,7 +16,7 @@ class BackButtonWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
-            color: AppColor.whiteOpacity8),
+            color: AppColor.whiteOpacity6),
         child: Center(
           child: IconButton(
             icon: Icon(Icons.arrow_back),
