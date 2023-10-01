@@ -59,7 +59,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChatScreen()),
+                  MaterialPageRoute(builder: (context) => const ChatScreen(automated: 0,)),
                 );
               },
               containerColor: Colors.black,

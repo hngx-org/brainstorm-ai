@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 class ResponseContainer extends StatefulWidget {
   final String content;
   final bool isNewQueryResponse;
+  final Function(bool) onAnimationComplete;
   const ResponseContainer({
     required this.content,
-    super.key, required this.isNewQueryResponse,
+    super.key, required this.isNewQueryResponse, required this.onAnimationComplete,
   });
 
   @override
@@ -39,8 +40,10 @@ class _ResponseContainerState extends State<ResponseContainer> {
           });
         }
       });
-      await Future.delayed(const Duration(milliseconds: 50)); // Adjust delay as needed
+      await Future.delayed(const Duration(milliseconds: 5));
     }
+
+    widget.onAnimationComplete(true);
   }
 
   @override
