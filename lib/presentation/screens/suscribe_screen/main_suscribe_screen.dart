@@ -151,12 +151,12 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ChatScreen()),
+                              builder: (context) => const ChatScreen(automated: 0,)),
                         );
                       },
                       containerColor: Colors.white,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
