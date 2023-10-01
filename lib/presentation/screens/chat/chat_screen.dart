@@ -55,11 +55,15 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: ListView(
                     children: [
                       const SizedBox(height: 20),
-                      DisplayContent(queries: queries, responses: responses, isNewQueryResponseList: isNewQueryResponseList,),
+                      DisplayContent(
+                        queries: queries,
+                        responses: responses,
+                        isNewQueryResponseList: isNewQueryResponseList,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
-                      if (queries.length != 1 ) RegenerateButton(),
+                      if (queries.length != 1) RegenerateButton(),
                       const SizedBox(
                         height: 80,
                       ),
@@ -72,9 +76,17 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const Align(
                   alignment: Alignment.topCenter,
-                  child: TopSection(),
+                  child: TopSection(
+                    middleText: 'Chat',
+                  ),
                 ),
-                if (queries.length == 1 ) Positioned(bottom: 120, child: Container( height: 150, width: mediaQuery.width, child: AutomatedQuestions(mediaQuery: mediaQuery))),
+                if (queries.length == 1)
+                  Positioned(
+                      bottom: 120,
+                      child: Container(
+                          height: 150,
+                          width: mediaQuery.width,
+                          child: AutomatedQuestions(mediaQuery: mediaQuery))),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: BottomGradient(),
@@ -98,7 +110,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           print(' new text: $generatedText');
 
                           // Reset all values to false
-                          for (int i = 0; i < isNewQueryResponseList.length; i++) {
+                          for (int i = 0;
+                              i < isNewQueryResponseList.length;
+                              i++) {
                             isNewQueryResponseList[i] = false;
                           }
 
@@ -131,7 +145,8 @@ class InputArea extends StatelessWidget {
     //TODO: send text from controller to openai api
     // final generatedText = await OpenAiTest().generateText('Translate the following English text to French: "Hello, how are you?"');
     //
-    final generatedText = 'hey how are you today, welcome to brainstorm-ai how may i be of assistance';
+    final generatedText =
+        'hey how are you today, welcome to brainstorm-ai how may i be of assistance';
     updateGeneratedText(generatedText);
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -203,7 +218,10 @@ class DisplayContent extends StatelessWidget {
   final List<String> responses;
   final List<bool> isNewQueryResponseList;
   const DisplayContent(
-      {required this.queries, required this.responses, super.key, required this.isNewQueryResponseList});
+      {required this.queries,
+      required this.responses,
+      super.key,
+      required this.isNewQueryResponseList});
 
   @override
   Widget build(BuildContext context) {
@@ -223,10 +241,11 @@ class DisplayContent extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              ResponseContainer(content: response, isNewQueryResponse: isNewQueryResponse)
+              ResponseContainer(
+                  content: response, isNewQueryResponse: isNewQueryResponse)
             ],
           );
-        }else {
+        } else {
           // Don't display if it's not a new query response and the response is empty
           return Container(); // Empty container
         }
@@ -236,7 +255,8 @@ class DisplayContent extends StatelessWidget {
 }
 
 class TopSection extends StatelessWidget {
-  const TopSection({super.key});
+  final String middleText;
+  const TopSection({super.key, required this.middleText});
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +297,7 @@ class TopSection extends StatelessWidget {
             Expanded(
               child: Center(
                   child: Text(
-                'Chat',
+                middleText,
                 style: TextStyle(
                     color: AppColor.whiteOpacity8,
                     fontSize: 22,
@@ -322,7 +342,7 @@ class RegenerateButton extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color:AppColor.whiteOpacity8),
+                    color: AppColor.whiteOpacity8),
               )
             ],
           ),
