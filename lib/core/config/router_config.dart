@@ -1,4 +1,5 @@
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
+import 'package:ai_brainstorm/presentation/screens/chat_automations/chat_automations.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
 import 'package:ai_brainstorm/presentation/screens/navigation/navigation.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/intro_screen/intro_screen.dart';
@@ -7,6 +8,7 @@ import 'package:ai_brainstorm/presentation/screens/onBoarding/signup/signup.dart
 import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/settings/settings_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/splash_screen.dart';
+import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -106,7 +108,21 @@ final GoRouter routerConfig = GoRouter(
         key: state.pageKey,
       ),
     ),
-  GoRoute(
+    GoRoute(
+      path: RoutesPath.mainSuscribeScreen,
+      pageBuilder: (context, state) => CupertinoPage<void>(
+        child: const MainSuscribeScreen(),
+        key: state.pageKey,
+      ),
+    ),
+    GoRoute(
+      path: RoutesPath.mainAutomations,
+      pageBuilder: (context, state) => CupertinoPage<void>(
+        child: const MainAutomations(),
+        key: state.pageKey,
+      ),
+    ),
+    GoRoute(
     path: RoutesPath.settingsScreen,
     pageBuilder: (context, state) {
       if (state.extra != null) {

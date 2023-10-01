@@ -25,25 +25,21 @@ class MainAutomations extends StatelessWidget {
             backgroundColor: Colors.transparent,
             body: Column(
               children: [
-                SizedBox(
-                  height: 60.h,
-                  width: double.infinity,
-                ),
+                40.verticalSpace,
                 const TopSection(middleText: "Automations"),
                 SizedBox(
                   height: 60.h,
                   width: double.infinity,
                 ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return stormsList[index];
+                    },
+                    itemCount: stormsList.length,
+                  ),
+                ),
               ],
-            ),
-          ),
-          Positioned(
-            top: 130.h,
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return stormsList[index];
-              },
-              itemCount: stormsList.length,
             ),
           ),
         ],
