@@ -262,7 +262,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 20.verticalSpace,
-                AutomatedQuestions(mediaQuery: mediaQuery),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: AutomatedQuestions(mediaQuery: mediaQuery),
+                ),
               ],
             ),
           ),
