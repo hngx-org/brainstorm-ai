@@ -1,6 +1,7 @@
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/choose_subscribeprice.dart';
+import 'package:ai_brainstorm/presentation/screens/suscribe_screen/subscribe_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -140,31 +141,20 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     ),
                   ),
                   Center(
-                    child: GestureDetector(
+                    child: ActionButton(
+                      margin: 30.h,
+                      height: 70.h,
+                      width: 370.w,
+                      containerTextColor: Colors.black,
+                      actionText: 'Continue',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChatScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const ChatScreen()),
                         );
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 30.h),
-                        height: 70.h,
-                        width: 370.w,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40.r),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      containerColor: Colors.white,
                     ),
                   )
                 ],
@@ -177,61 +167,48 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
   }
 }
 
-Text myContainerText(
-  String myText,
-  FontWeight myweight,
-  double textSixe,
-) {
-  return Text(
-    myText,
-    textAlign: TextAlign.end,
-    style: TextStyle(
-      fontWeight: myweight,
-      color: Colors.black,
-      fontSize: textSixe,
-    ),
-  );
-}
-
-class ListOfText extends StatelessWidget {
-  final String myText;
-  final double textSixe;
-  Color textColor;
-  final FontWeight myweight;
-  final bool showMark;
-  ListOfText(this.myText, this.textSixe, this.myweight, this.showMark,
-      [this.textColor = Colors.white]);
+class ActionButton extends StatelessWidget {
+  final double width;
+  final double height;
+  final double margin;
+  final String actionText;
+  void Function()? onTap;
+  final Color containerColor;
+  final Color containerTextColor;
+  ActionButton({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.actionText,
+    this.onTap,
+    required this.containerColor,
+    required this.containerTextColor,
+    required this.margin,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: showMark
-          ? EdgeInsets.only(
-              top: 8.sp,
-              left: 35.sp,
-            )
-          : EdgeInsets.only(top: 20.sp),
-      child: Row(
-        mainAxisAlignment:
-            showMark ? MainAxisAlignment.start : MainAxisAlignment.center,
-        children: [
-          showMark
-              ? Icon(
-                  Icons.verified,
-                  color: Colors.white,
-                  size: 22.sp,
-                )
-              : const SizedBox(),
-          Text(
-            myText,
-            textAlign: TextAlign.center,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(top: margin),
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          color: containerColor,
+          borderRadius: BorderRadius.circular(40.r),
+        ),
+        child: Center(
+          child: Text(
+            actionText,
             style: TextStyle(
-              fontWeight: myweight,
-              color: Colors.white,
-              fontSize: textSixe,
+              fontSize: 22.sp,
+              color: containerTextColor,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.none,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

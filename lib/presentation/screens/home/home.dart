@@ -5,6 +5,7 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/presentation/screens/chat_automations/chat_automations.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -178,8 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const MainSuscribeScreen()),
+                                builder: (context) => const MainAutomations()),
                           );
                         },
                         child: Container(
@@ -261,8 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const MainSuscribeScreen()),
+                                builder: (context) => const MainAutomations()),
                           );
                         },
                         child: Container(
