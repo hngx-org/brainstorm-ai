@@ -79,10 +79,25 @@ final GoRouter routerConfig = GoRouter(
         }),
     GoRoute(
       path: RoutesPath.chatScreen,
-      pageBuilder: (context, state) => CupertinoPage<void>(
-        child: const ChatScreen(),
-        key: state.pageKey,
-      ),
+      pageBuilder: (context, state) {
+        if (state.extra != null) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return CupertinoPage<void>(
+            child: ChatScreen(
+              automated: args['automated'],
+            ),
+            key: state.pageKey,
+          );
+        }
+        else {
+          return CupertinoPage<void>(
+            child: ChatScreen(
+              automated: 0,
+            ),
+            key: state.pageKey,
+          );
+        }
+      }
     ),
     GoRoute(
       path: RoutesPath.intro,
@@ -102,7 +117,8 @@ final GoRouter routerConfig = GoRouter(
           ),
           key: state.pageKey,
         );
-      } else {
+      }
+      else {
         return CupertinoPage<void>(
           child: SettingsScreen(
             firstname: '', lastname: '',

@@ -6,11 +6,11 @@ import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
-import 'package:ai_brainstorm/data/openai_test.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final int automated;
+  const ChatScreen({super.key, required this.automated});
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -19,7 +19,12 @@ class _ChatScreenState extends State<ChatScreen> {
   late TextEditingController inputController;
   late List<String> queries;
   late List<String> responses;
+  late ScrollController scrollController;
+  bool isAnimationInProgress = false;
+
+  bool isAutomated = false;
   String generatedText = '';
+  int automated  = 0;
 
   bool isNewQuery = true;
   List<bool> isNewQueryResponseList = [false];
@@ -27,20 +32,98 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    automated = widget.automated;
     inputController = TextEditingController();
+    scrollController = ScrollController();
+    SendAutomatedChat(context);
+  }
+
+  Future<void> SendAutomatedChat(context) async {
+    print(' widget ${automated }');
+
+    setState(() {
+      isAutomated = true;
+    });
     queries = [''];
     responses = [''];
+    if (automated == 1) {
+      setState(() {
+        queries.add('Kindly write an article on the Impact of Artificial'
+            ' Intelligence in Healthcare');
+        isNewQuery = true;
+
+        generatedText = 'The Impact of Artificial Intelligence in Healthcare '
+            'In recent years, the healthcare industry has witnessed a revolutionary transformation driven by the integration of Artificial Intelligence (AI) technologies. From early disease detection to personalized treatment plans, AI has begun to play a pivotal role in reshaping healthcare as we know it. The impact of AI in healthcare is profound and holds immense potential to improve patient outcomes, reduce costs, and enhance overall healthcare quality.';
+        // Reset all values to false
+        for (int i = 0; i < isNewQueryResponseList.length; i++) {
+          isNewQueryResponseList[i] = false;
+        }
+
+        responses.add(generatedText);
+        print(' le response: ${responses.length}');
+        isNewQueryResponseList.add(true);
+      });
+    }
+    else if(automated == 2){
+      setState(() {
+        queries.add('Kindly write a short paragraph Investigating Quantum Computing Applications for Optimization Problems');
+        isNewQuery = true;
+
+        generatedText = 'Investigating Quantum Computing Applications for Optimization Problems holds the promise of unlocking unprecedented computational power to tackle some of the most complex and resource-intensive challenges in various fields, from logistics and finance to drug discovery and cryptography. Quantum computing\'s ability to explore multiple solutions simultaneously using quantum bits (qubits) offers the potential to revolutionize optimization processes, leading to faster, more efficient solutions that were previously beyond the capabilities of classical computers. As researchers delve deeper into harnessing the power of quantum computing, we stand on the brink of transformative breakthroughs that could reshape industries and our understanding of computational limits.';
+        // Reset all values to false
+        for (int i = 0; i < isNewQueryResponseList.length; i++) {
+          isNewQueryResponseList[i] = false;
+        }
+
+        responses.add(generatedText);
+        print(responses.length);
+        isNewQueryResponseList.add(true);
+      });
+    } else if (automated == 3){
+      setState(() {
+        queries.add('Analyze one Role of Environmental Factors in Climate Change');
+        isNewQuery = true;
+
+        generatedText = 'Greenhouse Gas Emissions: Human activities, such as the burning of fossil fuels, deforestation, and industrial processes, release greenhouse gases (GHGs), including carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O), into the atmosphere. These gases trap heat, leading to an enhanced greenhouse effect and global warming.';
+        // Reset all values to false
+        for (int i = 0; i < isNewQueryResponseList.length; i++) {
+          isNewQueryResponseList[i] = false;
+        }
+
+        responses.add(generatedText);
+        print(responses.length);
+        isNewQueryResponseList.add(true);
+      });
+    }
+    else if(automated == 4){
+      setState(() {
+        queries.add('Give me one Machine Learning Algorithms for Financial Forecasting');
+        isNewQuery = true;
+
+        generatedText = 'Memory Cells: LSTM networks contain memory cells that can store and retrieve information over long sequences of data. This capability allows LSTMs to capture complex patterns and relationships in financial data that traditional models may struggle to grasp.';
+        // Reset all values to false
+        for (int i = 0; i < isNewQueryResponseList.length; i++) {
+          isNewQueryResponseList[i] = false;
+        }
+
+        responses.add(generatedText);
+        print(responses.length);
+        isNewQueryResponseList.add(true);
+      });
+    }
   }
 
   @override
   void dispose() {
     inputController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
+    print(' chat $isAnimationInProgress') ;
     return Stack(
       children: [
         CustomBackground(),
@@ -55,11 +138,23 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: ListView(
                     children: [
                       const SizedBox(height: 20),
-                      DisplayContent(queries: queries, responses: responses, isNewQueryResponseList: isNewQueryResponseList,),
+                      DisplayContent(
+                        queries: queries,
+                        responses: responses,
+                        isNewQueryResponseList: isNewQueryResponseList,
+                        scrollController: scrollController,
+                        onAnimationComplete: (bool animationFinished) {
+                          print('callback bool chat $animationFinished');
+                        setState(() {
+                          isAnimationInProgress = animationFinished;
+                          print('chat bool $isAnimationInProgress');
+                        });
+                      },
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
-                      if (queries.length != 1 ) RegenerateButton(),
+                      if (queries.length != 1) RegenerateButton(),
                       const SizedBox(
                         height: 80,
                       ),
@@ -72,9 +167,17 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const Align(
                   alignment: Alignment.topCenter,
-                  child: TopSection(),
+                  child: TopSection(
+                    middleText: 'Chat',
+                  ),
                 ),
-                if (queries.length == 1 ) Positioned(bottom: 120, child: Container( height: 150, width: mediaQuery.width, child: AutomatedQuestions(mediaQuery: mediaQuery))),
+                if (queries.length == 1 || !isAutomated)
+                  Positioned(
+                      bottom: 120,
+                      child: Container(
+                          height: 150,
+                          width: mediaQuery.width,
+                          child: AutomatedQuestions(mediaQuery: mediaQuery))),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: BottomGradient(),
@@ -98,7 +201,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           print(' new text: $generatedText');
 
                           // Reset all values to false
-                          for (int i = 0; i < isNewQueryResponseList.length; i++) {
+                          for (int i = 0;
+                              i < isNewQueryResponseList.length;
+                              i++) {
                             isNewQueryResponseList[i] = false;
                           }
 
@@ -106,7 +211,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           print(responses.length);
                           isNewQueryResponseList.add(true);
                         });
-                      },
+                      }, scrollController: scrollController,
+                      isAnimationInProgress: isAnimationInProgress,
                     ))
               ],
             ),
@@ -121,26 +227,33 @@ class InputArea extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? extraOnTap;
   final Function(String) updateGeneratedText;
+  final ScrollController scrollController;
+  final bool isAnimationInProgress;
+
   const InputArea(
       {required this.controller,
       this.extraOnTap,
       super.key,
-      required this.updateGeneratedText});
+      required this.updateGeneratedText, required this.scrollController,
+        required this.isAnimationInProgress, });
 
   Future<void> submit(context) async {
     //TODO: send text from controller to openai api
     // final generatedText = await OpenAiTest().generateText('Translate the following English text to French: "Hello, how are you?"');
     //
-    final generatedText = 'hey how are you today, welcome to brainstorm-ai how may i be of assistance';
+    final generatedText =
+        'hey how are you today, welcome to brainstorm-ai how may i be of assistance';
     updateGeneratedText(generatedText);
 
     FocusScope.of(context).requestFocus(FocusNode());
     extraOnTap!();
     controller.clear();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    print('input $isAnimationInProgress');
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Row(
@@ -164,6 +277,7 @@ class InputArea extends StatelessWidget {
                         border: InputBorder.none,
                         hintText: 'Write something ...',
                         hintStyle: TextStyle(color: Colors.white30)),
+                    enabled: isAnimationInProgress,
                     onSubmitted: (value) => submit(context),
                     onTapOutside: (_) {
                       FocusScope.of(context).requestFocus(FocusNode());
@@ -177,7 +291,11 @@ class InputArea extends StatelessWidget {
           SizedBox.square(
             dimension: 50,
             child: GestureDetector(
-              onTap: () => submit(context),
+              onTap: () {
+                if (!isAnimationInProgress) {
+                  submit(context);
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
@@ -202,16 +320,33 @@ class DisplayContent extends StatelessWidget {
   final List<String> queries;
   final List<String> responses;
   final List<bool> isNewQueryResponseList;
+  final ScrollController scrollController;
+  final Function(bool) onAnimationComplete;
+
   const DisplayContent(
-      {required this.queries, required this.responses, super.key, required this.isNewQueryResponseList});
+      {required this.queries,
+      required this.responses,
+      super.key,
+      required this.isNewQueryResponseList, required this.scrollController, required this.onAnimationComplete});
+
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Scroll to the bottom of the chat after the frame is built
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+
     return Column(
       children: List.generate(queries.length, (index) {
         final bool isNewQueryResponse = isNewQueryResponseList[index];
         final String response = responses[index];
-        print(isNewQueryResponse);
 
         if (isNewQueryResponse || response.isNotEmpty) {
           return Column(
@@ -223,20 +358,29 @@ class DisplayContent extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              ResponseContainer(content: response, isNewQueryResponse: isNewQueryResponse)
+              ResponseContainer(
+                content: response, isNewQueryResponse: isNewQueryResponse,
+                onAnimationComplete: (bool animationFinished) {
+                Future.delayed(Duration.zero, () {
+                  onAnimationComplete(animationFinished);
+                  print('display $animationFinished');
+                });
+              },)
             ],
           );
-        }else {
+        } else {
           // Don't display if it's not a new query response and the response is empty
           return Container(); // Empty container
         }
+
       }),
     );
   }
 }
 
 class TopSection extends StatelessWidget {
-  const TopSection({super.key});
+  final String middleText;
+  const TopSection({super.key, required this.middleText});
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +421,7 @@ class TopSection extends StatelessWidget {
             Expanded(
               child: Center(
                   child: Text(
-                'Chat',
+                middleText,
                 style: TextStyle(
                     color: AppColor.whiteOpacity8,
                     fontSize: 22,
@@ -322,7 +466,7 @@ class RegenerateButton extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color:AppColor.whiteOpacity8),
+                    color: AppColor.whiteOpacity8),
               )
             ],
           ),
