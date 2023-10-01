@@ -3,6 +3,8 @@ import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/chat_container.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
+import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
+import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
@@ -22,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late List<String> responses;
   late ScrollController scrollController;
   bool isAnimationInProgress = false;
-
+  bool isMounted = true;
   bool isAutomated = false;
   String generatedText = '';
   int automated  = 0;
@@ -115,6 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
+    isMounted = false;
     inputController.dispose();
     scrollController.dispose();
     super.dispose();
@@ -143,9 +146,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         isNewQueryResponseList: isNewQueryResponseList,
                         scrollController: scrollController,
                         onAnimationComplete: (bool animationFinished) {
-                        setState(() {
-                          isAnimationInProgress = animationFinished;
-                        });
+                        if (isMounted) {
+                          setState(() {
+                            isAnimationInProgress = animationFinished;
+                          });
+                        }
                       },
                       ),
                       const SizedBox(
@@ -169,12 +174,18 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 if (queries.length == 1 || !isAutomated)
-                  Positioned(
-                      bottom: 120,
-                      child: Container(
-                          height: 150,
-                          width: mediaQuery.width,
-                          child: AutomatedQuestions(mediaQuery: mediaQuery))),
+                  Center(
+                    child: Container(
+                        height: 150,
+                        width: mediaQuery.width,
+                        child: Column(
+                          children: [
+                            GlowingLogo(size: 80,),
+                            CustomText(text: 'What would you like \nto talk about?',
+                              fontSize: 22, maxLines: 2, textAlign: TextAlign.center,)
+                          ],
+                        )),
+                  ),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: BottomGradient(),
@@ -208,7 +219,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           isNewQueryResponseList.add(true);
                         });
                       }, scrollController: scrollController,
-                      isAnimationInProgress: isAnimationInProgress,
+                      isAnimationInProgress: isAnimationInProgress, isAutomated: widget.automated == 0 ?? true ,
                     ))
               ],
             ),
@@ -225,13 +236,14 @@ class InputArea extends StatelessWidget {
   final Function(String) updateGeneratedText;
   final ScrollController scrollController;
   final bool isAnimationInProgress;
+  final bool isAutomated;
 
   const InputArea(
       {required this.controller,
       this.extraOnTap,
       super.key,
       required this.updateGeneratedText, required this.scrollController,
-        required this.isAnimationInProgress, });
+        required this.isAnimationInProgress, required this.isAutomated, });
 
   Future<void> submit(context) async {
     //TODO: send text from controller to openai api
@@ -272,7 +284,7 @@ class InputArea extends StatelessWidget {
                         border: InputBorder.none,
                         hintText: 'Write something ...',
                         hintStyle: TextStyle(color: Colors.white30)),
-                    enabled: isAnimationInProgress,
+                    enabled: isAutomated || isAnimationInProgress ,
                     onSubmitted: (value) => submit(context),
                     onTapOutside: (_) {
                       FocusScope.of(context).requestFocus(FocusNode());
@@ -287,7 +299,7 @@ class InputArea extends StatelessWidget {
             dimension: 50,
             child: GestureDetector(
               onTap: () {
-                if (!isAnimationInProgress) {
+                if (isAutomated || !isAnimationInProgress) {
                   submit(context);
                 }
               },
