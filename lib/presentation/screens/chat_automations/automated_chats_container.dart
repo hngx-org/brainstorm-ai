@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AutomatedStorms extends StatefulWidget {
-  const AutomatedStorms({super.key});
+  final String text;
+  const AutomatedStorms({super.key, required this.text});
 
   @override
   State<AutomatedStorms> createState() => _AutomatedStormsState();
@@ -41,7 +42,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
             ),
           ),
           Text(
-            'Lorem ipsum is placeholder text commonly used in the graohic, print, and publishing industries for prev...',
+            widget.text ?? '',
             style: TextStyle(
               fontSize: 15.sp,
               fontWeight: FontWeight.w500,
