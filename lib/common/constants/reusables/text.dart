@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomText extends StatelessWidget {
   const CustomText({
     super.key,
-    required this.text, required this.fontSize, this.fontWeight, this.color, this.maxLines,
+    required this.text, required this.fontSize, this.fontWeight, this.color, this.maxLines, this.textAlign,
   });
 
   final String text;
@@ -13,6 +13,7 @@ class CustomText extends StatelessWidget {
   final FontWeight? fontWeight;
   final Color? color;
   final int? maxLines;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class CustomText extends StatelessWidget {
       softWrap: true,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines ?? 1,
+      textAlign: textAlign,
     );
   }
 }

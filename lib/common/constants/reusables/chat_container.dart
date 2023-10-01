@@ -33,13 +33,11 @@ class _ResponseContainerState extends State<ResponseContainer> {
 
   void displayTextLetterByLetter() async {
     for (int i = 0; i < widget.content.length; i++) {
-      setState(() {
         if (isMounted) {
           setState(() {
             displayedText = widget.content.substring(0, i + 1);
           });
         }
-      });
       await Future.delayed(const Duration(milliseconds: 5));
     }
 
