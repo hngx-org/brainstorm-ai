@@ -167,7 +167,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const Align(
                   alignment: Alignment.topCenter,
-                  child: TopSection(),
+                  child: TopSection(
+                    middleText: 'Chat',
+                  ),
                 ),
                 if (queries.length == 1 || !isAutomated)
                   Positioned(
@@ -327,6 +329,7 @@ class DisplayContent extends StatelessWidget {
       super.key,
       required this.isNewQueryResponseList, required this.scrollController, required this.onAnimationComplete});
 
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -356,7 +359,7 @@ class DisplayContent extends StatelessWidget {
                 height: 40,
               ),
               ResponseContainer(
-                  content: response, isNewQueryResponse: isNewQueryResponse,
+                content: response, isNewQueryResponse: isNewQueryResponse,
                 onAnimationComplete: (bool animationFinished) {
                 Future.delayed(Duration.zero, () {
                   onAnimationComplete(animationFinished);
@@ -376,7 +379,8 @@ class DisplayContent extends StatelessWidget {
 }
 
 class TopSection extends StatelessWidget {
-  const TopSection({super.key});
+  final String middleText;
+  const TopSection({super.key, required this.middleText});
 
   @override
   Widget build(BuildContext context) {
@@ -417,7 +421,7 @@ class TopSection extends StatelessWidget {
             Expanded(
               child: Center(
                   child: Text(
-                'Chat',
+                middleText,
                 style: TextStyle(
                     color: AppColor.whiteOpacity8,
                     fontSize: 22,
