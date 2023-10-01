@@ -1,5 +1,6 @@
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
+import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/chat_container.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
@@ -39,7 +40,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> SendAutomatedChat(context) async {
-    print(' widget ${automated }');
 
     setState(() {
       isAutomated = true;
@@ -123,7 +123,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-    print(' chat $isAnimationInProgress') ;
     return Stack(
       children: [
         CustomBackground(),
@@ -144,10 +143,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         isNewQueryResponseList: isNewQueryResponseList,
                         scrollController: scrollController,
                         onAnimationComplete: (bool animationFinished) {
-                          print('callback bool chat $animationFinished');
                         setState(() {
                           isAnimationInProgress = animationFinished;
-                          print('chat bool $isAnimationInProgress');
                         });
                       },
                       ),
@@ -198,7 +195,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           // Always set generatedText to the provided text
                           generatedText = text;
                           isNewQuery = true;
-                          print(' new text: $generatedText');
 
                           // Reset all values to false
                           for (int i = 0;
@@ -253,7 +249,6 @@ class InputArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('input $isAnimationInProgress');
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Row(
@@ -388,46 +383,32 @@ class TopSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: SizedBox(
         height: 40,
-        child: Row(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            SizedBox.square(
-              dimension: 40,
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: AppColor.whiteOpacity8),
-                child: Center(
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: Colors.black,
-                    iconSize: 24,
-                    onPressed: () {
-                      final fN = SharedPreferencesManager.prefs
-                              .getString('first_name') ??
-                          '';
-                      final lN = SharedPreferencesManager.prefs
-                              .getString('last_name') ??
-                          '';
-
-                      routerConfig.pushReplacement(RoutesPath.nav, extra: {
-                        'first_name': fN,
-                        'last_name': lN,
-                      });
-                    },
+            Positioned(
+              left: 10,
+              child: SizedBox.square(
+                dimension: 40,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: AppColor.whiteOpacity8),
+                  child: Center(
+                    child: BackButtonWidget()
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: Center(
-                  child: Text(
-                middleText,
-                style: TextStyle(
-                    color: AppColor.whiteOpacity8,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
-              )),
-            )
+            Align(
+              alignment: Alignment.center,
+                child: Text(
+              middleText,
+              style: TextStyle(
+                  color: AppColor.whiteOpacity8,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400),
+            ))
           ],
         ),
       ),

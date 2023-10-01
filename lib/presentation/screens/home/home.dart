@@ -182,15 +182,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context) => const MainAutomations()),
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColor.whiteOpacity8),
-                          child: const Icon(
-                            CupertinoIcons.arrow_up_right,
-                            weight: 4,
-                            size: 16,
+                        child: GestureDetector(
+                          onTap: (){
+                            routerConfig.push(RoutesPath.mainAutomations);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColor.whiteOpacity8),
+                            child: const Icon(
+                              CupertinoIcons.arrow_up_right,
+                              weight: 4,
+                              size: 16,
+                            ),
                           ),
                         ),
                       )

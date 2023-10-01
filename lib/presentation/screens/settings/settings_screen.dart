@@ -1,4 +1,6 @@
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
+import 'package:ai_brainstorm/common/constants/route_constant.dart';
+import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -38,69 +40,74 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 40,),
-                SizedBox( // TODO: only show this widget when the user doesnt already have premium
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: TransparentFilm.light(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 200,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  const Text(
-                                    'Upgrade to premium',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500
+                GestureDetector(
+                  onTap: (){
+                    routerConfig.push(RoutesPath.mainSuscribeScreen);
+                  },
+                  child: SizedBox( // TODO: only show this widget when the user doesnt already have premium
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TransparentFilm.light(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    const Text(
+                                      'Upgrade to premium',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w500
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 15,),
-                                  Text(
-                                    'Unlock premium to remove ads and chat with unlimited gpt',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.5),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400
+                                    const SizedBox(height: 15,),
+                                    Text(
+                                      'Unlock premium to remove ads and chat with unlimited gpt',
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.5),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox.square(
-                              dimension: 40,
-                              child: GestureDetector(
-                                onTap: (){
-                                  //TODO: navigate to purchase premium screen
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40),
-                                    color: Colors.white
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: Colors.black,
-                                      size: 24,
+                              SizedBox.square(
+                                dimension: 40,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    //TODO: navigate to purchase premium screen
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      color: Colors.white
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.arrow_forward_rounded,
+                                        color: Colors.black,
+                                        size: 24,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
+                            ],
+                          ),
+                        )
+                      ),
                     ),
                   ),
                 ),

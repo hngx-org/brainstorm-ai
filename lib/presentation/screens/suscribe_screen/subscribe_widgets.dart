@@ -46,6 +46,7 @@ class ListOfText extends StatelessWidget {
                   size: 22.sp,
                 )
               : const SizedBox(),
+          5.horizontalSpace,
           Text(
             myText,
             textAlign: TextAlign.center,

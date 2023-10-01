@@ -70,7 +70,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     icon: Icon(Icons.home_filled),
                     color: _currentIndex == 0
                         ? Colors.white
-                        : Colors.white.withOpacity(0.8),
+                        : Colors.white.withOpacity(0.6),
                     iconSize: 30,
                     onPressed: () {
                       _onItemTapped(0);
@@ -84,7 +84,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
                     child: IconButton(
                       icon: Icon(Icons.add),
-                      color: _currentIndex == 0
+                      color: _currentIndex == 1
                           ? Colors.black
                           : Colors.black.withOpacity(0.8),
                       iconSize: 30,
@@ -95,9 +95,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ),
                   IconButton(
                     icon: Icon(Icons.settings),
-                    color: _currentIndex == 0
+                    color: _currentIndex == 2
                         ? Colors.white
-                        : Colors.white.withOpacity(0.8),
+                        : Colors.white.withOpacity(0.6),
                     iconSize: 30,
                     onPressed: () {
                       _onItemTapped(2);
