@@ -13,8 +13,10 @@ class CustomAuthInput extends StatelessWidget {
   final bool obscureText;
   final UnderlineInputBorder? enabledBorder;
   final Widget? prefix;
+  final FocusNode? focusNode;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   final Widget? suffixIcon;
   final TextInputAction? textInputAction;
   final Widget? suffix;
@@ -33,7 +35,7 @@ class CustomAuthInput extends StatelessWidget {
     this.prefix,
     this.textInputAction,
     this.suffix,
-    this.fillColor, this.enabledBorder,
+    this.fillColor, this.enabledBorder, this.focusNode, this.onFieldSubmitted,
   });
 
   @override
@@ -45,8 +47,10 @@ class CustomAuthInput extends StatelessWidget {
           onTapOutside: (event) {
             SystemChannels.textInput.invokeMethod('TextInput.hide');
           },
+          onFieldSubmitted: onFieldSubmitted,
           validator: validator,
           onChanged: onChanged,
+          focusNode: focusNode,
           controller: controller,
           keyboardType: keyboardType,
           obscureText: obscureText,

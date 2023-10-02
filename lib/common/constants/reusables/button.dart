@@ -13,6 +13,8 @@ class ButtonWidget extends StatefulWidget {
   final Widget? child;
   final Color? buttonColor;
   final Color? borderSideColor;
+  final bool isLoading;
+
   const ButtonWidget({
     super.key,
     this.onPressed,
@@ -23,7 +25,7 @@ class ButtonWidget extends StatefulWidget {
     this.textColor,
     this.child,
     this.buttonColor,
-    this.borderSideColor
+    this.borderSideColor, required this.isLoading
   });
 
   @override
@@ -39,7 +41,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         width: double.infinity,
         height: 55.h,
         child: ElevatedButton(
-          onPressed: widget.onPressed,
+          onPressed: widget.isLoading ? null : widget.onPressed,
           style: ButtonStyle(
             textStyle: MaterialStateTextStyle.resolveWith(
               (states) => GoogleFonts.lato(
@@ -59,7 +61,13 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             ),
             elevation: MaterialStatePropertyAll(0),
           ),
-          child: widget.child ??
+          child:
+          widget.isLoading
+              ? CircularProgressIndicator( // Show loading indicator when isLoading is true
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(widget.textColor ?? AppColor.whiteOpacity6),
+          )
+              : widget.child ??
               Text(
                 widget.buttonText ?? '',
                 style: GoogleFonts.lato(

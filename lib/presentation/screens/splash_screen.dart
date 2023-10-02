@@ -3,6 +3,7 @@ import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,43 +20,49 @@ class _SplashScreenState extends State<SplashScreen> {
   bool _showingHi = false;
   bool _showingWelcome = false;
   bool _showingTitle = false;
+  String name = '';
 
   @override
   void initState() {
     super.initState();
     _showWidgets();
   }
+
   Future<void> _showWidgets() async {
-    await Future.delayed(const Duration(seconds: 4));
-    setState(() {
-      _showingLogo = true;
-    });
+    bool nameExists = SharedPreferencesManager.prefs.containsKey('name');
+    String? prefName = SharedPreferencesManager.prefs.getString('name');
 
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      _showingTitle = true;
-    });
+        await Future.delayed(const Duration(seconds: 4));
+        setState(() {
+          _showingLogo = true;
+        });
 
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _showingHi = true;
-      _showingTitle = false;
-      _showingLogo = false;
-    });
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {
+          _showingTitle = true;
+        });
+        await Future.delayed(const Duration(seconds: 2));
+        setState(() {
+          _showingHi = true;
+          _showingTitle = false;
+          _showingLogo = false;
+        });
+    if(!nameExists){
+        await Future.delayed(const Duration(seconds: 2));
+        setState(() {
+          _showingHi = false;
+          _showingWelcome = true;
+        });
 
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _showingHi = false;
-      _showingWelcome = true;
-    });
-
-    // Navigate to the main screen
-    await Future.delayed(const Duration(seconds: 2));
-    while (routerConfig.canPop() == true) {
-      routerConfig.pop();
+        await Future.delayed(const Duration(seconds: 2));
+        routerConfig.pushReplacement(RoutesPath.intro);}
+      else {
+        setState(() {
+          name = prefName!;
+        });
+      routerConfig.pushReplacement(RoutesPath.nav, extra: {'name': name});
+      }
     }
-    routerConfig.pushReplacement(RoutesPath.intro);
-  }
 
   Widget _fadeInWidget(Widget widget, bool isVisible) {
     return AnimatedOpacity(
@@ -98,12 +105,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               _fadeInWidget(
                 Text(
-                  'Hi',
+                  name == '' ? 'Hi' : 'Hi, $name',
                   style: GoogleFonts.fahkwang(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: AppColor.whiteOpacity6,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 _showingHi,
               ),
