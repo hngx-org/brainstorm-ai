@@ -27,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       HomeScreen(
         name: widget.name,
       ),
-      ChatScreen(automated: 0,),
+      const ChatScreen(),
       SettingsScreen(name: widget.name),
     ];
     setState(() {

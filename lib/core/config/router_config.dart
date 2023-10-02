@@ -1,4 +1,5 @@
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
+import 'package:ai_brainstorm/presentation/screens/chat/chat_history.dart';
 import 'package:ai_brainstorm/presentation/screens/chat_automations/chat_automations.dart';
 import 'package:ai_brainstorm/presentation/screens/home/home.dart';
 import 'package:ai_brainstorm/presentation/screens/navigation/navigation.dart';
@@ -34,6 +35,13 @@ final GoRouter routerConfig = GoRouter(
       path: RoutesPath.signup,
       pageBuilder: (context, state) => CupertinoPage<void>(
         child: const SignUpScreen(),
+        key: state.pageKey,
+      ),
+    ),
+    GoRoute(
+      path: RoutesPath.chatHistoryScreen,
+      pageBuilder: (context, state) => CupertinoPage<void>(
+        child: const ChatHistoryScreen(),
         key: state.pageKey,
       ),
     ),
@@ -82,21 +90,23 @@ final GoRouter routerConfig = GoRouter(
       pageBuilder: (context, state) {
         if (state.extra != null) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-          return CupertinoPage<void>(
-            child: ChatScreen(
-              automated: args['automated'],
-            ),
-            key: state.pageKey,
-          );
+          if (args.containsKey('initialQuery')){
+            return CupertinoPage<void>(
+              child: ChatScreen(initialQuery: args['initialQuery'],),
+              key: state.pageKey,
+            );
+          }
+          if (args.containsKey('chatName')){
+            return CupertinoPage<void>(
+              child: ChatScreen.fromOldChat(chatName: args['chatName']),
+              key: state.pageKey,
+            );
+          }
         }
-        else {
-          return CupertinoPage<void>(
-            child: ChatScreen(
-              automated: 0,
-            ),
-            key: state.pageKey,
-          );
-        }
+        return CupertinoPage<void>(
+          child: const ChatScreen(),
+          key: state.pageKey,
+        );
       }
     ),
     GoRoute(
