@@ -15,8 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../common/constants/route_constant.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String firstName;
-  const HomeScreen({Key? key, required this.firstName}) : super(key: key);
+  final String name;
+  const HomeScreen({Key? key, required this.name}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: AppColor.white.withOpacity(0.6),
                           ),
                           CustomText(
-                            text: widget.firstName,
+                            text: widget.name,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: AppColor.white.withOpacity(0.8),
@@ -133,31 +133,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 2,
                         itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              routerConfig.push(RoutesPath.chatScreen);
-                            },
-                            child: Container(
-                              width: mediaQuery.width * 0.7,
-                              margin: const EdgeInsets.only(right: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                        color: AppColor.white.withOpacity(0.2),
-                                        width: 1)),
-                                color: AppColor.white.withOpacity(0.2),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text:
-                                              'testing test me and my might oh lord',
-                                          fontSize: 15)),
+                          return Row(
+                            children: [
+                              30.horizontalSpace,
+                              GestureDetector(
+                                onTap: () {
+                                  routerConfig.push(RoutesPath.chatScreen);
+                                },
+                                child: Container(
+                                  width: mediaQuery.width * 0.7,
+                                  margin: const EdgeInsets.only(right: 20),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                        side: BorderSide(
+                                            color: AppColor.white.withOpacity(0.2),
+                                            width: 1)),
+                                    color: AppColor.white.withOpacity(0.2),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 12),
+                                      child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: CustomText(
+                                              text:
+                                                  'testing test me and my might oh lord',
+                                              fontSize: 15)),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           );
                         }),
                   ),
@@ -213,38 +218,43 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: academicQuestions.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: mediaQuery.width * 0.7,
-                            margin: const EdgeInsets.only(right: 20),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                      color: AppColor.white.withOpacity(0.6),
-                                      width: 1)),
-                              color: AppColor.whiteOpacity8,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.bookmarks,
-                                      color: Colors.black.withOpacity(0.8),
-                                      size: 22,
+                          return Row(
+                            children: [
+                              30.horizontalSpace,
+                              Container(
+                                width: mediaQuery.width * 0.7,
+                                margin: const EdgeInsets.only(right: 20),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(
+                                          color: AppColor.white.withOpacity(0.6),
+                                          width: 1)),
+                                  color: AppColor.whiteOpacity8,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.bookmarks,
+                                          color: Colors.black.withOpacity(0.8),
+                                          size: 22,
+                                        ),
+                                        10.verticalSpace,
+                                        CustomText(
+                                            text: academicQuestions[index],
+                                            fontSize: 22,
+                                            maxLines: 3,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black.withOpacity(0.8)),
+                                      ],
                                     ),
-                                    10.verticalSpace,
-                                    CustomText(
-                                        text: academicQuestions[index],
-                                        fontSize: 22,
-                                        maxLines: 3,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black.withOpacity(0.8)),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           );
                         }),
                   ),
@@ -257,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        text: 'Automations',
+                        text: 'Popular Questions',
                         fontSize: 22,
                         color: AppColor.whiteOpacity8,
                       ),
