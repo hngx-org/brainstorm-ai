@@ -32,7 +32,7 @@ class CustomDialog {
       title: Text(
         header,
         textAlign: TextAlign.left,
-        style: GoogleFonts.lato(
+        style: GoogleFonts.cabin(
           fontSize: 18.w,
           fontWeight: FontWeight.w500,
           color: type == 'success' ? Colors.green : Colors.red,
@@ -60,7 +60,7 @@ class CustomDialog {
                 height: 40.h,
                 child: Text(
                   buttonText,
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.cabin(
                     fontSize: 16.w,
                     color: Colors.white,
                   ),
@@ -182,7 +182,7 @@ class CustomDialog {
         return AlertDialog(
           title: Text(
             header,
-            style: GoogleFonts.lato(
+            style: GoogleFonts.cabin(
               color: Colors.red,
               fontSize: 23.sp,
               fontWeight: FontWeight.w800,
@@ -191,8 +191,8 @@ class CustomDialog {
           content: SingleChildScrollView(
             child: Text(
               body,
-              style: GoogleFonts.lato(
-                color: AppColor.appBrandColor,
+              style: GoogleFonts.cabin(
+                color: AppColor.whiteOpacity8,
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w800,
               ),
@@ -218,7 +218,7 @@ class CustomDialog {
               ),
               child: Text(
                 buttonText,
-                style: GoogleFonts.lato(
+                style: GoogleFonts.cabin(
                   color: Colors.white,
                   fontSize: 23.sp,
                   fontWeight: FontWeight.w800,
@@ -228,10 +228,10 @@ class CustomDialog {
             10.horizontalSpace
           ],
           elevation: 2,
-          backgroundColor: Colors.white.withOpacity(0.9),
+          backgroundColor: Colors.black.withOpacity(0.8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-                10.0.r), // Customize the border radius as needed
+                30.0.r), // Customize the border radius as needed
           ),
         );
       },

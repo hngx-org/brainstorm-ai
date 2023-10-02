@@ -110,7 +110,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   fontSize: 22,
                   onPressed: (){
                     routerConfig.pushReplacement(RoutesPath.landing);
-                  },
+                  }, isLoading: false,
                 )
               ],
             ),
