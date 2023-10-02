@@ -36,7 +36,7 @@ class ChatDatabase {
   void create(String tableName) async{
     if (! await tableExists(tableName)){
       Database db = await database;
-      db.execute('CREATE TABLE $tableName(timestamp TEXT PRIMARY KEY, message TEXT, sender TEXT)');
+      db.execute('CREATE TABLE $tableName(timestamp TEXT, message TEXT, sender TEXT)');
     }
   }
   Future<List<Message>> read(String table) async {

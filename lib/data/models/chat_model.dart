@@ -5,6 +5,9 @@ import 'message_model.dart';
 class ChatModel extends ChangeNotifier{
 
   ChatDatabase database = ChatDatabase();
+  bool _disposed = false;
+
+  bool get disposed => _disposed;
 
   Future<List<String>>  get chatTitles async {
     List<String> names = await database.allTableNames;
@@ -15,30 +18,38 @@ class ChatModel extends ChangeNotifier{
 
   void createChat(String title) async {
     database.create(title);
-    notifyListeners();
+    if (!disposed){
+      notifyListeners();
+    }
   }
 
   Future<List<Message>> readChat(title) async {
     if (await chatTitles.then((t) => t.contains(title))){
       return database.read(title);
     }
-    return [];
+    else{
+      return [];
+    }
   }
 
   void addMessagePair(String chatTitle, Message userQuery, Message gptResponse) async {
     database.update(chatTitle, userQuery);
     database.update(chatTitle, gptResponse);
-    notifyListeners();
+    if (!disposed){
+      notifyListeners();
+    }
   }
 
   void deleteChat(String title) async {
     database.delete(title);
-    notifyListeners();
+    if (!disposed) {
+      notifyListeners();
+    }
   }
 
   @override
   void dispose(){
-    database.close();
+    _disposed = true;
     super.dispose();
   }
 }

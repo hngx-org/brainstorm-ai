@@ -3,50 +3,23 @@ import 'package:flutter/services.dart';
 
 class ResponseContainer extends StatefulWidget {
   final String content;
-  final bool isNewQueryResponse;
-  final Function(bool) onAnimationComplete;
   const ResponseContainer({
     required this.content,
-    super.key, required this.isNewQueryResponse, required this.onAnimationComplete,
-  });
+    super.key});
 
   @override
-  _ResponseContainerState createState() => _ResponseContainerState();
+  State<ResponseContainer> createState() => _ResponseContainerState();
 }
 
 class _ResponseContainerState extends State<ResponseContainer> {
-  String displayedText = '';
-  bool isMounted = true;
 
   @override
   void initState() {
     super.initState();
-    // Start displaying text letter by letter when the widget is created
-    if (widget.isNewQueryResponse) {
-      // Start displaying text letter by letter for new query responses
-      displayTextLetterByLetter();
-    } else {
-      // Display the response immediately for old queries
-      displayedText = widget.content;
-    }
+
   }
-
-  void displayTextLetterByLetter() async {
-    for (int i = 0; i < widget.content.length; i++) {
-        if (isMounted) {
-          setState(() {
-            displayedText = widget.content.substring(0, i + 1);
-          });
-        }
-      await Future.delayed(const Duration(milliseconds: 5));
-    }
-
-    widget.onAnimationComplete(true);
-  }
-
   @override
   void dispose() {
-    isMounted = false;
     super.dispose();
   }
 
@@ -62,7 +35,7 @@ class _ResponseContainerState extends State<ResponseContainer> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15,
-            vertical: 15,
+            vertical: 20,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,7 +44,7 @@ class _ResponseContainerState extends State<ResponseContainer> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox.square(
-                    dimension: 40,
+                    dimension: 30,
                     child: CircleAvatar(
                       backgroundImage: AssetImage('assets/png/logo try.png'),
                     ),
@@ -80,20 +53,15 @@ class _ResponseContainerState extends State<ResponseContainer> {
                   Expanded(
                     child: SizedBox(
                       child: Text(
-                        displayedText, // Displayed text updates as letters are added
+                        widget.content, // Displayed text updates as letters are added
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 14,
+                          fontWeight: FontWeight.w500
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Row(
-                children: [
-                  const Expanded(child: SizedBox()),
                   GestureDetector(
                     onTap: () async {
                       await Clipboard.setData(
@@ -104,10 +72,16 @@ class _ResponseContainerState extends State<ResponseContainer> {
                         );
                       });
                     },
-                    child: const Icon(Icons.copy),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.copy,
+                        size: 16,
+                      ),
+                    ),
                   ),
                 ],
-              ),
+              ),              
             ],
           ),
         ),
@@ -130,10 +104,11 @@ class QueryContainer extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox.square(
-            dimension: 40,
+          SizedBox.square(
+            dimension: 35,
             child: CircleAvatar(
-              child: Icon(Icons.person),
+              backgroundColor: Colors.white.withOpacity(0.4),
+              child: const Icon(Icons.person),
             ),
           ),
           const SizedBox(width: 15,),
@@ -143,7 +118,8 @@ class QueryContainer extends StatelessWidget {
                 content,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 14
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500
                 ),
               ),
             )
