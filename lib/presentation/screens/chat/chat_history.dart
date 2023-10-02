@@ -155,11 +155,7 @@ class TopSection extends StatelessWidget {
               right: 0,
               child: GestureDetector(
                 onTap: (){
-                  model.chatTitles.then((titles){
-                    for (String title in titles){
-                      model.deleteChat(title);
-                    }
-                  });
+                  model.deleteAll();
                 },
                 child: const Icon(
                   Icons.delete_forever_outlined,

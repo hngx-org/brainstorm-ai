@@ -11,9 +11,17 @@ class ChatModel extends ChangeNotifier{
 
   Future<List<String>>  get chatTitles async {
     List<String> names = await database.allTableNames;
-    names = names.toSet().toList();
+    names = names.toSet().toList().reversed.toList();
     names.remove('android_metadata');
     return names;
+  }
+
+  Stream<Future<List<String>>> streamChatTitles(){
+    Stream<Future<List<String>>> chatStream = Stream.periodic(
+      const Duration(milliseconds: 100),
+      (_) => chatTitles
+    );
+    return chatStream;
   }
 
   void createChat(String title) async {
@@ -42,6 +50,14 @@ class ChatModel extends ChangeNotifier{
 
   void deleteChat(String title) async {
     database.delete(title);
+    if (!disposed) {
+      notifyListeners();
+    }
+  }
+  void deleteAll() async {
+    for (String title in await chatTitles){
+      deleteChat(title);
+    }
     if (!disposed) {
       notifyListeners();
     }

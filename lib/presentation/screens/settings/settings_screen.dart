@@ -2,6 +2,8 @@ import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
+import 'package:ai_brainstorm/data/database/chat_database.dart';
+import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -208,8 +210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   SharedPreferencesManager.prefs.remove('password');
                                   SharedPreferencesManager.prefs.remove('credits');
                                   SharedPreferencesManager.prefs.remove('name');
-
-                                  // _showSnackBar('see you soon', Colors.lightGreen.withOpacity(0.8));
+                                  ChatModel().deleteAll();
                                   routerConfig.pushReplacement(RoutesPath.landing);
                                 },
                                 child: const Padding(

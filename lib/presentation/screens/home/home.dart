@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
@@ -5,6 +7,8 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/data/models/chat_model.dart';
+import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/presentation/screens/chat_automations/chat_automations.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,18 +27,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late ChatModel model;
   String _greetingText = '';
-
   List<String> academicQuestions = [
     "What is the significance of the Theory of Relativity in physics?",
     "Discuss the impact of climate change on agriculture.",
     "Explain the concept of artificial intelligence.",
   ];
-
+  
   @override
   void initState() {
     super.initState();
     _updateGreeting();
+    model = ChatModel()
+      ..addListener(() {
+        setState((){});
+      });
   }
 
   void _updateGreeting() {
@@ -70,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                20.verticalSpace,
+                40.verticalSpace,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
@@ -99,73 +107,100 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 30.verticalSpace,
                 //recent
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: 'Recent',
-                        fontSize: 22,
-                        color: AppColor.whiteOpacity8,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColor.whiteOpacity8),
-                        child: const Icon(
-                          CupertinoIcons.arrow_up_right,
-                          weight: 4,
-                          size: 16,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                20.verticalSpace,
-                Container(
-                  height: mediaQuery.width * 0.13,
-                  width: mediaQuery.width,
-                  child: Container(
-                    width: double.infinity,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 2,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Row(
+                StreamBuilder(
+                  stream: model.streamChatTitles(),
+                  builder: (context, streamSnapshot) {
+                    return FutureBuilder(
+                      future: streamSnapshot.data,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data!=null && snapshot.data!.isNotEmpty){
+                          return Column(
                             children: [
-                              30.horizontalSpace,
-                              GestureDetector(
-                                onTap: () {
-                                  routerConfig.push(RoutesPath.chatScreen);
-                                },
-                                child: Container(
-                                  width: mediaQuery.width * 0.7,
-                                  margin: const EdgeInsets.only(right: 20),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
-                                        side: BorderSide(
-                                            color: AppColor.white.withOpacity(0.2),
-                                            width: 1)),
-                                    color: AppColor.white.withOpacity(0.2),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 12),
-                                      child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: CustomText(
-                                              text:
-                                                  'testing test me and my might oh lord',
-                                              fontSize: 15)),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: 'Recent',
+                                      fontSize: 22,
+                                      color: AppColor.whiteOpacity8,
                                     ),
-                                  ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        routerConfig.push(RoutesPath.chatHistoryScreen);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppColor.whiteOpacity8),
+                                        child: const Icon(
+                                          CupertinoIcons.arrow_up_right,
+                                          weight: 4,
+                                          size: 16,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              20.verticalSpace,
+                              Container(
+                                height: mediaQuery.width * 0.13,
+                                width: mediaQuery.width,
+                                child: Container(
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: min(3, snapshot.data!.length),
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return Row(
+                                          children: [
+                                            30.horizontalSpace,
+                                            GestureDetector(
+                                              onTap: () {
+                                                routerConfig.push(
+                                                  RoutesPath.chatScreen,
+                                                  extra: {
+                                                    'chatName': snapshot.data![index]
+                                                  }
+                                                );
+                                              },
+                                              child: Container(
+                                                // width: mediaQuery.width * 0.7,
+                                                // margin: const EdgeInsets.only(right: 20),
+                                                child: Card(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(40),
+                                                      side: BorderSide(
+                                                          color: AppColor.white.withOpacity(0.2),
+                                                          width: 1)),
+                                                  color: AppColor.white.withOpacity(0.2),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 12),
+                                                    child: Align(
+                                                        alignment: Alignment.centerLeft,
+                                                        child: CustomText(
+                                                            text:
+                                                                snapshot.data![index],
+                                                            fontSize: 15)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
                                 ),
                               ),
                             ],
                           );
-                        }),
-                  ),
+                        }
+                        return const SizedBox.shrink();
+                      }
+                    );
+                  }
                 ),
                 20.verticalSpace,
                 //automation
@@ -209,10 +244,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 20.verticalSpace,
                 // cards
-                Container(
-                  height: mediaQuery.height * 0.2,
+                SizedBox(
+                  height: 170,
                   width: mediaQuery.width,
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -221,35 +256,49 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Row(
                             children: [
                               30.horizontalSpace,
-                              Container(
+                              SizedBox(
                                 width: mediaQuery.width * 0.7,
-                                margin: const EdgeInsets.only(right: 20),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      side: BorderSide(
-                                          color: AppColor.white.withOpacity(0.6),
-                                          width: 1)),
-                                  color: AppColor.whiteOpacity8,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 12),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          Icons.bookmarks,
-                                          color: Colors.black.withOpacity(0.8),
-                                          size: 22,
-                                        ),
-                                        10.verticalSpace,
-                                        CustomText(
-                                            text: academicQuestions[index],
-                                            fontSize: 22,
-                                            maxLines: 3,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black.withOpacity(0.8)),
-                                      ],
+                                // margin: const EdgeInsets.only(right: 20),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    routerConfig.push(
+                                      RoutesPath.chatScreen,
+                                      extra: {
+                                        'initialQuery': Message(
+                                          sender: Sender.user,
+                                          message: academicQuestions[index],
+                                          timestamp: DateTime.now()
+                                        )
+                                      }
+                                    );
+                                  },
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        side: BorderSide(
+                                            color: AppColor.white.withOpacity(0.6),
+                                            width: 1)),
+                                    color: AppColor.whiteOpacity8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 20),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Icon(
+                                            Icons.bookmarks,
+                                            color: Colors.black.withOpacity(0.8),
+                                            size: 22,
+                                          ),
+                                          10.verticalSpace,
+                                          CustomText(
+                                              text: academicQuestions[index],
+                                              fontSize: 22,
+                                              maxLines: 3,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black.withOpacity(0.8)),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
