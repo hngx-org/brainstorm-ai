@@ -1,3 +1,4 @@
+import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,13 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChatScreen(automated: 0,)),
+                  MaterialPageRoute(builder: (context) => ChatScreen(
+                    initialQuery: Message(
+                      sender: Sender.user,
+                      message: widget.text,
+                      timestamp: DateTime.now()
+                    ),
+                  )),
                 );
               },
               containerColor: Colors.black,

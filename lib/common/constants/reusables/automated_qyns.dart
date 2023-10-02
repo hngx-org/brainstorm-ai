@@ -3,6 +3,7 @@ import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,16 @@ class AutomatedQuestions extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: (){
-                  routerConfig.push(RoutesPath.chatScreen, extra: {'automated' : 1});
+                  routerConfig.push(
+                    RoutesPath.chatScreen,
+                    extra: {
+                      'initialQuery' : Message(
+                        sender: Sender.user,
+                        message: projectTopic,
+                        timestamp: DateTime.now()
+                      )
+                    }
+                  );
                 },
                 child: Container(
                   height: mediaQuery.width * 0.13,
@@ -55,7 +65,16 @@ class AutomatedQuestions extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (){
-                  routerConfig.push(RoutesPath.chatScreen, extra: {'automated' : 2});
+                  routerConfig.push(
+                    RoutesPath.chatScreen,
+                    extra: {
+                      'initialQuery' : Message(
+                        sender: Sender.user,
+                        message: novelIdeas,
+                        timestamp: DateTime.now()
+                      )
+                    }
+                  );
                 },
                 child: Container(
                   height: mediaQuery.width * 0.13,
@@ -85,7 +104,16 @@ class AutomatedQuestions extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: (){
-                  routerConfig.push(RoutesPath.chatScreen, extra: {'automated' : 3});
+                  routerConfig.push(
+                    RoutesPath.chatScreen,
+                    extra: {
+                      'initialQuery' : Message(
+                        sender: Sender.user,
+                        message: experimentalDesign,
+                        timestamp: DateTime.now()
+                      )
+                    }
+                  );
                 },
                 child: Container(
                   height: mediaQuery.width * 0.13,
@@ -110,7 +138,16 @@ class AutomatedQuestions extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (){
-                  routerConfig.push(RoutesPath.chatScreen, extra: {'automated' : 4});
+                  routerConfig.push(
+                    RoutesPath.chatScreen,
+                    extra: {
+                      'initialQuery' : Message(
+                        sender: Sender.user,
+                        message: dataAnalysis,
+                        timestamp: DateTime.now()
+                      )
+                    }
+                  );
                 },
                 child: Container(
                   height: mediaQuery.width * 0.13,

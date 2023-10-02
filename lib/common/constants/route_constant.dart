@@ -9,4 +9,5 @@ class RoutesPath {
   static const String settingsScreen = '/settings-screen';
   static const String mainSuscribeScreen = '/main-sub-screen';
   static const String mainAutomations = '/main-auto-screen';
+  static const String chatHistoryScreen = '/chat-history-screen';
 }
