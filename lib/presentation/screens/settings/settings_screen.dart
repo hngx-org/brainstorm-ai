@@ -5,6 +5,7 @@ import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/database/chat_database.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -157,11 +158,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   routerConfig.push(RoutesPath.chatHistoryScreen);
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
                                       Icon(Icons.history, color: AppColor.whiteOpacity8,),
-                                      SizedBox(width: 10,),
+                                      const SizedBox(width: 10,),
                                       Text(
                                         'Chat History',
                                         style: TextStyle(
@@ -176,16 +177,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Divider(color: Colors.white.withOpacity(0.5),),
                               GestureDetector(
                                 onTap: (){
-                                  //TODO: go to preferences screen
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text('Chat history will be deleted'),
+                                      action: SnackBarAction(
+                                        label: 'Undo',
+                                        onPressed: (){},
+                                      ),
+                                    )
+                                  ).closed.then((reason){
+                                    print(reason);
+                                    if(reason != SnackBarClosedReason.action){
+                                      ChatModel().deleteAll();
+                                    }
+                                  });
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.settings_outlined, color: AppColor.whiteOpacity8,),
-                                      SizedBox(width: 10,),
+                                      Icon(Icons.delete_forever_outlined, color: AppColor.whiteOpacity8,),
+                                      const SizedBox(width: 10,),
                                       Text(
-                                        'Preferences',
+                                        'Delete Chat History',
                                         style: TextStyle(
                                           color: AppColor.whiteOpacity8,
                                           fontSize: 15
@@ -208,11 +222,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   routerConfig.pushReplacement(RoutesPath.landing);
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
                                       Icon(Icons.logout, color: AppColor.whiteOpacity8,),
-                                      SizedBox(width: 10,),
+                                      const SizedBox(width: 10,),
                                       Text(
                                         'Sign out',
                                         style: TextStyle(
