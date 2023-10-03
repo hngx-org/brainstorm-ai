@@ -18,7 +18,7 @@ class ChatModel extends ChangeNotifier{
 
   Stream<Future<List<String>>> streamChatTitles(){
     Stream<Future<List<String>>> chatStream = Stream.periodic(
-      const Duration(milliseconds: 100),
+      const Duration(seconds: 1),
       (_) => chatTitles
     );
     return chatStream;
