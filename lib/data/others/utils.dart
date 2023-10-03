@@ -38,7 +38,7 @@ class Utils {
 
     DateTime dateTime = Utils.toDateTIme(flatTimeStamp);
 
-    String formattedTimeStamp = DateFormat('MMM / d -- H : m').format(dateTime);
+    String formattedTimeStamp = DateFormat('MMM / d -- HH : mm').format(dateTime);
 
     // Combine the formatted timestamp and the cleaned chat name
     String displayChatName = '$cleanedChatName ...\n$formattedTimeStamp';

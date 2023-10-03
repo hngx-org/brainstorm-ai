@@ -23,7 +23,6 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
     setState(() {
       isChatEmpty = isChatEmptyDB;
     });
-    print(isChatEmpty);
   }
 
   @override
@@ -61,10 +60,12 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
 
     void deleteAllChat (){
       ChatModel().deleteAll();
-      showSnackBar('chats deleted', Colors.lightGreen.withOpacity(0.6));
       setState(() {
         isChatEmpty = true;
       });
+      while(routerConfig.canPop()){
+        routerConfig.pop();
+      }
     }
 
     Future<void> alertToDelete() async {
@@ -92,7 +93,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                     return ListView(
                       children: [
                         const SizedBox(height: 10,),
-                        TopSection(deleteAllChat: alertToDelete,isChatEmpty: isChatEmpty, ),
+                        TopSection(deleteAllChat: alertToDelete, isChatEmpty: isChatEmpty, ),
                         const SizedBox(height: 20,),
                         SizedBox(
                           child: Container(
@@ -197,7 +198,7 @@ class TopSection extends StatelessWidget {
                 ),
               )
             ),
-            if (!isChatEmpty) Positioned(
+            if(!isChatEmpty) Positioned(
               right: 0,
               child: GestureDetector(
                 onTap: deleteAllChat,
