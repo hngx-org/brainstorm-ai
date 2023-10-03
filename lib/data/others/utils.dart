@@ -19,40 +19,29 @@ class Utils {
 
   static String formatChatName(String text){
     int maxChatNameLength = 20;
-
-    List<String> words = text.split(' ');
-
-    String joinedWords = words
-        .take(maxChatNameLength)
-        .map((word) => word.replaceAll('?', ''))
-        .join('0');
-
-    String shortenedChatName = joinedWords.length <= maxChatNameLength
-        ? joinedWords
-        : joinedWords.substring(0, maxChatNameLength);
-
+    text = text.replaceAll(RegExp('[^A-Za-z0-9]'), '_'); // only allows alphanumeric charcters
+    text = text.length <= maxChatNameLength
+        ? text
+        : text.substring(0, maxChatNameLength);
     String timeStamp = Utils.toFlatTimestamp(DateTime.now());
-
-    final chatName = '${shortenedChatName}_$timeStamp';
-
+    final chatName = '_${text}_$timeStamp';
     return chatName;
   }
 
   static String formatDisplayChatName(String text){
+
     List<String> parts = text.split('_');
 
-    String chatNameWithoutTimestamp = parts[0];
+    String flatTimeStamp = parts.removeLast();
 
-    String cleanedChatName = chatNameWithoutTimestamp.replaceAll('0', ' ');
+    String cleanedChatName = parts.join(' ').trim();
 
-    String timeStampPart = parts.length > 1 ? parts[1] : '';
+    DateTime dateTime = Utils.toDateTIme(flatTimeStamp);
 
-    DateTime timeStampDateTime = Utils.toDateTIme(timeStampPart);
-
-    String formattedTimeStamp = DateFormat('dd/MM').format(timeStampDateTime);
+    String formattedTimeStamp = DateFormat('MMM / d -- H : m').format(dateTime);
 
     // Combine the formatted timestamp and the cleaned chat name
-    String displayChatName = '($formattedTimeStamp) ${cleanedChatName}... ';
+    String displayChatName = '$cleanedChatName ...\n$formattedTimeStamp';
     return displayChatName;
   }
 }

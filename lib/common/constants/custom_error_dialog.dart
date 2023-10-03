@@ -165,7 +165,9 @@ class CustomDialog {
       if (!completer.isCompleted) {
         // Check if the Completer is completed to avoid closing twice
         completer.complete();
-        Navigator.of(context).pop();
+        Future.microtask(() {
+          Navigator.of(context).pop();
+        });
       }
     });
   }
