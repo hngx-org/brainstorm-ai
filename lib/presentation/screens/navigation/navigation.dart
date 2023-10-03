@@ -56,56 +56,58 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
           Positioned(
             bottom: 20,
-            child: !_isChatScreenVisible ? Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColor.greyColor,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.home_filled),
-                    color: _currentIndex == 0
-                        ? Colors.white
-                        : Colors.white.withOpacity(0.6),
-                    iconSize: 30,
-                    onPressed: () {
-                      _onItemTapped(0);
-                    },
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
+            child: !_isChatScreenVisible
+                ? Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColor.white,
-                      shape: BoxShape.circle,
+                      color: AppColor.greyColor,
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    child: IconButton(
-                      icon: Icon(Icons.add),
-                      color: _currentIndex == 1
-                          ? Colors.black
-                          : Colors.black.withOpacity(0.8),
-                      iconSize: 30,
-                      onPressed: () {
-                        routerConfig.push(RoutesPath.chatScreen);
-                      },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.home_filled),
+                          color: _currentIndex == 0
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.6),
+                          iconSize: 30,
+                          onPressed: () {
+                            _onItemTapped(0);
+                          },
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: AppColor.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.add),
+                            color: _currentIndex == 1
+                                ? Colors.black
+                                : Colors.black.withOpacity(0.8),
+                            iconSize: 30,
+                            onPressed: () {
+                              routerConfig.push(RoutesPath.chatScreen);
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.settings),
+                          color: _currentIndex == 2
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.6),
+                          iconSize: 30,
+                          onPressed: () {
+                            _onItemTapped(2);
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    color: _currentIndex == 2
-                        ? Colors.white
-                        : Colors.white.withOpacity(0.6),
-                    iconSize: 30,
-                    onPressed: () {
-                      _onItemTapped(2);
-                    },
-                  ),
-                ],
-              ),
-            ) : SizedBox(),
+                  )
+                : SizedBox(),
           )
         ],
       ),

@@ -34,7 +34,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
             color: Colors.black,
           ),
           Text(
-            'Want some recipe for break...',
+            'Ask BrainStorm-Ai...',
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
