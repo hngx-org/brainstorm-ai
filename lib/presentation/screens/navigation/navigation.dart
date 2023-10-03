@@ -23,9 +23,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   void initState() {
     super.initState();
-    CustomDialog().showLoadDialog(context);
-    Future.delayed(Duration(seconds: 2));
-    Navigator.pop(context);
+    // CustomDialog().showLoadDialog(context);
+    // Future.delayed(Duration(seconds: 2));
+    // Navigator.pop(context);
     _screens = [
       HomeScreen(
         name: widget.name,
