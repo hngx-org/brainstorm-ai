@@ -3,7 +3,6 @@ import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
-import 'package:ai_brainstorm/data/database/chat_database.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -182,7 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.settings_outlined, color: AppColor.whiteOpacity8,),
+                                      Icon(Icons.settings_outlined, color: Colors.white,),
                                       SizedBox(width: 10,),
                                       Text(
                                         'Preferences',
