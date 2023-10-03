@@ -136,13 +136,14 @@ class _LandingScreenState extends State<LandingScreen> {
 
                             if (await internetConnectionChecker.hasConnection) {
                               final loginResponse = await Authentication().signIn(email, password);
+                              print(loginResponse.cookie);
 
                               try {
 
                                   if (loginResponse != null && loginResponse.id != null) {
                                     SharedPreferencesManager.prefs.setString('id', loginResponse.id);
                                     SharedPreferencesManager.prefs.setString('email', loginResponse.email);
-                                    // SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
+                                    SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
                                     SharedPreferencesManager.prefs.setString('name', loginResponse.name);
 
                                     print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}');

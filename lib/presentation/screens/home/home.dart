@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/constants/route_constant.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   final String name;
