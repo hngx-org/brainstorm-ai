@@ -177,6 +177,7 @@ class ActionButton extends StatelessWidget {
   final String actionText;
   final Function()? onTap;
   final Color containerColor;
+  final Color? color;
   final Color containerTextColor;
   const ActionButton({
     super.key,
@@ -186,7 +187,7 @@ class ActionButton extends StatelessWidget {
     this.onTap,
     required this.containerColor,
     required this.containerTextColor,
-    required this.margin,
+    required this.margin, this.color,
   });
 
   @override
@@ -201,7 +202,7 @@ class ActionButton extends StatelessWidget {
             height: height,
             // width: width,
             decoration: BoxDecoration(
-              // color: containerColor,
+              color: color ?? Colors.transparent,
               borderRadius: BorderRadius.circular(40.r),
               border: Border.all(
                 color: Colors.white

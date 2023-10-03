@@ -38,7 +38,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black,
+              color: Colors.black.withOpacity(.8),
               decoration: TextDecoration.none,
             ),
           ),
@@ -47,7 +47,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
             style: TextStyle(
               fontSize: 15.sp,
               fontWeight: FontWeight.w500,
-              color: Colors.black,
+              color: Colors.black.withOpacity(.8),
               decoration: TextDecoration.none,
             ),
           ),
@@ -57,6 +57,7 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
               width: 300.w,
               actionText: 'Generate',
               margin: 5.h,
+              color: Colors.black.withOpacity(0.8),
               containerTextColor: Colors.white,
               onTap: () {
                 Navigator.push(
