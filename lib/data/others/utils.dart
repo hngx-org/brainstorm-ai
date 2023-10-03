@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Utils {
 
   static String toFlatTimestamp(DateTime datetime){
@@ -15,9 +17,42 @@ class Utils {
     return DateTime.parse('$year-$month-$day $hour:$minute:$second.$milliSecond');
   }
 
-  static String removeTimeStamp(String text){
-      var t =  text.split('_');
-      t.removeLast();
-      return t.join('_');
+  static String formatChatName(String text){
+    int maxChatNameLength = 20;
+
+    List<String> words = text.split(' ');
+
+    String joinedWords = words
+        .take(maxChatNameLength)
+        .map((word) => word.replaceAll('?', ''))
+        .join('0');
+
+    String shortenedChatName = joinedWords.length <= maxChatNameLength
+        ? joinedWords
+        : joinedWords.substring(0, maxChatNameLength);
+
+    String timeStamp = Utils.toFlatTimestamp(DateTime.now());
+
+    final chatName = '${shortenedChatName}_$timeStamp';
+
+    return chatName;
+  }
+
+  static String formatDisplayChatName(String text){
+    List<String> parts = text.split('_');
+
+    String chatNameWithoutTimestamp = parts[0];
+
+    String cleanedChatName = chatNameWithoutTimestamp.replaceAll('0', ' ');
+
+    String timeStampPart = parts.length > 1 ? parts[1] : '';
+
+    DateTime timeStampDateTime = Utils.toDateTIme(timeStampPart);
+
+    String formattedTimeStamp = DateFormat('dd/MM').format(timeStampDateTime);
+
+    // Combine the formatted timestamp and the cleaned chat name
+    String displayChatName = '($formattedTimeStamp) ${cleanedChatName}... ';
+    return displayChatName;
   }
 }
