@@ -131,4 +131,4 @@ lib
   ### Contact us on our socials(Slack Name).
   **ImmaDominion**
   **KiCodes**
-  **Olasukanma Beckley**
+  **Olasunkanmi Beckley**
