@@ -137,32 +137,27 @@ class _LandingScreenState extends State<LandingScreen> {
                             if (await internetConnectionChecker.hasConnection) {
                               final loginResponse = await Authentication().signIn(email, password);
 
-                              print(loginResponse);
-
                               try {
-                                if (loginResponse != null) {
-                                  final message = loginResponse['message'];
 
-                                  if (message == 'success') {
-                                    final responseData = loginResponse['data'];
-                                    print("Sign-in was successful. User data: $responseData");
-                                    final userData = responseData;
-                                    SharedPreferencesManager.prefs.setString('id', userData['id']);
-                                    SharedPreferencesManager.prefs.setString('email', userData['email']);
-                                    SharedPreferencesManager.prefs.setString('password', password);
-                                    SharedPreferencesManager.prefs.setInt('credits', userData['credits']);
-                                    SharedPreferencesManager.prefs.setString('name', userData['name']);
+                                  if (loginResponse != null && loginResponse.id != null) {
+                                    SharedPreferencesManager.prefs.setString('id', loginResponse.id);
+                                    SharedPreferencesManager.prefs.setString('email', loginResponse.email);
+                                    // SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
+                                    SharedPreferencesManager.prefs.setString('name', loginResponse.name);
+
+                                    print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}');
 
                                     _showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
 
-                                    routerConfig.pushReplacement(RoutesPath.nav, extra: {'name': userData['name']});
-                                  } else {
+                                    routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : loginResponse.name});
+                                  }
+                                  else {
                                     // Sign-in failed, handle the error
-                                    print("Sign-in failed. Message: $message)");
+                                    print("Sign-in failed. Message: could not sign in user)");
                                     CustomDialog().showCustomDialog(
                                       context: context,
                                       header: 'Failed to Log in',
-                                      body: message,
+                                      body: loginResponse,
                                       buttonText: 'Ok',
                                     );
                                     setState(() {
@@ -170,9 +165,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                     });
                                     return;
                                   }
-                                }
                               } catch (error) {
-                                print('Error logging in: $error'); // Print the error to the console
+                                print('Error logging in: $error');
                                 _showSnackBar('An error occurred while signing in. $error', Colors.red);
                               } finally {
                                 setState(() {

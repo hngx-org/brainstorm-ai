@@ -1,3 +1,4 @@
+import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
@@ -5,6 +6,7 @@ import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/database/chat_database.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String name;
@@ -20,17 +22,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final mediaQuery = MediaQuery.of(context).size;
-    // void _showSnackBar(String message, Color color) {
-    //   _scaffoldMessengerKey.currentState?.showSnackBar(
-    //     SnackBar(
-    //       content: Text(message),
-    //       backgroundColor: color,
-    //       behavior: SnackBarBehavior.floating,
-    //       margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
-    //     ),
-    //   );
-    // }
+    final mediaQuery = MediaQuery.of(context).size;
+
+    int? credit = SharedPreferencesManager.prefs.getInt('credit');
+
+    void _showSnackBar(String message, Color color) {
+      _scaffoldMessengerKey.currentState?.showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: color,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
+        ),
+      );
+    }
 
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
@@ -48,13 +53,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 40,),
+                  40.verticalSpace,
                   Text(
                     widget.name,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 32,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  if (credit != null )  20.verticalSpace,
+                  if (credit != null ) Text(
+                    'Your Credit is $credit',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppColor.whiteOpacity8,
+                      fontSize: 22,
                       fontWeight: FontWeight.w500
                     ),
                   ),
@@ -77,11 +92,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Upgrade to premium',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.whiteOpacity8,
                                         fontSize: 22,
                                         fontWeight: FontWeight.w500
                                       ),
@@ -107,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(40),
-                                      color: Colors.white
+                                      color: AppColor.whiteOpacity8
                                     ),
                                     child: const Center(
                                       child: Icon(
@@ -139,40 +154,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             children: [
                               GestureDetector(
                                 onTap: (){
-                                  //TODO: navigate to my accounts
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.person_outline, color: Colors.white,),
-                                      SizedBox(width: 10,),
-                                      Text(
-                                        'My Account',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Divider(color: Colors.white.withOpacity(0.5),),
-                              GestureDetector(
-                                onTap: (){
                                   routerConfig.push(RoutesPath.chatHistoryScreen);
                                 },
-                                child: const Padding(
+                                child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.history, color: Colors.white,),
+                                      Icon(Icons.history, color: AppColor.whiteOpacity8,),
                                       SizedBox(width: 10,),
                                       Text(
                                         'Chat History',
                                         style: TextStyle(
-                                           color: Colors.white,
+                                           color: AppColor.whiteOpacity8,
                                           fontSize: 15
                                         ),
                                       )
@@ -185,16 +178,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 onTap: (){
                                   //TODO: go to preferences screen
                                 },
-                                child: const Padding(
+                                child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.settings_outlined, color: Colors.white,),
+                                      Icon(Icons.settings_outlined, color: AppColor.whiteOpacity8,),
                                       SizedBox(width: 10,),
                                       Text(
                                         'Preferences',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: AppColor.whiteOpacity8,
                                           fontSize: 15
                                         ),
                                       )
@@ -211,18 +204,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   SharedPreferencesManager.prefs.remove('credits');
                                   SharedPreferencesManager.prefs.remove('name');
                                   ChatModel().deleteAll();
+                                  _showSnackBar('Signed Out', Colors.grey);
                                   routerConfig.pushReplacement(RoutesPath.landing);
                                 },
-                                child: const Padding(
+                                child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.logout, color: Colors.white,),
+                                      Icon(Icons.logout, color: AppColor.whiteOpacity8,),
                                       SizedBox(width: 10,),
                                       Text(
                                         'Sign out',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: AppColor.whiteOpacity8,
                                           fontSize: 15
                                         ),
                                       )

@@ -22,6 +22,11 @@ class AutomatedQuestions extends StatelessWidget {
     const experimentalDesign  = '#3 Experimental Design';
     const dataAnalysis  = '#4 Data Analysis';
 
+    const pTPrompt = 'Give me a project topic for any field';
+    const nIPrompt = 'I need novel ideas';
+    const eDPrompt  = 'I want some Experimental Design';
+    const dAPrompt  = 'What do you know about Data Analysis';
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +41,7 @@ class AutomatedQuestions extends StatelessWidget {
                     extra: {
                       'initialQuery' : Message(
                         sender: Sender.user,
-                        message: projectTopic,
+                        message: pTPrompt,
                         timestamp: DateTime.now()
                       )
                     }
@@ -70,7 +75,7 @@ class AutomatedQuestions extends StatelessWidget {
                     extra: {
                       'initialQuery' : Message(
                         sender: Sender.user,
-                        message: novelIdeas,
+                        message: nIPrompt,
                         timestamp: DateTime.now()
                       )
                     }
@@ -109,7 +114,7 @@ class AutomatedQuestions extends StatelessWidget {
                     extra: {
                       'initialQuery' : Message(
                         sender: Sender.user,
-                        message: experimentalDesign,
+                        message: eDPrompt,
                         timestamp: DateTime.now()
                       )
                     }
@@ -143,7 +148,7 @@ class AutomatedQuestions extends StatelessWidget {
                     extra: {
                       'initialQuery' : Message(
                         sender: Sender.user,
-                        message: dataAnalysis,
+                        message: dAPrompt,
                         timestamp: DateTime.now()
                       )
                     }

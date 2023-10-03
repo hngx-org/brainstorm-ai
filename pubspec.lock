@@ -220,10 +220,10 @@ packages:
     dependency: "direct main"
     description:
       name: hng_authentication
-      sha256: "111b17bae6fca6069014c6e883f408c2632a46919ce43ae1d72911cf6189c88c"
+      sha256: "12fc3c2c5fecb129c8572452ebde5bb231b6de0410a4101823f815688d7fb9f1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.1.2"
   http:
     dependency: "direct main"
     description:
@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0+1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   lints:
     dependency: transitive
     description:

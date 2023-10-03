@@ -53,7 +53,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.initialQuery != null){
-        chatName = 'chat_${Utils.toFlatTimestamp(DateTime.now())}';
+
+        final shortQuery = widget.initialQuery!.message.trim();
+        chatName = Utils.formatChatName(shortQuery);
+        print(chatName);
+
         model.createChat(chatName);
         isGenerating = true;
         generate(widget.initialQuery!.message);
@@ -68,8 +72,6 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       }
       else{
-        chatName = 'chat_${Utils.toFlatTimestamp(DateTime.now())}';
-        model.createChat(chatName);
       }
     });
   }
@@ -191,6 +193,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     extraOnTap: () async{
                       if (inputController.text.isNotEmpty) {
                         String query = inputController.text;
+
+                        chatName = Utils.formatChatName(query);
+
+                        model.createChat(chatName);
                         generate(query);
                       }
                     },
@@ -229,6 +235,7 @@ class InputArea extends StatelessWidget {
         curve: Curves.easeIn
         );
     }
+
     extraOnTap();
     controller.clear();
   }
