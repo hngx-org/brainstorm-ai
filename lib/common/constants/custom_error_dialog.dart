@@ -13,11 +13,12 @@ class CustomDialog {
     String header,
     String body,
     String buttonText,
+    VoidCallback onTap,
   ) {
     final alert = AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black.withOpacity(0.8),
       insetPadding: EdgeInsets.symmetric(
-        horizontal: 5.w,
+        horizontal: 30.w,
       ),
       actionsPadding: EdgeInsets.only(
         left: 15.w,
@@ -50,6 +51,26 @@ class CustomDialog {
             ),
             InkWell(
               onTap: context.pop,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                width: 70.w,
+                height: 40.h,
+                child: Text(
+                  'No',
+                  style: GoogleFonts.cabin(
+                    fontSize: 16.w,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            20.horizontalSpace,
+            InkWell(
+              onTap: onTap,
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(

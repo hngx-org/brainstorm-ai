@@ -3,7 +3,6 @@ import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
-import 'package:ai_brainstorm/data/database/chat_database.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:ai_brainstorm/common/constants/custom_error_dialog.dart';
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
@@ -15,9 +16,19 @@ class ChatHistoryScreen extends StatefulWidget {
 
 class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
   late ChatModel model;
+  bool isChatEmpty = false;
+
+  void checkChatEmpty() async {
+    final isChatEmptyDB = await ChatModel().chatTitles.then((titles) => titles.isEmpty);
+    setState(() {
+      isChatEmpty = isChatEmptyDB;
+    });
+  }
+
   @override
   void initState(){
     super.initState();
+    checkChatEmpty();
     model = ChatModel()
       ..addListener(() {
         setState(() { });
@@ -29,96 +40,131 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
     model.dispose();
     super.dispose();
   }
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+  GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Image.asset('assets/png/bg.png'),
+    final mediaQuery = MediaQuery.of(context).size;
+
+    void showSnackBar(String message, Color color) {
+      _scaffoldMessengerKey.currentState?.showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: color,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
+        ),
+      );
+    }
+
+    void deleteAllChat (){
+      ChatModel().deleteAll();
+      setState(() {
+        isChatEmpty = true;
+      });
+      while(routerConfig.canPop()){
+        routerConfig.pop();
+      }
+    }
+
+    Future<void> alertToDelete() async {
+      CustomDialog().showAlertDialog(context, 'alert', 'Delete Chat?', 'Are you sure you want to do this? '
+          'Please, are you?', 'yes', deleteAllChat);
+    }
+
+    return ScaffoldMessenger(
+      key: _scaffoldMessengerKey,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Image.asset('assets/png/bg.png'),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: FutureBuilder(
-              future: model.chatTitles,
-              builder: (context, snapshot) {
-                if (snapshot.hasData){
-                  return ListView(
-                    children: [
-                      const SizedBox(height: 10,),
-                      TopSection(model: model,),
-                      const SizedBox(height: 20,),
-                      SizedBox(
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: TransparentFilm.dark(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                children: List.generate(snapshot.data!.length, (index){
-                                  return Dismissible(
-                                    key: UniqueKey(),
-                                    onDismissed: (direction) {
-                                      model.deleteChat(snapshot.data![index]);
-                                      setState(() { });
-                                    },
-                                    child: Column(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            routerConfig.push(
-                                              RoutesPath.chatScreen,
-                                              extra: {'chatName': snapshot.data![index]}
-                                            );
-                                          },
-                                          child: ListTile(
-                                            title: Text(
-                                              Utils.formatDisplayChatName(snapshot.data![index]),
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: FutureBuilder(
+                future: model.chatTitles,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData){
+                    return ListView(
+                      children: [
+                        const SizedBox(height: 10,),
+                        TopSection(deleteAllChat: alertToDelete, isChatEmpty: isChatEmpty, ),
+                        const SizedBox(height: 20,),
+                        SizedBox(
+                          child: Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: TransparentFilm.dark(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  children: List.generate(snapshot.data!.length, (index){
+                                    return Dismissible(
+                                      key: UniqueKey(),
+                                      onDismissed: (direction) {
+                                        model.deleteChat(snapshot.data![index]);
+                                        setState(() { });
+                                      },
+                                      child: Column(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              routerConfig.push(
+                                                RoutesPath.chatScreen,
+                                                extra: {'chatName': snapshot.data![index]}
+                                              );
+                                            },
+                                            child: ListTile(
+                                              title: Text(
+                                                Utils.formatDisplayChatName(snapshot.data![index]),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ),
-                                        Divider(color: Colors.white.withOpacity(0.3))
-                                      ]
-                                    ),
-                                  );
-                                })
-                              ),
-                            )
+                                            )
+                                          ),
+                                          Divider(color: Colors.white.withOpacity(0.3))
+                                        ]
+                                      ),
+                                    );
+                                  })
+                                ),
+                              )
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
+                  }
+                  return const CircularProgressIndicator();
                 }
-                return const CircularProgressIndicator();
-              }
+              ),
             ),
-          ),
-        ],
-      )
+          ],
+        )
+      ),
     );
   }
 }
 
 class TopSection extends StatelessWidget {
-  final ChatModel model;
+  final VoidCallback deleteAllChat;
+  final bool isChatEmpty;
   const TopSection({
-    required this.model,
-    super.key});
+    super.key, required this.deleteAllChat, required this.isChatEmpty});
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: SizedBox(
@@ -152,12 +198,10 @@ class TopSection extends StatelessWidget {
                 ),
               )
             ),
-            Positioned(
+            if(!isChatEmpty) Positioned(
               right: 0,
               child: GestureDetector(
-                onTap: (){
-                  model.deleteAll();
-                },
+                onTap: deleteAllChat,
                 child: const Icon(
                   Icons.delete_forever_outlined,
                   color: Colors.white,
