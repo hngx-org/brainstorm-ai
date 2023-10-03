@@ -46,10 +46,21 @@ class ChatDatabase {
     return messages;
   }
 
-  void update(String table, Message message) async {
+  void insert(String table, Message message) async {
     if ( await tableExists(table)){
       Database db = await database;
       db.insert(table, message.toMap());
+    }
+  }
+
+  void remove(String table, Message message) async{
+    if (await tableExists(table)){
+      Database db = await database;
+      db.delete(
+        table,
+        where: 'timestamp = ?',
+        whereArgs: [message.toMap()['timestamp']]
+      );
     }
   }
 
