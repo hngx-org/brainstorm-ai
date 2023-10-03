@@ -33,14 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
     "Discuss the impact of climate change on agriculture.",
     "Explain the concept of artificial intelligence.",
   ];
-  
+
   @override
   void initState() {
     super.initState();
     _updateGreeting();
     model = ChatModel()
       ..addListener(() {
-        setState((){});
+        setState(() {});
       });
   }
 
@@ -111,102 +111,117 @@ class _HomeScreenState extends State<HomeScreen> {
                 30.verticalSpace,
                 //recent
                 StreamBuilder(
-                  stream: model.streamChatTitles(),
-                  builder: (context, streamSnapshot) {
-                    return FutureBuilder(
-                      future: streamSnapshot.data,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data!=null && snapshot.data!.isNotEmpty){
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 30),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(
-                                      text: 'Recent',
-                                      fontSize: 22,
-                                      color: AppColor.whiteOpacity8,
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        routerConfig.push(RoutesPath.chatHistoryScreen);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColor.whiteOpacity8),
-                                        child: const Icon(
-                                          CupertinoIcons.arrow_up_right,
-                                          weight: 4,
-                                          size: 16,
+                    stream: model.streamChatTitles(),
+                    builder: (context, streamSnapshot) {
+                      return FutureBuilder(
+                          future: streamSnapshot.data,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty) {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text: 'Recent',
+                                          fontSize: 22,
+                                          color: AppColor.whiteOpacity8,
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              20.verticalSpace,
-                              Container(
-                                height: mediaQuery.width * 0.13,
-                                width: mediaQuery.width,
-                                child: Container(
-                                  width: double.infinity,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: min(3, snapshot.data!.length),
-                                      itemBuilder: (BuildContext context, int index) {
-                                        String chatName = Utils.formatDisplayChatName(snapshot.data![index]);
+                                        GestureDetector(
+                                          onTap: () {
+                                            routerConfig.push(
+                                                RoutesPath.chatHistoryScreen);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(6),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColor.whiteOpacity8),
+                                            child: const Icon(
+                                              CupertinoIcons.arrow_up_right,
+                                              weight: 4,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  20.verticalSpace,
+                                  Container(
+                                    height: mediaQuery.width * 0.13,
+                                    width: mediaQuery.width,
+                                    child: Container(
+                                      width: double.infinity,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              min(3, snapshot.data!.length),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            String chatName =
+                                                Utils.formatDisplayChatName(
+                                                    snapshot.data![index]);
 
-                                        return Row(
-                                          children: [
-                                            30.horizontalSpace,
-                                            GestureDetector(
-                                              onTap: () {
-                                                routerConfig.push(
-                                                  RoutesPath.chatScreen,
-                                                  extra: {
-                                                    'chatName': snapshot.data![index]
-                                                  }
-                                                );
-                                              },
-                                              child: Container(
-                                                // width: mediaQuery.width * 0.7,
-                                                // margin: const EdgeInsets.only(right: 20),
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(40),
-                                                      side: BorderSide(
-                                                          color: AppColor.white.withOpacity(0.2),
-                                                          width: 1)),
-                                                  color: AppColor.white.withOpacity(0.2),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: 12),
-                                                    child: Align(
-                                                        alignment: Alignment.centerLeft,
-                                                        child: CustomText(
-                                                            text:
-                                                            chatName,
-                                                            fontSize: 15)),
+                                            return Row(
+                                              children: [
+                                                30.horizontalSpace,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    routerConfig.push(
+                                                        RoutesPath.chatScreen,
+                                                        extra: {
+                                                          'chatName': snapshot
+                                                              .data![index]
+                                                        });
+                                                  },
+                                                  child: Container(
+                                                    // width: mediaQuery.width * 0.7,
+                                                    // margin: const EdgeInsets.only(right: 20),
+                                                    child: Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(40),
+                                                          side: BorderSide(
+                                                              color: AppColor
+                                                                  .white
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                              width: 1)),
+                                                      color: AppColor.white
+                                                          .withOpacity(0.2),
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 12),
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: CustomText(
+                                                                text: chatName,
+                                                                fontSize: 15)),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      }
-                    );
-                  }
-                ),
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          });
+                    }),
                 20.verticalSpace,
                 //automation
                 Padding(
@@ -228,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             routerConfig.push(RoutesPath.mainAutomations);
                           },
                           child: Container(
@@ -265,34 +280,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: mediaQuery.width * 0.7,
                                 // margin: const EdgeInsets.only(right: 20),
                                 child: GestureDetector(
-                                  onTap: (){
-                                    routerConfig.push(
-                                      RoutesPath.chatScreen,
-                                      extra: {
-                                        'initialQuery': Message(
+                                  onTap: () {
+                                    routerConfig
+                                        .push(RoutesPath.chatScreen, extra: {
+                                      'initialQuery': Message(
                                           sender: Sender.user,
                                           message: academicQuestions[index],
-                                          timestamp: DateTime.now()
-                                        )
-                                      }
-                                    );
+                                          timestamp: DateTime.now())
+                                    });
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                         side: BorderSide(
-                                            color: AppColor.white.withOpacity(0.6),
+                                            color:
+                                                AppColor.white.withOpacity(0.6),
                                             width: 1)),
                                     color: AppColor.whiteOpacity8,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20, vertical: 20),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Icon(
                                             Icons.bookmarks,
-                                            color: Colors.black.withOpacity(0.8),
+                                            color:
+                                                Colors.black.withOpacity(0.8),
                                             size: 22,
                                           ),
                                           10.verticalSpace,
@@ -301,7 +316,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontSize: 22,
                                               maxLines: 3,
                                               fontWeight: FontWeight.w400,
-                                              color: Colors.black.withOpacity(0.8)),
+                                              color: Colors.black
+                                                  .withOpacity(0.8)),
                                         ],
                                       ),
                                     ),
