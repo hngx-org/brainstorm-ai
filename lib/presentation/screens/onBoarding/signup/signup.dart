@@ -73,57 +73,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final internetConnectionChecker = InternetConnectionChecker();
 
     if (await internetConnectionChecker.hasConnection) {
-      // If all validations pass, sign up logic here
       String name = '$firstName $lastName';
 
       final response = await Authentication()
           .signUp(email, name, password);
 
-      print('$response');
       try {
-        if (response['message'] ==
-            'User Created Succesfully') {
-          final userData = response['data'];
+        if (response != null) {
+          SharedPreferencesManager.prefs.setString('id', response.id);
+          SharedPreferencesManager.prefs.setString('email', response.email);
+          SharedPreferencesManager.prefs.setInt('credits', response.credits!);
+          SharedPreferencesManager.prefs.setString('name', response.name);
 
-          SharedPreferencesManager.prefs
-              .setString('id', userData['id']);
-          SharedPreferencesManager.prefs
-              .setString('email', userData['email']);
-          SharedPreferencesManager.prefs
-              .setString('password', userData['password']);
-          SharedPreferencesManager.prefs
-              .setInt('credits', userData['credits']);
-          SharedPreferencesManager.prefs
-              .setString('name', userData['name']);
+          print('User: ${response.id}, ${response.name}, ${response.email}, '
+              '${response.credits}');
 
-          final loginResponse = await Authentication().signIn(email, password);
+          _showSnackBar('Success!', Colors.lightGreen.withOpacity(0.8));
 
-          if (loginResponse != null) {
-            final responseData = loginResponse['data'];
-            final message = loginResponse['message'];
 
-            if (message == 'success') {
-              print("Sign-in was successful. User data: $responseData");
-              _showSnackBar('seccess!', AppColor.lightgreen.withOpacity(0.8));
-              routerConfig.pushReplacement(RoutesPath.home, extra: {'name': name});
-
-            } else {
-              // Sign-in failed, handle the error
-              print("Sign-in failed. Message: $message");
-
-            }
-
-            setState(() {
-              isLoading = false;
-            });
-          }
-
+          routerConfig.pushReplacement(RoutesPath.nav, extra: {'name': response.name});
         }
         else {
           CustomDialog().showCustomDialog(
             context: context,
             header: 'User sign up failed',
-            body: response['message'],
+            body: 'Internal Server Error',
             buttonText: 'Ok',
           );
         }

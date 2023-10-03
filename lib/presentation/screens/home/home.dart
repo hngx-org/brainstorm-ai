@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:ai_brainstorm/common/constants/app_color.dart';
-import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/reusables/automated_qyns.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
@@ -9,14 +8,14 @@ import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:ai_brainstorm/data/models/message_model.dart';
+import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:ai_brainstorm/presentation/screens/chat_automations/chat_automations.dart';
-import 'package:ai_brainstorm/presentation/screens/suscribe_screen/main_suscribe_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/constants/route_constant.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   final String name;
@@ -155,6 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       scrollDirection: Axis.horizontal,
                                       itemCount: min(3, snapshot.data!.length),
                                       itemBuilder: (BuildContext context, int index) {
+                                        String chatName = Utils.formatDisplayChatName(snapshot.data![index]);
+
                                         return Row(
                                           children: [
                                             30.horizontalSpace,
@@ -183,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         alignment: Alignment.centerLeft,
                                                         child: CustomText(
                                                             text:
-                                                                snapshot.data![index],
+                                                            chatName,
                                                             fontSize: 15)),
                                                   ),
                                                 ),

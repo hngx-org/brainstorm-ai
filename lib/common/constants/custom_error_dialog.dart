@@ -116,10 +116,10 @@ class CustomDialog {
       onWillPop: () => Future(() => false),
       child: Center(
         child: SizedBox(
-          width: 25.w,
-          height: 25.h,
-          child: const CircularProgressIndicator(
-            color: AppColor.appBrandColor,
+          width: 50.w,
+          height: 50.h,
+          child: CircularProgressIndicator(
+            color: AppColor.whiteOpacity8,
             strokeWidth: 2,
           ),
         ),

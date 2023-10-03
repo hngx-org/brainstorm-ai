@@ -43,8 +43,9 @@ dependencies:
   sqflite: ^2.3.0
   path_provider: ^2.1.1
   path: ^1.8.3
-  hng_authentication: ^0.0.3
+  hng_authentication: ^0.1.2
   internet_connection_checker: ^1.0.0+1
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
