@@ -41,11 +41,27 @@ class ChatModel extends ChangeNotifier{
   }
 
   void addMessagePair(String chatTitle, Message userQuery, Message gptResponse) async {
-    database.update(chatTitle, userQuery);
-    database.update(chatTitle, gptResponse);
+    database.insert(chatTitle, userQuery);
+    database.insert(chatTitle, gptResponse);
     if (!disposed){
       notifyListeners();
     }
+  }
+
+  Future<Message> removeLastMessagePair(String chatTitle) async {
+    Future<List<Message>> chat = readChat(chatTitle);
+    chat.then((c){
+      if (c.length >= 2){
+        database.remove(chatTitle, c.lastWhere((e) => e.sender == Sender.user));
+        database.remove(chatTitle, c.lastWhere((e) => e.sender == Sender.gpt));
+      }
+    });
+    if (!disposed){
+      notifyListeners();
+    }
+    return chat.then((value){ // returns last query for regeneration
+      return value.lastWhere((element) => element.sender == Sender.user);
+    });
   }
 
   void deleteChat(String title) async {

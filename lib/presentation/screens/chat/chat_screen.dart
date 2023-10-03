@@ -143,10 +143,25 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       const SizedBox(height: 20),
                       messages.length > 1 && !isGenerating
-                        ? const Row(
+                        ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RegenerateButton(),
+                            RegenerateButton(
+                              onTap: (){
+                                if (chatName != null){
+                                  Future<Message> query = model.removeLastMessagePair(chatName!);
+                                  model.readChat(chatName).then((m){
+                                    setState(() {
+                                      messages = m;
+                                      messages.removeLast();
+                                    });
+                                  });
+                                  query.then((value){
+                                    generate(value.message);
+                                  });
+                                }
+                              },
+                            ),
                           ],
                         )
                         : const SizedBox.shrink(),
@@ -288,7 +303,7 @@ class InputArea extends StatelessWidget {
             dimension: 50,
             child: GestureDetector(
               onTap: () {
-                submit(context); //TODO: dont submit when text is being generated
+                submit(context);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -392,13 +407,16 @@ class TopSection extends StatelessWidget {
 }
 
 class RegenerateButton extends StatelessWidget {
-  const RegenerateButton({super.key});
+  final VoidCallback onTap;
+  const RegenerateButton({
+    required this.onTap,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // TODO: regenerate last response
+        onTap();
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
