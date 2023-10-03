@@ -92,11 +92,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 22,
                             color: AppColor.white.withOpacity(0.6),
                           ),
-                          CustomText(
-                            text: widget.name,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.white.withOpacity(0.8),
+                          Container(
+                            width: mediaQuery.width * 0.5,
+                            child: CustomText(
+                              text: widget.name,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              maxLines: 1,
+                              color: AppColor.white.withOpacity(0.8),
+                            ),
                           )
                         ],
                       ),
