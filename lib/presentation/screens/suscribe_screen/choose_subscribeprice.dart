@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/subscribe_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,53 +52,64 @@ class _ChooseSubsPriceState extends State<ChooseSubsPrice> {
         margin: EdgeInsets.only(
           top: 10.h,
           bottom: 10.h,
+          left: 10.h,
+          right: 10.h
         ),
-        padding: EdgeInsets.all(10.sp),
-        height: 80.h,
-        width: 380.w,
+        clipBehavior: Clip.antiAlias,
+        // padding: EdgeInsets.all(20.sp),
+        // height: 80.h,
+        // width: 380.w,
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(
             20.r,
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+        child: TransparentFilm.light(
+          opacity: 0.15,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                myContainerText(
-                  widget.howLong,
-                  FontWeight.w500,
-                  22.sp,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    myContainerText(
+                      widget.howLong,
+                      FontWeight.w500,
+                      22.sp,
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      widget.length,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 16
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                myContainerText(
-                  widget.length,
-                  FontWeight.w400,
-                  18.sp,
-                ),
+                Radio(
+                    onChanged: (_) {
+                      widget.onChanged(widget.radioValue);
+                    },
+                    value: widget.radioValue,
+                    groupValue: selectedRadioValue,
+                    // focusNode: widget.getFocus,
+                    fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.white.withOpacity(0.32);
+                      }
+                      return Colors.white;
+                    })),
               ],
             ),
-            Radio(
-                onChanged: (_) {
-                  widget.onChanged(widget.radioValue);
-                },
-                value: widget.radioValue,
-                groupValue: selectedRadioValue,
-                // focusNode: widget.getFocus,
-                fillColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return Colors.orange.withOpacity(.32);
-                  }
-                  return Colors.orange;
-                })),
-          ],
+          ),
         ),
       ),
     );

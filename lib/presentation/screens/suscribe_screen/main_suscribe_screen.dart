@@ -48,35 +48,38 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
                       height: 60.h,
                       width: double.infinity,
                     ),
-                    BackButtonWidget(),
-                    Center(
-                        child: ListOfText(
-                      'Upgrade To \nPremium Plan',
-                      35.sp,
-                      FontWeight.bold,
-                      false,
-                    )),
-                    Center(
-                      child: ListOfText(
-                        'Enjoy access to all features of BrainStormAI',
-                        18.sp,
-                        FontWeight.w500,
-                        false,
-                      ),
+                    const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        BackButtonWidget(),
+                      ],
                     ),
                     Center(
                       child: ListOfText(
-                        'Ads free  experiences',
-                        18.sp,
-                        FontWeight.w500,
-                        true,
+                        'Upgrade To \nPremium Plan',
+                        35.sp,
+                        FontWeight.bold,
+                        false,
                       ),
+                    ),
+                    ListOfText(
+                      'Enjoy access to all features of BrainStormAI',
+                      18.sp,
+                      FontWeight.w300,
+                      false,
+                    ),
+                    const SizedBox(height: 10,),
+                    ListOfText(
+                      'Ads free  experiences',
+                      18.sp,
+                      FontWeight.w500,
+                      true,
                     ),
                     Center(
                       child: ListOfText(
@@ -94,6 +97,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                         true,
                       ),
                     ),
+                    const SizedBox(height: 10,),
                     Divider(
                       color: Colors.white.withOpacity(0.5),
                       thickness: 1.h,
@@ -103,8 +107,8 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     ),
                     Center(
                       child: ChooseSubsPrice(
-                        howLong: 'Weekly \n\$5',
-                        length: '/week',
+                        howLong: 'Weekly',
+                        length: '\$5/week',
                         radioValue: 1,
                         radiogroupValue: selectedRadioValue,
                         onChanged: (value) {
@@ -117,8 +121,8 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     ),
                     Center(
                         child: ChooseSubsPrice(
-                      howLong: 'Monthly \n\$15',
-                      length: '/month',
+                      howLong: 'Monthly',
+                      length: '\$15/month',
                       radioValue: 2,
                       radiogroupValue: selectedRadioValue,
                       onChanged: (value) {
@@ -130,8 +134,8 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     )),
                     Center(
                       child: ChooseSubsPrice(
-                        howLong: 'Lifetime \n\$100',
-                        length: '',
+                        howLong: 'Lifetime',
+                        length: '\$100',
                         radioValue: 3,
                         radiogroupValue: selectedRadioValue,
                         onChanged: (value) {
@@ -160,7 +164,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -171,10 +175,10 @@ class ActionButton extends StatelessWidget {
   final double height;
   final double margin;
   final String actionText;
-  void Function()? onTap;
+  final Function()? onTap;
   final Color containerColor;
   final Color containerTextColor;
-  ActionButton({
+  const ActionButton({
     super.key,
     required this.width,
     required this.height,
@@ -189,25 +193,39 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(top: margin),
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          color: containerColor,
-          borderRadius: BorderRadius.circular(40.r),
-        ),
-        child: Center(
-          child: Text(
-            actionText,
-            style: TextStyle(
-              fontSize: 22.sp,
-              color: containerTextColor,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.none,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: margin),
+            height: height,
+            // width: width,
+            decoration: BoxDecoration(
+              // color: containerColor,
+              borderRadius: BorderRadius.circular(40.r),
+              border: Border.all(
+                color: Colors.white
+              )
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32
+                ),
+                child: Text(
+                  actionText,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    // color: containerTextColor,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

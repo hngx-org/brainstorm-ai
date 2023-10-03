@@ -11,7 +11,7 @@ Text myContainerText(
     textAlign: TextAlign.end,
     style: TextStyle(
       fontWeight: myweight,
-      color: Colors.black,
+      color: Colors.white,
       fontSize: textSixe,
     ),
   );
@@ -32,7 +32,7 @@ class ListOfText extends StatelessWidget {
       padding: showMark
           ? EdgeInsets.only(
               top: 8.sp,
-              left: 35.sp,
+              left: 10.sp,
             )
           : EdgeInsets.only(top: 20.sp),
       child: Row(
