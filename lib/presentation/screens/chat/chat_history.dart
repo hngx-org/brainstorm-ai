@@ -1,3 +1,4 @@
+import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/custom_error_dialog.dart';
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
@@ -124,15 +125,15 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                                             child: ListTile(
                                               title: Text(
                                                 Utils.formatDisplayChatName(snapshot.data![index]),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
+                                                style: TextStyle(
+                                                  color: AppColor.whiteOpacity8,
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500
                                                 ),
                                               ),
                                             )
                                           ),
-                                          Divider(color: Colors.white.withOpacity(0.3))
+                                          Divider(color: AppColor.whiteOpacity8.withOpacity(0.3))
                                         ]
                                       ),
                                     );
@@ -179,7 +180,7 @@ class TopSection extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    color: Colors.white.withOpacity(0.8)
+                    color: AppColor.whiteOpacity8.withOpacity(0.8)
                   ),
                   child: const Center(
                     child: BackButtonWidget()
@@ -192,7 +193,7 @@ class TopSection extends StatelessWidget {
               child: Text(
                 'Chat History',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
+                  color: AppColor.whiteOpacity8.withOpacity(0.8),
                   fontSize: 22,
                   fontWeight: FontWeight.w400
                 ),
@@ -202,9 +203,9 @@ class TopSection extends StatelessWidget {
               right: 0,
               child: GestureDetector(
                 onTap: deleteAllChat,
-                child: const Icon(
+                child: Icon(
                   Icons.delete_forever_outlined,
-                  color: Colors.white,
+                  color: AppColor.whiteOpacity8,
                   size: 30,
                 ),
               ),

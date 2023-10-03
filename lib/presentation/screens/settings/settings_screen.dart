@@ -7,6 +7,7 @@ import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hng_authentication/authentication.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String name;
@@ -19,12 +20,13 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
   GlobalKey<ScaffoldMessengerState>();
+  int? credit = 0;
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
 
-    int? credit = SharedPreferencesManager.prefs.getInt('credit');
+    credit = SharedPreferencesManager.prefs.getInt('credits');
 
     void _showSnackBar(String message, Color color) {
       _scaffoldMessengerKey.currentState?.showSnackBar(
