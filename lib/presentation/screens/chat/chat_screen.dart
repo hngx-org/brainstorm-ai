@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late ScrollController scrollController;
   late List<Message> messages;
   late ChatModel model;
-  late String chatName;
+  String? chatName;
   late FakeGenerator fakegen;
   late bool isGenerating;
 
@@ -56,9 +56,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
         final shortQuery = widget.initialQuery!.message.trim();
         chatName = Utils.formatChatName(shortQuery);
-        print(chatName);
 
-        model.createChat(chatName);
+        model.createChat(chatName!);
         isGenerating = true;
         generate(widget.initialQuery!.message);
         isGenerating = false;
@@ -70,8 +69,6 @@ class _ChatScreenState extends State<ChatScreen> {
             messages = value;
           });
         });
-      }
-      else{
       }
     });
   }
@@ -91,6 +88,10 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
   void generate(String query) async {
+    if (chatName == null){
+      chatName = Utils.formatChatName(query);
+      model.createChat(chatName!);
+    }
     setState(() {
       messages.add(
         Message(
@@ -113,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
       isGenerating = false;
     });
     model.addMessagePair(
-      chatName,
+      chatName!,
       Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
       Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
     );
@@ -193,10 +194,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     extraOnTap: () async{
                       if (inputController.text.isNotEmpty) {
                         String query = inputController.text;
-
-                        chatName = Utils.formatChatName(query);
-
-                        model.createChat(chatName);
                         generate(query);
                       }
                     },

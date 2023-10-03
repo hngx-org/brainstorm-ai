@@ -3,6 +3,7 @@ import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
+import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChatHistoryScreen extends StatefulWidget {
@@ -78,7 +79,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                                           },
                                           child: ListTile(
                                             title: Text(
-                                              snapshot.data![index],
+                                              Utils.formatDisplayChatName(snapshot.data![index]),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
