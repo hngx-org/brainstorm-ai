@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> submit (_showSnackBar) async {
-    final firstName = firstNameController.text.trim();
+    final firstName = firstNameController.text.replaceAll(' ', '');
     final lastName = lastNameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final internetConnectionChecker = InternetConnectionChecker();
 
     if (await internetConnectionChecker.hasConnection) {
-      String name = '$firstName $lastName';
+      String name = '$firstName';
       try {
       final response = await Authentication()
           .signUp(email, name, password);

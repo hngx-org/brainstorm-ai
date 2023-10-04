@@ -88,39 +88,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: 200,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(
-                                      'Upgrade to premium',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: AppColor.whiteOpacity8,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w500
+                              GestureDetector(
+                                onTap: () => routerConfig.push(RoutesPath.mainSuscribeScreen),
+                                child: SizedBox(
+                                  width: 200,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        'Upgrade to premium',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: AppColor.whiteOpacity8,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w500
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 15,),
-                                    Text(
-                                      'Unlock premium to remove ads and chat with unlimited gpt',
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.5),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400
+                                      const SizedBox(height: 15,),
+                                      Text(
+                                        'Unlock premium to remove ads and chat with unlimited gpt',
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.5),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               SizedBox.square(
                                 dimension: 40,
                                 child: GestureDetector(
-                                  onTap: (){
-                                    routerConfig.push(RoutesPath.mainSuscribeScreen);
-                                  },
+                                  onTap: () => routerConfig.push(RoutesPath.mainSuscribeScreen),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(40),
