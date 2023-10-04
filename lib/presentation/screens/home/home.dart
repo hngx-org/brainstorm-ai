@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SafeArea(
             child: Scaffold(
           backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: false,
           body: SizedBox(
             width: mediaQuery.width,
             height: mediaQuery.height,

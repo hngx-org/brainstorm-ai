@@ -53,17 +53,18 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
         SnackBar(
           content: Text(message),
           backgroundColor: color,
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
+          behavior: SnackBarBehavior.fixed,
         ),
       );
     }
 
-    void deleteAllChat (){
+    Future<void> deleteAllChat () async {
       ChatModel().deleteAll();
       setState(() {
         isChatEmpty = true;
       });
+      showSnackBar('Chats cleared', Colors.grey);
+      await Future.delayed(const Duration(seconds: 2));
       while(routerConfig.canPop()){
         routerConfig.pop();
       }

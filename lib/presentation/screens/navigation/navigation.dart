@@ -46,70 +46,73 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          IndexedStack(
-            index: _currentIndex,
-            children: _screens,
-          ),
-          Positioned(
-            bottom: 20,
-            child: !_isChatScreenVisible
-                ? Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppColor.greyColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.home_filled),
-                          color: _currentIndex == 0
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.6),
-                          iconSize: 30,
-                          onPressed: () {
-                            _onItemTapped(0);
-                          },
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: AppColor.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.add),
-                            color: _currentIndex == 1
-                                ? Colors.black
-                                : Colors.black.withOpacity(0.8),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            IndexedStack(
+              index: _currentIndex,
+              children: _screens,
+            ),
+            Positioned(
+              bottom: 20,
+              child: !_isChatScreenVisible
+                  ? Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColor.greyColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.home_filled),
+                            color: _currentIndex == 0
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.6),
                             iconSize: 30,
                             onPressed: () {
-                              routerConfig.push(RoutesPath.chatScreen);
+                              _onItemTapped(0);
                             },
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.settings),
-                          color: _currentIndex == 2
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.6),
-                          iconSize: 30,
-                          onPressed: () {
-                            _onItemTapped(2);
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox(),
-          )
-        ],
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: AppColor.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(Icons.add),
+                              color: _currentIndex == 1
+                                  ? Colors.black
+                                  : Colors.black.withOpacity(0.8),
+                              iconSize: 30,
+                              onPressed: () {
+                                routerConfig.push(RoutesPath.chatScreen);
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.settings),
+                            color: _currentIndex == 2
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.6),
+                            iconSize: 30,
+                            onPressed: () {
+                              _onItemTapped(2);
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(),
+            )
+          ],
+        ),
       ),
     );
   }

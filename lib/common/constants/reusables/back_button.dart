@@ -3,10 +3,10 @@ import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:flutter/material.dart';
 
 class BackButtonWidget extends StatelessWidget {
-  final String? route;
+  final VoidCallback? onPressed;
 
   const BackButtonWidget({
-    super.key, this.route,
+    super.key, this.onPressed,
   });
 
   @override
@@ -22,8 +22,8 @@ class BackButtonWidget extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
             color: Colors.black,
             iconSize: 24,
-            onPressed: () {
-              route ?? routerConfig.pop();
+            onPressed: onPressed ?? () {
+               routerConfig.pop();
             },
           ),
         ),
