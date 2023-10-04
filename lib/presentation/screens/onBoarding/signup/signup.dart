@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/custom_error_dialog.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
+import 'package:ai_brainstorm/data/others/utils.dart';
+import 'package:ai_brainstorm/presentation/screens/onBoarding/landing/landing_screen.dart';
 import 'package:hng_authentication/authentication.dart';
 import 'package:ai_brainstorm/common/constants/reusables/button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/textfield.dart';
@@ -74,11 +78,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (await internetConnectionChecker.hasConnection) {
       String name = '$firstName $lastName';
-
+      try {
       final response = await Authentication()
           .signUp(email, name, password);
 
-      try {
+      print(response);
+
+
         if (response != null) {
           SharedPreferencesManager.prefs.setString('id', response.id);
           SharedPreferencesManager.prefs.setString('email', response.email);
@@ -90,8 +96,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           _showSnackBar('Success!', Colors.lightGreen.withOpacity(0.8));
 
+          final loginResponse = await Authentication().signIn(email, password);
+          print(' cookie: ${loginResponse.cookie}');
 
-          routerConfig.pushReplacement(RoutesPath.nav, extra: {'name': response.name});
+          if (loginResponse != null && loginResponse.id != null) {
+            // Extract the session value from the cookie
+            String sessionValue = Utils.extractSessionValue(loginResponse.cookie);
+
+            SharedPreferencesManager.prefs.setString('id', loginResponse.id);
+            SharedPreferencesManager.prefs.setString('email', loginResponse.email);
+            SharedPreferencesManager.prefs.setString('session', 'session=$sessionValue');
+            SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
+            SharedPreferencesManager.prefs.setString('name', loginResponse.name);
+
+            print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}, session=$sessionValue}');
+
+            _showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
+
+            routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : loginResponse.name});
+          }
         }
         else {
           CustomDialog().showCustomDialog(
@@ -102,11 +125,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
         }
       } catch (error) {
-        print(
-            'Error signing up: $error'); // Print the error to the console
-        _showSnackBar(
-            'An error occurred while signing up. $error',
-            Colors.red);
+        print('Error signing up: $error'); // Print the error to the console
+
+        if (error is SocketException) {
+          _showSnackBar('Network error occurred. Please check your internet connection', Colors.red);
+        } else if (error is FormatException) {
+          _showSnackBar('Server response format is invalid. Please try again later', Colors.red);
+        } else {
+          print('Unknown error type: ${error.runtimeType}');
+          _showSnackBar('An unknown error occurred. Please try again later', Colors.red);
+        }
       } finally {
         setState(() {
           isLoading = false;
