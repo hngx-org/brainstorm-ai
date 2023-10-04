@@ -32,11 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
     "Discuss the impact of climate change on agriculture.",
     "Explain the concept of artificial intelligence.",
   ];
+  List<String> nameParts = [];
 
   @override
   void initState() {
     super.initState();
     _updateGreeting();
+    nameParts = widget.name.split(' ');
     model = ChatModel()
       ..addListener(() {
         setState(() {});
@@ -94,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Container(
                             width: mediaQuery.width * 0.5,
                             child: CustomText(
-                              text: widget.name,
+                              text: nameParts[0],
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
                               maxLines: 1,

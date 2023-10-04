@@ -34,7 +34,7 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
 
-    void _showSnackBar(String message, Color color) {
+    void showSnackBar(String message, Color color) {
       _scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Text(message),
@@ -123,7 +123,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
                             if (email.isEmpty || password.isEmpty) {
                               print('intered');
-                              _showSnackBar(
+                              showSnackBar(
                                   'All fields are required.', Colors.red);
                               return;
                             }
@@ -135,10 +135,9 @@ class _LandingScreenState extends State<LandingScreen> {
                                 InternetConnectionChecker();
 
                             if (await internetConnectionChecker.hasConnection) {
+                              try {
                               final loginResponse = await Authentication().signIn(email, password);
                               print(loginResponse.cookie);
-
-                              try {
 
                                   if (loginResponse != null && loginResponse.id != null) {
                                     SharedPreferencesManager.prefs.setString('id', loginResponse.id);
@@ -148,7 +147,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
                                     print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}');
 
-                                    _showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
+                                    showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
 
                                     routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : loginResponse.name});
                                   }
@@ -168,7 +167,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   }
                               } catch (error) {
                                 print('Error logging in: $error');
-                                _showSnackBar('An error occurred while signing in. $error', Colors.red);
+                                showSnackBar('Incorrect email or password', Colors.red);
                               } finally {
                                 setState(() {
                                   isLoading = false;
