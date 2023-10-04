@@ -5,8 +5,12 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
+import 'package:ai_brainstorm/common/constants/route_constant.dart';
+import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:ai_brainstorm/data/models/message_model.dart';
+import 'package:ai_brainstorm/data/others/genrator.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_brainstorm/data/others/fake_generated_text.dart';
@@ -35,8 +39,10 @@ class _ChatScreenState extends State<ChatScreen> {
   late List<Message> messages;
   late ChatModel model;
   String? chatName;
-  late FakeGenerator fakegen;
+  // late FakeGenerator fakegen;
+  late Generator generator;
   late bool isGenerating;
+  late String? cookie;
 
   @override
   void initState() {
@@ -49,7 +55,8 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     isGenerating = false;
     messages = [];
-    fakegen = FakeGenerator();
+    generator = Generator();
+    cookie = SharedPreferencesManager.prefs.getString('session');
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.initialQuery != null){
@@ -84,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
     inputController.dispose();
     scrollController.dispose();
     model.dispose();
-    fakegen.dispose();
+    // fakegen.dispose();
     super.dispose();
   }
   void generate(String query) async {
@@ -102,7 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       isGenerating = true;
     });
-    String generated = await fakegen.generate(query);
+    String generated = cookie != null ? await generator.generate(query, cookie!): '';
     setState(() {
       messages.add(
         Message(
@@ -118,6 +125,14 @@ class _ChatScreenState extends State<ChatScreen> {
       Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
       Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
     );
+    if (generated == 'Subscription Required'){
+      Future.delayed(
+        const Duration(seconds: 1),
+        (){
+          routerConfig.push(RoutesPath.mainSuscribeScreen);
+        }
+      );
+    }
   }
   @override
   Widget build(BuildContext context) {
