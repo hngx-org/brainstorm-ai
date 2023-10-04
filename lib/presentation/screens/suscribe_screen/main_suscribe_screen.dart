@@ -162,7 +162,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     ),
                     if (isLoading)
                       Center(
-                        child: CircularProgressIndicator(), // Loading indicator
+                        child: CircularProgressIndicator(),
                       ),
                   ],
                 ),

@@ -224,6 +224,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     extraOnTap: () async{
                       if (inputController.text.isNotEmpty) {
                         String query = inputController.text;
+                        String? credits = SharedPreferencesManager.prefs.getString('credits');
                         generate(query);
                       }
                     },

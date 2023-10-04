@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final internetConnectionChecker = InternetConnectionChecker();
 
     if (await internetConnectionChecker.hasConnection) {
-      String name = '$firstName';
+      String name = '${firstName}_$lastName';
       try {
       final response = await Authentication()
           .signUp(email, name, password);
@@ -105,11 +105,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
             SharedPreferencesManager.prefs.setString('id', loginResponse.id);
             SharedPreferencesManager.prefs.setString('email', loginResponse.email);
-            SharedPreferencesManager.prefs.setString('session', 'session=$sessionValue');
+            SharedPreferencesManager.prefs.setString('session', sessionValue);
             SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
             SharedPreferencesManager.prefs.setString('name', loginResponse.name);
 
-            print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}, session=$sessionValue}');
+            print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}, '
+                '$sessionValue');
 
             _showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
 

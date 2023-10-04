@@ -46,18 +46,13 @@ class Utils {
   }
 
   static String extractSessionValue(String cookie) {
-    List<String> parts = cookie.split(';');
-
-    // Loop through the parts to find the one containing 'session='
-    for (String part in parts) {
-      if (part.trim().startsWith('session=')) {
-        // Extract the session value by removing the 'session=' prefix
-        return part.trim().substring('session='.length);
-      }
-    }
-    return '';
+    String parts = cookie.split(';')[0];
+    return parts;
   }
 
+  static String capitalizeFirstWord(String text) {
+    return text[0].toUpperCase() + text.substring(1);
+  }
   static String formatResponse(String response){
     if (response.startsWith('Message')){
       return response.replaceFirst('Message: ', '');
