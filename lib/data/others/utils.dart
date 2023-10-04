@@ -53,5 +53,15 @@ class Utils {
   static String capitalizeFirstWord(String text) {
     return text[0].toUpperCase() + text.substring(1);
   }
-
+  static String formatResponse(String response){
+    if (response.startsWith('Message')){
+      return response.replaceFirst('Message: ', '');
+    }
+    else if (response.startsWith('Error')){
+      return response.replaceFirst('Error: ', '');
+    }
+    else{
+      return '';
+    }
+  }
 }
