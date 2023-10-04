@@ -4,10 +4,9 @@ import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
-import 'package:flutter/gestures.dart';
+import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hng_authentication/authentication.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String name;
@@ -21,6 +20,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
   GlobalKey<ScaffoldMessengerState>();
   int? credit = 0;
+  List <String> name = [];
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.name.split('_');
+    name[0] = Utils.capitalizeFirstWord(widget.name.split('_')[0]);
+    name[1] = Utils.capitalizeFirstWord(widget.name.split('_')[1]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     credit = SharedPreferencesManager.prefs.getInt('credits');
 
-    void _showSnackBar(String message, Color color) {
+    void showSnackBar(String message, Color color) {
       _scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Text(message),
@@ -57,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   40.verticalSpace,
                   Text(
-                    widget.name,
+                    '${name[0] } ${name[1] }',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -219,8 +227,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   SharedPreferencesManager.prefs.remove('password');
                                   SharedPreferencesManager.prefs.remove('credits');
                                   SharedPreferencesManager.prefs.remove('name');
+                                  SharedPreferencesManager.prefs.remove('session');
                                   ChatModel().deleteAll();
-                                  _showSnackBar('Signed Out', Colors.grey);
+                                  showSnackBar('Signed Out', Colors.grey);
                                   routerConfig.pushReplacement(RoutesPath.landing);
                                 },
                                 child: Padding(

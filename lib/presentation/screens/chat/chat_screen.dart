@@ -5,6 +5,7 @@ import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart'
 import 'package:ai_brainstorm/common/constants/reusables/glow_logo.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
 import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
@@ -209,6 +210,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     extraOnTap: () async{
                       if (inputController.text.isNotEmpty) {
                         String query = inputController.text;
+                        String? credits = SharedPreferencesManager.prefs.getString('credits');
                         generate(query);
                       }
                     },
