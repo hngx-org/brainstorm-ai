@@ -42,7 +42,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           content: Text(message),
           backgroundColor: color,
           behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
         ),
       );
     }
@@ -221,7 +220,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               Divider(color: Colors.white.withOpacity(0.5),),
                               GestureDetector(
-                                onTap: (){
+                                onTap: () async {
                                   SharedPreferencesManager.prefs.remove('id');
                                   SharedPreferencesManager.prefs.remove('email');
                                   SharedPreferencesManager.prefs.remove('password');
@@ -230,7 +229,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   SharedPreferencesManager.prefs.remove('session');
                                   ChatModel().deleteAll();
                                   showSnackBar('Signed Out', Colors.grey);
-                                  routerConfig.pushReplacement(RoutesPath.landing);
+
+                                  await Future.delayed(const Duration(seconds: 3));
+                                  routerConfig.push(RoutesPath.landing);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

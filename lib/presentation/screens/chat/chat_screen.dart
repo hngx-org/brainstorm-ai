@@ -13,6 +13,8 @@ import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/data/others/genrator.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ChatScreen extends StatefulWidget {
   final Message? initialQuery;
@@ -40,11 +42,16 @@ class _ChatScreenState extends State<ChatScreen> {
   String? chatName;
   late Generator generator;
   late bool isGenerating;
+  bool hasConnection = true;
   late String? cookie;
+  int? credits = 0;
+  final internetConnectionChecker =
+  InternetConnectionChecker();
 
   @override
   void initState() {
     super.initState();
+    checkInternet();
     inputController = TextEditingController();
     scrollController = ScrollController();
     model = ChatModel()
@@ -55,6 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
     messages = [];
     generator = Generator();
     cookie = SharedPreferencesManager.prefs.getString('session');
+    credits = SharedPreferencesManager.prefs.getInt('credits');
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.initialQuery != null){
@@ -63,9 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
         chatName = Utils.formatChatName(shortQuery);
 
         model.createChat(chatName!);
-        isGenerating = true;
+        setState(() {
+          isGenerating = true;
+        });
         generate(widget.initialQuery!.message);
-        isGenerating = false;
       }
       else if (widget.chatName != null){
         model.readChat(widget.chatName).then((value){
@@ -106,50 +115,59 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       isGenerating = true;
     });
-    String generated = cookie != null
-    ? await generator.generateWithHistory(
-      query,
-      messages
-        .sublist(0, messages.length-1)
-        .where((message) => message.sender == Sender.user)
-        .map((e) => e.message)
-        .toList(),
-      cookie!
-      )
-    : '';
-    
-    int? credits = SharedPreferencesManager.prefs.getInt('credits');
-    if(credits != null && credits > 0){
-      SharedPreferencesManager.prefs.setInt('credits', credits - 1);
-      print('credits: $credits');
-    }
-    setState(() {
-      messages.add(
-        Message(
-          sender: Sender.gpt,
-          message: generated,
-          timestamp: DateTime.now()
+    if (await internetConnectionChecker.hasConnection) {
+      String generated = cookie != null
+      ? await generator.generateWithHistory(
+        query,
+        messages
+          .sublist(0, messages.length-1)
+          .where((message) => message.sender == Sender.user)
+          .map((e) => e.message)
+          .toList(),
+        cookie!
         )
+      : '';
+      if(credits != null && credits! > 0){
+        SharedPreferencesManager.prefs.setInt('credits', credits! - 1);
+        print('credits: $credits');
+      }
+      setState(() {
+        messages.add(
+          Message(
+            sender: Sender.gpt,
+            message: generated,
+            timestamp: DateTime.now()
+          )
+        );
+        isGenerating = false;
+      });
+      model.addMessagePair(
+        chatName!,
+        Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
+        Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
       );
-      isGenerating = false;
-    });
-    model.addMessagePair(
-      chatName!,
-      Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
-      Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
-    );
-    if (generated == 'Subscription Required'){
-      Future.delayed(
-        const Duration(seconds: 1),
-        (){
-          routerConfig.push(RoutesPath.mainSuscribeScreen);
-        }
-      );
+      if (generated == 'Subscription Required'){
+        Future.delayed(
+          const Duration(seconds: 1),
+          (){
+            routerConfig.push(RoutesPath.mainSuscribeScreen);
+          }
+        );
+      }
+    }
+    else{
+      setState(() {
+        hasConnection = false;
+        isGenerating = false;
+        print('internet: $hasConnection');
+      });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
+    print('internet: $hasConnection');
     return Stack(
       children: [
         const CustomBackground(),
@@ -194,10 +212,17 @@ class _ChatScreenState extends State<ChatScreen> {
                         )
                         : const SizedBox.shrink(),
                       isGenerating ? const LoadingWidget() : const SizedBox.shrink(),
-                      const SizedBox(height: 80),
+                      if(!hasConnection) const SizedBox(height: 40),
+                      if(!hasConnection) const Align(
+                        alignment: Alignment.bottomCenter,
+                        child: CustomText(text: 'No Internet Connection.\nCheck your network and try again',
+                          fontSize: 22, color: Colors.red, maxLines: 2, textAlign: TextAlign.center),
+                      ),
+                      20.verticalSpace
                     ],
                   ),
                 ),
+                20.verticalSpace,
                 const Align(
                   alignment: Alignment.topCenter,
                   child: TopGradient(),
@@ -237,10 +262,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     extraOnTap: () async{
                       if (inputController.text.isNotEmpty) {
                         String query = inputController.text;
-                        String? credits = SharedPreferencesManager.prefs.getString('credits');
                         generate(query);
                       }
-                    },
+                    }, hasConnection: hasConnection,
                   )
                 )
               ],
@@ -250,6 +274,14 @@ class _ChatScreenState extends State<ChatScreen> {
       ],
     );
   }
+
+  void checkInternet() async {
+    if (await internetConnectionChecker.hasConnection){
+      setState(() { hasConnection = true;});
+    }else{
+      setState(() { hasConnection = false; });
+    }
+  }
 }
 
 class InputArea extends StatelessWidget {
@@ -257,13 +289,14 @@ class InputArea extends StatelessWidget {
   final VoidCallback extraOnTap;
   final ScrollController scrollController;
   final bool enabled;
+  final bool hasConnection;
 
   const InputArea({
     required this.controller,
     required this.extraOnTap,
     required this.scrollController,
     required this.enabled,
-    super.key,
+    super.key, required this.hasConnection,
   });
 
   Future<void> submit(context) async {
@@ -282,7 +315,7 @@ class InputArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return hasConnection ? Padding(
       padding: const EdgeInsets.all(24),
       child: Row(
         children: [
@@ -349,7 +382,7 @@ class InputArea extends StatelessWidget {
           )
         ],
       ),
-    );
+    ) : const SizedBox();
   }
 }
 
@@ -412,8 +445,18 @@ class TopSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                     color: AppColor.whiteOpacity8
                   ),
-                  child: const Center(
-                    child: BackButtonWidget()
+                  child: Center(
+                    child: BackButtonWidget(onPressed: () {
+                      String? name = SharedPreferencesManager.prefs.getString('name');
+                      if(name != null){
+                        routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : name});
+                      }
+                      else{
+                        routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : ''});
+                      }
+
+                    }
+                    )
                   ),
                 ),
               ),

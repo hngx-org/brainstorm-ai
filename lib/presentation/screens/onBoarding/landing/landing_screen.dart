@@ -40,8 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
         SnackBar(
           content: Text(message),
           backgroundColor: color,
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
+          behavior: SnackBarBehavior.fixed,
         ),
       );
     }
@@ -53,6 +52,7 @@ class _LandingScreenState extends State<LandingScreen> {
         ScaffoldMessenger(
           key: _scaffoldMessengerKey,
           child: Scaffold(
+            resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
             body: Container(
               height: mediaQuery.height,
@@ -150,11 +150,11 @@ class _LandingScreenState extends State<LandingScreen> {
                                     SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
                                     SharedPreferencesManager.prefs.setString('name', loginResponse.name);
 
-                                    print('User: ${loginResponse.id}, ${loginResponse.name}, '
+                                    print('User: ${loginResponse.id}, ${loginResponse.name}, credit: ${loginResponse.credits}'
                                         '${loginResponse.email}, $sessionValue');
 
                                     showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
-
+                                    await Future.delayed(const Duration(seconds: 3));
                                     routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : loginResponse.name});
                                   }
                                   else {
