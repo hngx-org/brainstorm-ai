@@ -30,7 +30,7 @@ class ChooseSubsPrice extends StatefulWidget {
 
 int selectedRadioValue = 0;
 setSelectedRadioValue(int value) {
-  selectedRadioValue = value; // Update the selected value
+  selectedRadioValue = value;
 }
 
 class _ChooseSubsPriceState extends State<ChooseSubsPrice> {

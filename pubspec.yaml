@@ -46,6 +46,7 @@ dependencies:
   hng_authentication: ^0.1.4
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.1
+  in_app_payment: ^0.0.1
 
 dev_dependencies:
   flutter_test:

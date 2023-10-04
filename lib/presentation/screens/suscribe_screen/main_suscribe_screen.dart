@@ -1,6 +1,6 @@
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
-import 'package:ai_brainstorm/core/config/router_config.dart';
+import 'package:in_app_payment/in_app_payment.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/choose_subscribeprice.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/subscribe_widgets.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,10 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
   late FocusNode firstRadio;
   late FocusNode secondRadio;
   late FocusNode thirdRadio;
+  final pay = HNGPay();
+
+  String paymentValue = '';
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -97,7 +101,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                         true,
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    10.verticalSpace,
                     Divider(
                       color: Colors.white.withOpacity(0.5),
                       thickness: 1.h,
@@ -114,6 +118,8 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                         onChanged: (value) {
                           setState(() {
                             setSelectedRadioValue(value);
+                            paymentValue = '5';
+                            print(paymentValue);
                           });
                         },
                         getFocus: firstRadio,
@@ -128,6 +134,8 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                       onChanged: (value) {
                         setState(() {
                           setSelectedRadioValue(value);
+                          paymentValue = '15';
+                          print(paymentValue);
                         });
                       },
                       getFocus: firstRadio,
@@ -141,24 +149,21 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                         onChanged: (value) {
                           setState(() {
                             setSelectedRadioValue(value);
+                            paymentValue = '100';
+                            print(paymentValue);
                           });
                         },
                         getFocus: thirdRadio,
                       ),
                     ),
-                    Center(
-                      child: ActionButton(
-                        margin: 30.h,
-                        height: 70.h,
-                        width: 370.w,
-                        containerTextColor: Colors.black,
-                        actionText: 'Continue',
-                        onTap: () {
-
-                        },
-                        containerColor: Colors.white,
-                      ),
+                    10.verticalSpace,
+                    if (paymentValue != '' ) Center(
+                      child: pay.googlePay(amountToPay: paymentValue),
                     ),
+                    if (isLoading)
+                      Center(
+                        child: CircularProgressIndicator(), // Loading indicator
+                      ),
                   ],
                 ),
               ),
