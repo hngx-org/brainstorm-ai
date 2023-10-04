@@ -13,7 +13,6 @@ import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/data/others/genrator.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_brainstorm/data/others/fake_generated_text.dart';
 
 class ChatScreen extends StatefulWidget {
   final Message? initialQuery;
@@ -39,7 +38,6 @@ class _ChatScreenState extends State<ChatScreen> {
   late List<Message> messages;
   late ChatModel model;
   String? chatName;
-  // late FakeGenerator fakegen;
   late Generator generator;
   late bool isGenerating;
   late String? cookie;
@@ -91,7 +89,6 @@ class _ChatScreenState extends State<ChatScreen> {
     inputController.dispose();
     scrollController.dispose();
     model.dispose();
-    // fakegen.dispose();
     super.dispose();
   }
   void generate(String query) async {
@@ -109,7 +106,23 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       isGenerating = true;
     });
-    String generated = cookie != null ? await generator.generate(query, cookie!): '';
+    String generated = cookie != null
+    ? await generator.generateWithHistory(
+      query,
+      messages
+        .sublist(0, messages.length-1)
+        .where((message) => message.sender == Sender.user)
+        .map((e) => e.message)
+        .toList(),
+      cookie!
+      )
+    : '';
+    
+    int? credits = SharedPreferencesManager.prefs.getInt('credits');
+    if(credits != null && credits > 0){
+      SharedPreferencesManager.prefs.setInt('credits', credits - 1);
+      print('credits: $credits');
+    }
     setState(() {
       messages.add(
         Message(
@@ -254,7 +267,6 @@ class InputArea extends StatelessWidget {
   });
 
   Future<void> submit(context) async {
-    //TODO: send text from controller to openai api
     FocusScope.of(context).requestFocus(FocusNode());
     if(scrollController.hasClients){
       scrollController.animateTo(
