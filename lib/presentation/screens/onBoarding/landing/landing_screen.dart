@@ -9,6 +9,7 @@ import 'package:ai_brainstorm/common/constants/reusables/textfield.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
+import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -137,15 +138,19 @@ class _LandingScreenState extends State<LandingScreen> {
                             if (await internetConnectionChecker.hasConnection) {
                               try {
                               final loginResponse = await Authentication().signIn(email, password);
-                              print(loginResponse.cookie);
+                              print(' cookie: ${loginResponse.cookie}');
 
                                   if (loginResponse != null && loginResponse.id != null) {
+                                    // Extract the session value from the cookie
+                                    String sessionValue = Utils.extractSessionValue(loginResponse.cookie);
+
                                     SharedPreferencesManager.prefs.setString('id', loginResponse.id);
                                     SharedPreferencesManager.prefs.setString('email', loginResponse.email);
+                                    SharedPreferencesManager.prefs.setString('session', 'session=$sessionValue');
                                     SharedPreferencesManager.prefs.setInt('credits', loginResponse.credits);
                                     SharedPreferencesManager.prefs.setString('name', loginResponse.name);
 
-                                    print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}');
+                                    print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}, session=$sessionValue}');
 
                                     showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
 

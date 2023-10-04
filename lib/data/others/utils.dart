@@ -44,4 +44,17 @@ class Utils {
     String displayChatName = '$cleanedChatName ...\n$formattedTimeStamp';
     return displayChatName;
   }
+
+  static String extractSessionValue(String cookie) {
+    List<String> parts = cookie.split(';');
+
+    // Loop through the parts to find the one containing 'session='
+    for (String part in parts) {
+      if (part.trim().startsWith('session=')) {
+        // Extract the session value by removing the 'session=' prefix
+        return part.trim().substring('session='.length);
+      }
+    }
+    return '';
+  }
 }
