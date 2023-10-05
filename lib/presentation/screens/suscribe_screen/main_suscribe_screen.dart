@@ -162,7 +162,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                       child: pay.googlePay(context, amountToPay: paymentValue, userID: id!),
                     ),
                     if (isLoading)
-                      Center(
+                      const Center(
                         child: CircularProgressIndicator(),
                       ),
                   ],

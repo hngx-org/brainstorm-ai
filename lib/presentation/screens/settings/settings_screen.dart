@@ -28,7 +28,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     name = widget.name.split('_');
     name[0] = Utils.capitalizeFirstWord(name[0]);
-    name[1] = Utils.capitalizeFirstWord(name[1]);
+    if (name.length > 1) {
+      name[1] = Utils.capitalizeFirstWord(name[1]);
+    }else{
+      name[1] = '';
+    }
   }
 
   @override
