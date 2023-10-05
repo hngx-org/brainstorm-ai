@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return emailRegex.hasMatch(email);
   }
 
-  Future<void> submit (_showSnackBar) async {
+  Future<void> submit (showSnackBar) async {
     final firstName = firstNameController.text.replaceAll(' ', '');
     final lastName = lastNameController.text.trim();
     final email = emailController.text.trim();
@@ -52,21 +52,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         lastName.isEmpty ||
         email.isEmpty ||
         password.isEmpty) {
-      _showSnackBar(
+      showSnackBar(
           'All fields are required.', Colors.red);
       return;
     }
 
     // Check email format
     if (!validateEmailFormat(email)) {
-      _showSnackBar(
+      showSnackBar(
           'Invalid email format.', Colors.red);
       return;
     }
 
     // Check password format
     if (!validatePasswordFormat(password)) {
-      _showSnackBar(
+      showSnackBar(
           'Invalid password format.', Colors.red);
       return;
     }
@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           print('User: ${response.id}, ${response.name}, ${response.email}, '
               '${response.credits}');
 
-          _showSnackBar('Success!', Colors.lightGreen.withOpacity(0.8));
+          showSnackBar('Success!', Colors.lightGreen.withOpacity(0.8));
 
           final loginResponse = await Authentication().signIn(email, password);
           print(' cookie: ${loginResponse.cookie}');
@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             print('User: ${loginResponse.id}, ${loginResponse.name}, ${loginResponse.email}, '
                 '$sessionValue');
 
-            _showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
+            showSnackBar('Welcome Back!', Colors.lightGreen.withOpacity(0.8));
 
             routerConfig.pushReplacement(RoutesPath.nav, extra: {'name' : loginResponse.name});
           }
@@ -130,12 +130,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         print('Error signing up: $error'); // Print the error to the console
 
         if (error is SocketException) {
-          _showSnackBar('Network error occurred. Please check your internet connection', Colors.red);
+          showSnackBar('Network error occurred. Please check your internet connection', Colors.red);
         } else if (error is FormatException) {
-          _showSnackBar('Server response format is invalid. Please try again later', Colors.red);
+          showSnackBar('Server response format is invalid. Please try again later', Colors.red);
         } else {
           print('Unknown error type: ${error.runtimeType}');
-          _showSnackBar('An unknown error occurred. Please try again later', Colors.red);
+          showSnackBar('An unknown error occurred. Please try again later', Colors.red);
         }
       } finally {
         setState(() {
@@ -181,13 +181,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
 
-    void _showSnackBar(String message, Color color) {
+    void showSnackBar(String message, Color color) {
       _scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Text(message),
           backgroundColor: color,
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: mediaQuery.height * 0.9),
         ),
       );
     }
@@ -201,188 +199,193 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
-            body: Container(
-              width: mediaQuery.width,
+            body: Stack(
               alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  60.verticalSpace,
-                  Image.asset(
-                    Assets.logo,
-                    width: mediaQuery.width * 0.25,
-                  ),
-                  40.verticalSpace,
-                  Text(
-                    'Create your account',
-                    style: GoogleFonts.cabin(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white.withOpacity(0.8),
-                    ),
-                  ),
-                  40.verticalSpace,
-                  //text fields
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            width: 1,
-                            color: AppColor.borderColor.withOpacity(0.6))),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 1.0,
-                                color: AppColor.borderColor.withOpacity(0.2),
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: CustomAuthInput(
-                                  labelText: 'First Name',
-                                  controller: firstNameController,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: AppColor.borderColor
-                                            .withOpacity(0.6)),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: CustomAuthInput(
-                                  labelText: 'Last Name',
-                                  controller: lastNameController,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: AppColor.borderColor
-                                            .withOpacity(0.6)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+              children: [
+                Container(
+                  width: mediaQuery.width,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      60.verticalSpace,
+                      Image.asset(
+                        Assets.logo,
+                        width: mediaQuery.width * 0.25,
+                      ),
+                      40.verticalSpace,
+                      Text(
+                        'Create your account',
+                        style: GoogleFonts.cabin(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white.withOpacity(0.8),
                         ),
-                        Column(
+                      ),
+                      40.verticalSpace,
+                      //text fields
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 9),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                width: 1,
+                                color: AppColor.borderColor.withOpacity(0.6))),
+                        child: Column(
                           children: [
-                            CustomAuthInput(
-                              labelText: 'email',
-                              controller: emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color:
-                                        AppColor.borderColor.withOpacity(0.6)),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 1.0,
+                                    color: AppColor.borderColor.withOpacity(0.2),
+                                  ),
+                                ),
                               ),
-                              prefix: Icon(Icons.email_outlined,
-                                  color: AppColor.white.withOpacity(0.6)),
-                              onChanged: (value) {
-                                final email = value.trim();
-                                if (email.isEmpty) {
-                                  setState(() {
-                                    emailError = 'Required field';
-                                  });
-                                } else if (!validateEmailFormat(email)) {
-                                  setState(() {
-                                    emailError = 'Invalid email format';
-                                  });
-                                } else {
-                                  setState(() {
-                                    emailError =
-                                        ''; // Clear any previous error message
-                                  });
-                                }
-                              },
-                            ),
-                            CustomText(
-                              text: emailError,
-                              fontSize: 15,
-                              color: Colors.red,
-                            ),
-                            CustomAuthInput(
-                              labelText: 'password',
-                              controller: passwordController,
-                              obscureText: true,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomAuthInput(
+                                      labelText: 'First Name',
+                                      controller: firstNameController,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColor.borderColor
+                                                .withOpacity(0.6)),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomAuthInput(
+                                      labelText: 'Last Name',
+                                      controller: lastNameController,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColor.borderColor
+                                                .withOpacity(0.6)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              prefix: Icon(Icons.lock_outline,
-                                  color: AppColor.white.withOpacity(0.6)),
-                              onChanged: (value) {
-                                final password = value.trim();
-                                if (password.isEmpty) {
-                                  setState(() {
-                                    passError = 'Required field';
-                                  });
-                                } else if (!validatePasswordFormat(password)) {
-                                  setState(() {
-                                    passError = 'Invalid password format';
-                                  });
-                                } else {
-                                  setState(() {
-                                    passError = '';
-                                  });
-                                }
-                              },
                             ),
-                            CustomText(
-                              text: passError,
-                              fontSize: 15,
-                              color: Colors.red,
+                            Column(
+                              children: [
+                                CustomAuthInput(
+                                  labelText: 'email',
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            AppColor.borderColor.withOpacity(0.6)),
+                                  ),
+                                  prefix: Icon(Icons.email_outlined,
+                                      color: AppColor.white.withOpacity(0.6)),
+                                  onChanged: (value) {
+                                    final email = value.trim();
+                                    if (email.isEmpty) {
+                                      setState(() {
+                                        emailError = 'Required field';
+                                      });
+                                    } else if (!validateEmailFormat(email)) {
+                                      setState(() {
+                                        emailError = 'Invalid email format';
+                                      });
+                                    } else {
+                                      setState(() {
+                                        emailError =
+                                            ''; // Clear any previous error message
+                                      });
+                                    }
+                                  },
+                                ),
+                                CustomText(
+                                  text: emailError,
+                                  fontSize: 15,
+                                  color: Colors.red,
+                                ),
+                                CustomAuthInput(
+                                  labelText: 'password',
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  prefix: Icon(Icons.lock_outline,
+                                      color: AppColor.white.withOpacity(0.6)),
+                                  onChanged: (value) {
+                                    final password = value.trim();
+                                    if (password.isEmpty) {
+                                      setState(() {
+                                        passError = 'Required field';
+                                      });
+                                    } else if (!validatePasswordFormat(password)) {
+                                      setState(() {
+                                        passError = 'Invalid password format';
+                                      });
+                                    } else {
+                                      setState(() {
+                                        passError = '';
+                                      });
+                                    }
+                                  },
+                                ),
+                                CustomText(
+                                  text: passError,
+                                  fontSize: 15,
+                                  color: Colors.red,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      40.verticalSpace,
+                      ButtonWidget(
+                        buttonText: isLoading ? 'Signing Up...' : 'Sign Up',
+                        fontSize: 22,
+                        onPressed: isLoading
+                            ? null // Disable the button when isLoading is true
+                            : () {submit(showSnackBar);},
+                        isLoading: isLoading,
+                      )
+                    ],
                   ),
-                  40.verticalSpace,
-                  ButtonWidget(
-                    buttonText: isLoading ? 'Signing Up...' : 'Sign Up',
-                    fontSize: 22,
-                    onPressed: isLoading
-                        ? null // Disable the button when isLoading is true
-                        : () {submit(_showSnackBar);},
-                    isLoading: isLoading,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 12,
-          child: Row(
-            children: [
-              Text(
-                'Already Have An Account? ',
-                style: GoogleFonts.cabin(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: AppColor.whiteOpacity6,
-                    decoration: TextDecoration.none),
-              ),
-              GestureDetector(
-                onTap: () {
-                  routerConfig.pushReplacement(RoutesPath.landing);
-                },
-                child: Text(
-                  'Log In',
-                  style: GoogleFonts.cabin(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
                 ),
-              ),
-            ],
+                Positioned(
+                  bottom: 12,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Already Have An Account? ',
+                        style: GoogleFonts.cabin(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: AppColor.whiteOpacity6,
+                            decoration: TextDecoration.none),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          routerConfig.pushReplacement(RoutesPath.landing);
+                        },
+                        child: Text(
+                          'Log In',
+                          style: GoogleFonts.cabin(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              decoration: TextDecoration.none),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

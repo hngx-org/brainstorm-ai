@@ -15,7 +15,7 @@ class CustomBackground extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(Assets.aurora), fit: BoxFit.cover
+              image: AssetImage(Assets.aurora2), fit: BoxFit.cover
             )
           ),
           child: BackdropFilter(
