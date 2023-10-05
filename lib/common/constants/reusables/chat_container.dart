@@ -30,7 +30,7 @@ class _ResponseContainerState extends State<ResponseContainer> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Colors.white.withOpacity(0.5),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -45,8 +45,11 @@ class _ResponseContainerState extends State<ResponseContainer> {
                 children: [
                   const SizedBox.square(
                     dimension: 30,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/png/logo try.png'),
+                    child: Opacity(
+                      opacity: 0.7,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/png/logo try.png'),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 15),
@@ -57,7 +60,8 @@ class _ResponseContainerState extends State<ResponseContainer> {
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w500
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
                         ),
                       ),
                     ),
@@ -72,11 +76,12 @@ class _ResponseContainerState extends State<ResponseContainer> {
                         );
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
                       child: Icon(
                         Icons.copy,
                         size: 16,
+                        color: Colors.white.withOpacity(0.3),
                       ),
                     ),
                   ),
