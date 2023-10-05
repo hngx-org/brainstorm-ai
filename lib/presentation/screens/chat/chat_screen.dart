@@ -9,12 +9,12 @@ import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:ai_brainstorm/data/models/chat_model.dart';
+import 'package:ai_brainstorm/data/models/internt_connection_model.dart';
 import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/data/others/genrator.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ChatScreen extends StatefulWidget {
   final Message? initialQuery;
@@ -39,25 +39,26 @@ class _ChatScreenState extends State<ChatScreen> {
   late ScrollController scrollController;
   late List<Message> messages;
   late ChatModel model;
+  late ConnectionModel connModel;
   String? chatName;
   late Generator generator;
   late bool isGenerating;
-  bool hasConnection = true;
   late String? cookie;
   int? credits = 0;
-  final internetConnectionChecker =
-  InternetConnectionChecker();
 
   @override
   void initState() {
     super.initState();
-    checkInternet();
     inputController = TextEditingController();
     scrollController = ScrollController();
     model = ChatModel()
     ..addListener(() {
       setState(() { });
     });
+    connModel = ConnectionModel()
+      ..addListener(() {
+        setState((){ });
+      });
     isGenerating = false;
     messages = [];
     generator = Generator();
@@ -98,8 +99,10 @@ class _ChatScreenState extends State<ChatScreen> {
     inputController.dispose();
     scrollController.dispose();
     model.dispose();
+    connModel.dispose();
     super.dispose();
   }
+
   void generate(String query) async {
     if (chatName == null){
       chatName = Utils.formatChatName(query);
@@ -115,7 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       isGenerating = true;
     });
-    if (await internetConnectionChecker.hasConnection) {
+    if (connModel.hasConnection) {
       String generated = cookie != null
       ? await generator.generateWithHistory(
         query,
@@ -129,7 +132,6 @@ class _ChatScreenState extends State<ChatScreen> {
       : '';
       if(credits != null && credits! > 0){
         SharedPreferencesManager.prefs.setInt('credits', credits! - 1);
-        print('credits: $credits');
       }
       setState(() {
         messages.add(
@@ -157,9 +159,8 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     else{
       setState(() {
-        hasConnection = false;
+        messages.removeLast();
         isGenerating = false;
-        print('internet: $hasConnection');
       });
     }
   }
@@ -167,7 +168,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-    print('internet: $hasConnection');
     return Stack(
       children: [
         const CustomBackground(),
@@ -188,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         scrollController: scrollController,
                       ),
                       const SizedBox(height: 20),
-                      messages.length > 1 && !isGenerating
+                      messages.length > 1 && !isGenerating && connModel.hasConnection
                         ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -212,8 +212,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         )
                         : const SizedBox.shrink(),
                       isGenerating ? const LoadingWidget() : const SizedBox.shrink(),
-                      if(!hasConnection) const SizedBox(height: 40),
-                      if(!hasConnection) const Align(
+                      if(!connModel.hasConnection) const SizedBox(height: 40),
+                      if(!connModel.hasConnection) const Align(
                         alignment: Alignment.bottomCenter,
                         child: CustomText(text: 'No Internet Connection.\nCheck your network and try again',
                           fontSize: 22, color: Colors.red, maxLines: 2, textAlign: TextAlign.center),
@@ -264,7 +264,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         String query = inputController.text;
                         generate(query);
                       }
-                    }, hasConnection: hasConnection,
+                    },
+                    hasConnection: connModel.hasConnection,
                   )
                 )
               ],
@@ -273,14 +274,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ],
     );
-  }
-
-  void checkInternet() async {
-    if (await internetConnectionChecker.hasConnection){
-      setState(() { hasConnection = true;});
-    }else{
-      setState(() { hasConnection = false; });
-    }
   }
 }
 
