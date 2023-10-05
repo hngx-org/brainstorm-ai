@@ -6,6 +6,7 @@ import 'package:ai_brainstorm/core/config/router_config.dart';
 import 'package:ai_brainstorm/data/models/message_model.dart';
 import 'package:ai_brainstorm/presentation/screens/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AutomatedQuestions extends StatelessWidget {
   const AutomatedQuestions({
@@ -27,157 +28,175 @@ class AutomatedQuestions extends StatelessWidget {
     const eDPrompt  = 'I want some Experimental Design';
     const dAPrompt  = 'What do you know about Data Analysis';
 
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  routerConfig.push(
-                    RoutesPath.chatScreen,
-                    extra: {
-                      'initialQuery' : Message(
-                        sender: Sender.user,
-                        message: pTPrompt,
-                        timestamp: DateTime.now()
-                      )
-                    }
-                  );
-                },
-                child: Container(
-                  height: mediaQuery.width * 0.13,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: BorderSide(
-                            color: AppColor.white.withOpacity(0.6),
-                            width: 1)),
-                    color: AppColor.white.withOpacity(0.2),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text:
-                              projectTopic,
-                              fontSize: 15)),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: SizedBox(
+        height: mediaQuery.width * 0.3,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      routerConfig.push(
+                        RoutesPath.chatScreen,
+                        extra: {
+                          'initialQuery' : Message(
+                            sender: Sender.user,
+                            message: pTPrompt,
+                            timestamp: DateTime.now()
+                          )
+                        }
+                      );
+                    },
+                    child: Container(
+                      height: mediaQuery.width * 0.13,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: BorderSide(
+                                color: AppColor.white.withOpacity(0.6),
+                                width: 1)),
+                        color: AppColor.white.withOpacity(0.2),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomText(
+                                  text:
+                                  projectTopic,
+                                  fontSize: 15)),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: (){
+                      routerConfig.push(
+                        RoutesPath.chatScreen,
+                        extra: {
+                          'initialQuery' : Message(
+                            sender: Sender.user,
+                            message: nIPrompt,
+                            timestamp: DateTime.now()
+                          )
+                        }
+                      );
+                    },
+                    child: Container(
+                      height: mediaQuery.width * 0.13,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: BorderSide(
+                                color: AppColor.white.withOpacity(0.6),
+                                width: 1)),
+                        color: AppColor.white.withOpacity(0.2),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomText(
+                                  text:
+                                  novelIdeas,
+                                  fontSize: 15)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: (){
-                  routerConfig.push(
-                    RoutesPath.chatScreen,
-                    extra: {
-                      'initialQuery' : Message(
-                        sender: Sender.user,
-                        message: nIPrompt,
-                        timestamp: DateTime.now()
-                      )
-                    }
-                  );
-                },
-                child: Container(
-                  height: mediaQuery.width * 0.13,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: BorderSide(
+            ),
+            Expanded(
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        routerConfig.push(
+                          RoutesPath.chatScreen,
+                          extra: {
+                            'initialQuery': Message(
+                              sender: Sender.user,
+                              message: eDPrompt,
+                              timestamp: DateTime.now(),
+                            ),
+                          },
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          side: BorderSide(
                             color: AppColor.white.withOpacity(0.6),
-                            width: 1)),
-                    color: AppColor.white.withOpacity(0.2),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text:
-                              novelIdeas,
-                              fontSize: 15)),
+                            width: 1,
+                          ),
+                        ),
+                        color: AppColor.white.withOpacity(0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: CustomText(
+                              text: experimentalDesign,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        routerConfig.push(
+                          RoutesPath.chatScreen,
+                          extra: {
+                            'initialQuery': Message(
+                              sender: Sender.user,
+                              message: dAPrompt,
+                              timestamp: DateTime.now(),
+                            ),
+                          },
+                        );
+                      },
+                      child: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: BorderSide(
+                              color: AppColor.white.withOpacity(0.6),
+                              width: 1,
+                            ),
+                          ),
+                          color: AppColor.white.withOpacity(0.2),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomText(
+                                text: dataAnalysis,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  routerConfig.push(
-                    RoutesPath.chatScreen,
-                    extra: {
-                      'initialQuery' : Message(
-                        sender: Sender.user,
-                        message: eDPrompt,
-                        timestamp: DateTime.now()
-                      )
-                    }
-                  );
-                },
-                child: Container(
-                  height: mediaQuery.width * 0.13,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: BorderSide(
-                            color: AppColor.white.withOpacity(0.6),
-                            width: 1)),
-                    color: AppColor.white.withOpacity(0.2),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text:
-                              experimentalDesign,
-                              fontSize: 15)),
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  routerConfig.push(
-                    RoutesPath.chatScreen,
-                    extra: {
-                      'initialQuery' : Message(
-                        sender: Sender.user,
-                        message: dAPrompt,
-                        timestamp: DateTime.now()
-                      )
-                    }
-                  );
-                },
-                child: Container(
-                  height: mediaQuery.width * 0.13,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: BorderSide(
-                            color: AppColor.white.withOpacity(0.6),
-                            width: 1)),
-                    color: AppColor.white.withOpacity(0.2),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text:
-                              dataAnalysis,
-                              fontSize: 15)),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

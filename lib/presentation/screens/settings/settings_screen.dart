@@ -27,8 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     name = widget.name.split('_');
-    name[0] = Utils.capitalizeFirstWord(widget.name.split('_')[0]);
-    name[1] = Utils.capitalizeFirstWord(widget.name.split('_')[1]);
+    name[0] = Utils.capitalizeFirstWord(name[0]);
+    name[1] = Utils.capitalizeFirstWord(name[1]);
   }
 
   @override
@@ -36,16 +36,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final mediaQuery = MediaQuery.of(context).size;
 
     credit = SharedPreferencesManager.prefs.getInt('credits');
-
-    void showSnackBar(String message, Color color) {
-      _scaffoldMessengerKey.currentState?.showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: color,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
 
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
@@ -224,7 +214,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   SharedPreferencesManager.prefs.remove('name');
                                   SharedPreferencesManager.prefs.remove('session');
                                   ChatModel().deleteAll();
-                                  showSnackBar('Signed Out', Colors.grey);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Signing out...'),
+                                      )
+                                  );
 
                                   await Future.delayed(const Duration(seconds: 3));
                                   routerConfig.push(RoutesPath.landing);

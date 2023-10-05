@@ -46,7 +46,7 @@ class Utils {
   }
 
   static String extractSessionValue(String cookie) {
-    String parts = cookie.split(';')[0];
+    String parts = cookie.split(';')[0].trim();
     return parts;
   }
 
