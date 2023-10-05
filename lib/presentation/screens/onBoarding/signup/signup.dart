@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/assets_constants.dart';
 import 'package:ai_brainstorm/common/constants/custom_error_dialog.dart';
+import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/text.dart';
 import 'package:ai_brainstorm/data/others/utils.dart';
 import 'package:ai_brainstorm/presentation/screens/onBoarding/landing/landing_screen.dart';
@@ -194,11 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(Assets.bgImage), fit: BoxFit.cover)),
-        ),
+        CustomBackground(),
         ScaffoldMessenger(
           key: _scaffoldMessengerKey,
           child: Scaffold(

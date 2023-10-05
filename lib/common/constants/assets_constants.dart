@@ -4,5 +4,6 @@ class Assets {
 
   static String logo = '$pngPath/logo try.png';
   static String bgImage = '$pngPath/bg.png';
+  static String aurora = '$pngPath/aurora_green.jpeg';
 
 }
