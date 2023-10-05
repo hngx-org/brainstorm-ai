@@ -102,8 +102,13 @@ class _ChatScreenState extends State<ChatScreen> {
     connModel.dispose();
     super.dispose();
   }
-
+  void _showSnackBar(String message){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message))
+    );
+  }
   void generate(String query) async {
+    // bool responseHasError = false;
     if (chatName == null){
       chatName = Utils.formatChatName(query);
       model.createChat(chatName!);
@@ -130,31 +135,51 @@ class _ChatScreenState extends State<ChatScreen> {
         cookie!
         )
       : '';
-      if(credits != null && credits! > 0){
-        SharedPreferencesManager.prefs.setInt('credits', credits! - 1);
-      }
-      setState(() {
-        messages.add(
-          Message(
-            sender: Sender.gpt,
-            message: generated,
-            timestamp: DateTime.now()
-          )
-        );
-        isGenerating = false;
-      });
-      model.addMessagePair(
-        chatName!,
-        Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
-        Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
-      );
-      if (generated == 'Subscription Required'){
-        Future.delayed(
-          const Duration(seconds: 1),
-          (){
-            routerConfig.push(RoutesPath.mainSuscribeScreen);
+      // setState(() {
+      //   responseHasError = generated.startsWith('Error');
+      // });
+
+      if(!generated.startsWith('Error')){
+        generated = Utils.formatResponse(generated);
+        if(credits != null){
+          if(credits! > 0){
+            SharedPreferencesManager.prefs.setInt('credits', credits! - 1);
           }
+        }
+        setState(() {
+          messages.add(
+            Message(
+              sender: Sender.gpt,
+              message: generated,
+              timestamp: DateTime.now()
+            )
+          );
+          isGenerating = false;
+        });
+        model.addMessagePair(
+          chatName!,
+          Message(sender: Sender.user, message: query, timestamp: DateTime.now()),
+          Message(sender: Sender.gpt, message: generated, timestamp: DateTime.now())
         );
+        
+      }
+      else{
+        setState(() {
+          messages.removeLast();
+          isGenerating = false;
+        });
+        if (generated.contains('Subscription Required')){
+          _showSnackBar('Subscription Required');
+          Future.delayed(
+            const Duration(seconds: 1),
+            (){
+              routerConfig.push(RoutesPath.mainSuscribeScreen);
+            }
+          );
+        } 
+        else {
+          _showSnackBar('A server error occoured');
+        }
       }
     }
     else{

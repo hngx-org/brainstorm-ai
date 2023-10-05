@@ -17,9 +17,7 @@ class Generator {
   Future<String> generateWithHistory(
       String query, List<String> history, String cookie) {
     final response = openAI.getChatCompletions(
-        history, instruction + "[INPUT_START]$query[INPUT_END]", cookie);
-    return response.then((value) {
-      return Utils.formatResponse(value);
-    });
+      history, "$instruction [INPUT_START]$query[INPUT_END]", cookie);
+    return response;
   }
 }
