@@ -16,33 +16,28 @@ class MainAutomations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          const CustomBackground(),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                40.verticalSpace,
-                const TopSection(middleText: "Automations"),
-                SizedBox(
-                  height: 60.h,
-                  width: double.infinity,
+    return Stack(
+      children: [
+        const CustomBackground(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: [
+              40.verticalSpace,
+              const TopSection(middleText: "Automations"),
+              // 60.verticalSpace,
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return stormsList[index];
+                  },
+                  itemCount: stormsList.length,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      return stormsList[index];
-                    },
-                    itemCount: stormsList.length,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
