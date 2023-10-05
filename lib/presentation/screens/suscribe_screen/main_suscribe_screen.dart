@@ -1,12 +1,11 @@
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
 import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
+import 'package:ai_brainstorm/core/providers/shared_preferences.dart';
 import 'package:in_app_payment/in_app_payment.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/choose_subscribeprice.dart';
 import 'package:ai_brainstorm/presentation/screens/suscribe_screen/subscribe_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../common/constants/app_color.dart';
 
 class MainSuscribeScreen extends StatefulWidget {
   const MainSuscribeScreen({super.key});
@@ -23,12 +22,14 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
 
   String paymentValue = '';
   bool isLoading = false;
+  String? id = '';
 
   @override
   void initState() {
     firstRadio = FocusNode();
     secondRadio = FocusNode();
     thirdRadio = FocusNode();
+    id = SharedPreferencesManager.prefs.getString('id');
     super.initState();
   }
 
@@ -158,7 +159,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
                     ),
                     10.verticalSpace,
                     if (paymentValue != '' ) Center(
-                      child: pay.googlePay(amountToPay: paymentValue),
+                      child: pay.googlePay(context, amountToPay: paymentValue, userID: id!),
                     ),
                     if (isLoading)
                       Center(
