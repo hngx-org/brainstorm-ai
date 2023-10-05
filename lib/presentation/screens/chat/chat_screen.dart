@@ -103,16 +103,14 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
   void _showSnackBar(String message){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message))
-    );
+    if(mounted){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message))
+      );
+    }
   }
   void generate(String query) async {
-    // bool responseHasError = false;
-    if (chatName == null){
-      chatName = Utils.formatChatName(query);
-      model.createChat(chatName!);
-    }
+    
     setState(() {
       messages.add(
         Message(
@@ -140,6 +138,10 @@ class _ChatScreenState extends State<ChatScreen> {
       // });
 
       if(!generated.startsWith('Error')){
+        if (chatName == null){
+          chatName = Utils.formatChatName(query);
+          model.createChat(chatName!);
+        }
         generated = Utils.formatResponse(generated);
         if(credits != null){
           if(credits! > 0){
