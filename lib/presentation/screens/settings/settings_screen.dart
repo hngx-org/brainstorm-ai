@@ -220,7 +220,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ChatModel().deleteAll();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Signing out!'),
+                                        content: Text('Signing out...'),
                                       )
                                   );
 
