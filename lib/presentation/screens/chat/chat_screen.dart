@@ -243,7 +243,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: CustomText(text: 'No Internet Connection.\nCheck your network and try again',
                           fontSize: 22, color: Colors.red, maxLines: 2, textAlign: TextAlign.center),
                       ),
-                      20.verticalSpace
+                      80.verticalSpace
                     ],
                   ),
                 ),

@@ -28,13 +28,12 @@ class AutomatedQuestions extends StatelessWidget {
     const eDPrompt  = 'I want some Experimental Design';
     const dAPrompt  = 'What do you know about Data Analysis';
 
-    return OverflowBox(
-      maxWidth: mediaQuery.width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: SizedBox(
+        height: mediaQuery.width * 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Row(
@@ -113,23 +112,24 @@ class AutomatedQuestions extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                scrollDirection: Axis.horizontal, // Use horizontal scrolling
+                scrollDirection: Axis.horizontal,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      routerConfig.push(
-                        RoutesPath.chatScreen,
-                        extra: {
-                          'initialQuery': Message(
-                            sender: Sender.user,
-                            message: eDPrompt,
-                            timestamp: DateTime.now(),
-                          ),
-                        },
-                      );
-                    },
-                    child: ClipRRect(
-                      clipBehavior: Clip.antiAlias,
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        routerConfig.push(
+                          RoutesPath.chatScreen,
+                          extra: {
+                            'initialQuery': Message(
+                              sender: Sender.user,
+                              message: eDPrompt,
+                              timestamp: DateTime.now(),
+                            ),
+                          },
+                        );
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
@@ -145,44 +145,47 @@ class AutomatedQuestions extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: CustomText(
                               text: experimentalDesign,
-                              fontSize: 15,
+                              fontSize: 13,
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      routerConfig.push(
-                        RoutesPath.chatScreen,
-                        extra: {
-                          'initialQuery': Message(
-                            sender: Sender.user,
-                            message: dAPrompt,
-                            timestamp: DateTime.now(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        routerConfig.push(
+                          RoutesPath.chatScreen,
+                          extra: {
+                            'initialQuery': Message(
+                              sender: Sender.user,
+                              message: dAPrompt,
+                              timestamp: DateTime.now(),
+                            ),
+                          },
+                        );
+                      },
+                      child: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: BorderSide(
+                              color: AppColor.white.withOpacity(0.6),
+                              width: 1,
+                            ),
                           ),
-                        },
-                      );
-                    },
-                    child: ClipRRect(
-                      clipBehavior: Clip.antiAlias,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          side: BorderSide(
-                            color: AppColor.white.withOpacity(0.6),
-                            width: 1,
-                          ),
-                        ),
-                        color: AppColor.white.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: CustomText(
-                              text: dataAnalysis,
-                              fontSize: 15,
+                          color: AppColor.white.withOpacity(0.2),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomText(
+                                text: dataAnalysis,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ),
@@ -192,7 +195,6 @@ class AutomatedQuestions extends StatelessWidget {
                 ],
               ),
             ),
-            140.verticalSpace
           ],
         ),
       ),
