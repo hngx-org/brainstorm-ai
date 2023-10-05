@@ -210,9 +210,9 @@ class ActionButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: color ?? Colors.transparent,
               borderRadius: BorderRadius.circular(40.r),
-              border: Border.all(
-                color: Colors.white
-              )
+              // border: Border.all(
+              //   color: Colors.white
+              // )
             ),
             child: Center(
               child: Padding(
@@ -222,9 +222,9 @@ class ActionButton extends StatelessWidget {
                 child: Text(
                   actionText,
                   style: TextStyle(
-                    fontSize: 22.sp,
-                    // color: containerTextColor,
-                    color: Colors.white,
+                    fontSize: 15.sp,
+                    color: containerTextColor,
+                    // color: Colors.white,
                     fontWeight: FontWeight.w500,
                     decoration: TextDecoration.none,
                   ),
