@@ -1,6 +1,7 @@
 import 'package:ai_brainstorm/common/constants/app_color.dart';
 import 'package:ai_brainstorm/common/constants/custom_error_dialog.dart';
 import 'package:ai_brainstorm/common/constants/reusables/back_button.dart';
+import 'package:ai_brainstorm/common/constants/reusables/custom_background.dart';
 import 'package:ai_brainstorm/common/constants/reusables/transparent_film.dart';
 import 'package:ai_brainstorm/common/constants/route_constant.dart';
 import 'package:ai_brainstorm/core/config/router_config.dart';
@@ -80,12 +81,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: Image.asset('assets/png/bg.png'),
-              ),
-            ),
+            const CustomBackground(),
             Padding(
               padding: const EdgeInsets.all(10),
               child: FutureBuilder(
