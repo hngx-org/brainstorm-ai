@@ -23,7 +23,7 @@ class AutomatedQuestions extends StatelessWidget {
     const experimentalDesign  = '#3 Experimental Design';
     const dataAnalysis  = '#4 Data Analysis';
 
-    const pTPrompt = 'Give me a project topic for any field';
+    const pTPrompt = 'Give me a project topic for my masters in business marketing';
     const nIPrompt = 'I need novel ideas';
     const eDPrompt  = 'I want some Experimental Design';
     const dAPrompt  = 'What do you know about Data Analysis';
