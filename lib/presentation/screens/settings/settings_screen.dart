@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (name.length > 1) {
       name[1] = Utils.capitalizeFirstWord(name[1]);
     }else{
-      name[1] = '';
+      name.add('');
     }
   }
 

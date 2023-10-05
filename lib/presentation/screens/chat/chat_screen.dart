@@ -43,12 +43,14 @@ class _ChatScreenState extends State<ChatScreen> {
   String? chatName;
   late Generator generator;
   late bool isGenerating;
+  late bool _disposed;
   late String? cookie;
   int? credits = 0;
 
   @override
   void initState() {
     super.initState();
+    _disposed = true;
     inputController = TextEditingController();
     scrollController = ScrollController();
     model = ChatModel()
@@ -84,13 +86,14 @@ class _ChatScreenState extends State<ChatScreen> {
   }
   @override
   void setState(fn){ 
-    if(mounted){
+    if(_disposed){
       super.setState(fn);
     }
   }
 
   @override
   void dispose() {
+    _disposed = false;
     inputController.dispose();
     scrollController.dispose();
     model.dispose();
