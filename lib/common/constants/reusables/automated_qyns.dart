@@ -29,7 +29,7 @@ class AutomatedQuestions extends StatelessWidget {
     const dAPrompt  = 'What do you know about Data Analysis';
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SizedBox(
         height: mediaQuery.width * 0.3,
         child: Column(
@@ -58,9 +58,9 @@ class AutomatedQuestions extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                             side: BorderSide(
-                                color: AppColor.white.withOpacity(0.6),
+                                color: AppColor.white.withOpacity(0.5),
                                 width: 1)),
-                        color: AppColor.white.withOpacity(0.2),
+                        color: AppColor.lightgreen.withOpacity(0.2),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Align(
@@ -92,9 +92,9 @@ class AutomatedQuestions extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                             side: BorderSide(
-                                color: AppColor.white.withOpacity(0.6),
+                                color: AppColor.white.withOpacity(0.5),
                                 width: 1)),
-                        color: AppColor.white.withOpacity(0.2),
+                        color: AppColor.lightgreen.withOpacity(0.2),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Align(
@@ -113,10 +113,10 @@ class AutomatedQuestions extends StatelessWidget {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: GestureDetector(
                       onTap: () {
                         routerConfig.push(
@@ -134,13 +134,13 @@ class AutomatedQuestions extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                           side: BorderSide(
-                            color: AppColor.white.withOpacity(0.6),
+                            color: AppColor.white.withOpacity(0.5),
                             width: 1,
                           ),
                         ),
-                        color: AppColor.white.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                        color: AppColor.lightgreen.withOpacity(0.2),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: CustomText(
@@ -153,7 +153,7 @@ class AutomatedQuestions extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     child: GestureDetector(
                       onTap: () {
                         routerConfig.push(
@@ -173,13 +173,13 @@ class AutomatedQuestions extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                             side: BorderSide(
-                              color: AppColor.white.withOpacity(0.6),
+                              color: AppColor.white.withOpacity(0.5),
                               width: 1,
                             ),
                           ),
-                          color: AppColor.white.withOpacity(0.2),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                          color: AppColor.lightgreen.withOpacity(0.2),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: CustomText(

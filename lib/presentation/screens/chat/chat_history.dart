@@ -47,7 +47,6 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context).size;
 
     void showSnackBar(String message, Color color) {
       _scaffoldMessengerKey.currentState?.showSnackBar(
@@ -143,7 +142,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                       ],
                     );
                   }
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 }
               ),
             ),

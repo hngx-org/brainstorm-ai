@@ -20,7 +20,7 @@ class CustomText extends StatelessWidget {
     return Text(text, style: GoogleFonts.cabin(
         fontSize: fontSize,
         fontWeight: fontWeight ?? FontWeight.normal,
-        color: color ?? AppColor.white,
+        color: color ?? AppColor.white.withOpacity(0.8),
         decoration: TextDecoration.none),
       softWrap: true,
       overflow: TextOverflow.ellipsis,
