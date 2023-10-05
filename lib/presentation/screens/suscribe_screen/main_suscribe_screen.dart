@@ -30,6 +30,7 @@ class _MainSuscribeScreenState extends State<MainSuscribeScreen> {
     secondRadio = FocusNode();
     thirdRadio = FocusNode();
     id = SharedPreferencesManager.prefs.getString('id');
+    print(id);
     super.initState();
   }
 
