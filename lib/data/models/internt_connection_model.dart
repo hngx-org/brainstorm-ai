@@ -12,10 +12,6 @@ class ConnectionModel extends ChangeNotifier{
   ConnectionModel(){_init();}
 
   void _init() async {
-    hasConnection = await _connectionChecker.hasConnection;
-    if (!_disposed){
-      notifyListeners();
-    }
     _subscription = _connectionChecker.onStatusChange.listen((event) async {
       hasConnection = await _connectionChecker.hasConnection;
       print('has connection: $hasConnection');
@@ -23,12 +19,16 @@ class ConnectionModel extends ChangeNotifier{
         notifyListeners();
       }
     });
+    hasConnection = await _connectionChecker.hasConnection;
+    if (!_disposed){
+      notifyListeners();
+    }
   }
 
   @override
   void dispose(){
-    _subscription.cancel();
     _disposed = true;
+    _subscription.cancel();
     super.dispose();
   }  
 }
