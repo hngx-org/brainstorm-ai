@@ -51,6 +51,11 @@ class ChatDatabase {
       Database db = await database;
       db.insert(table, message.toMap());
     }
+    else {
+      create(table);
+      Database db = await database;
+      db.insert(table, message.toMap());
+    }
   }
 
   void remove(String table, Message message) async{
