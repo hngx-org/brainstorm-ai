@@ -18,61 +18,67 @@ class _AutomatedStormsState extends State<AutomatedStorms> {
     return Container(
       margin: EdgeInsets.all(20.r),
       padding: EdgeInsets.all(15.sp),
-      height: 250.h,
+      // height: 250.h,
       width: 370.w,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Icon(
-            Icons.storage_outlined,
-            size: 28.sp,
-            color: Colors.black,
-          ),
+          // Icon(
+          //   Icons.storage_outlined,
+          //   size: 28.sp,
+          //   color: Colors.black,
+          // ),
+          10.verticalSpace,
           Text(
-            'Ask BrainStorm-Ai...',
+            'Ask BrainStorm-Ai',
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black.withOpacity(.8),
+              color: Colors.white.withOpacity(.8),
               decoration: TextDecoration.none,
             ),
           ),
+          20.verticalSpace,
           Text(
             widget.text ?? '',
             style: TextStyle(
               fontSize: 15.sp,
               fontWeight: FontWeight.w500,
-              color: Colors.black.withOpacity(.8),
+              color: Colors.white.withOpacity(.8),
               decoration: TextDecoration.none,
             ),
           ),
-          Center(
-            child: ActionButton(
-              height: 50.h,
-              width: 300.w,
-              actionText: 'Generate',
-              margin: 5.h,
-              color: Colors.black.withOpacity(0.8),
-              containerTextColor: Colors.white,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatScreen(
-                    initialQuery: Message(
-                      sender: Sender.user,
-                      message: widget.text,
-                      timestamp: DateTime.now()
-                    ),
-                  )),
-                );
-              },
-              containerColor: Colors.black,
-            ),
+          20.verticalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ActionButton(
+                height: 50.h,
+                width: 300.w,
+                actionText: 'Generate',
+                margin: 5.h,
+                color: Colors.white.withOpacity(0.5),
+                containerTextColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(
+                      initialQuery: Message(
+                        sender: Sender.user,
+                        message: widget.text,
+                        timestamp: DateTime.now()
+                      ),
+                    )),
+                  );
+                },
+                containerColor: Colors.black,
+              ),
+            ],
           )
         ],
       ),
