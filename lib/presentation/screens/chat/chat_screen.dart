@@ -67,11 +67,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.initialQuery != null){
-
-        final shortQuery = widget.initialQuery!.message.trim();
-        chatName = Utils.formatChatName(shortQuery);
-
-        model.createChat(chatName!);
         setState(() {
           isGenerating = true;
         });
@@ -121,6 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
       );
       isGenerating = true;
     });
+    
     if (connModel.hasConnection) {
       String generated = cookie != null
       ? await generator.generateWithHistory(
@@ -133,9 +129,6 @@ class _ChatScreenState extends State<ChatScreen> {
         cookie!
         )
       : '';
-      // setState(() {
-      //   responseHasError = generated.startsWith('Error');
-      // });
 
       if(!generated.startsWith('Error')){
         if (chatName == null){
